@@ -7,26 +7,50 @@ import {
   Stack,
   Grid,
 } from "@mui/material";
+import { db } from "../config/firebase";
+import { getDocs, collection } from "firebase/firestore";
 
 const NgoProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    // username: "",
-    // email: "",
-    // password: "",
-    // ngoname: "",
-    // yearofestablishment: "",
-    // city: "",
-    // contact: "",
+    username: "",
+    email: "",
+    password: "",
+    ngoname: "",
+    yearofestablishment: "",
+    city: "",
+    contact: "",
   });
-  useEffect(() => {
-    let x = localStorage.getItem("ngo");
-    setFormData(JSON.parse(x));
-  }, []);
+  // useEffect(() => {
+  //   let x = localStorage.getItem("ngo");
+  //   setFormData(JSON.parse(x));
+  // }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const ngocollectionref = collection(db, "ngoinfo");
+
+  useEffect(() => {
+    const getngoprofile = async () => {
+      //red the data
+      //set the data into fields
+      try {
+        const data = await getDocs(ngocollectionref);
+        const filteredData = data.docs.map((doc) => ({
+          ...doc.data(),
+        
+        }));
+        setFormData(filteredData[0]);
+        console.log(filteredData);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getngoprofile();
+  }, []);
+  console.log("FormData", formData);
 
   return (
     <Container maxWidth="md">
@@ -62,7 +86,7 @@ const NgoProfile = () => {
           <Button
             fullWidth
             variant="contained"
-            style={{ backgroundColor: "#1976D2" }}
+            style={{ backgroundColor: "black" }}
             onClick={() => setIsEditing(!isEditing)}
           >
             {isEditing ? "Save Profile" : "Edit Profile"}

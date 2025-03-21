@@ -33,6 +33,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DonutLargeIcon from "@mui/icons-material/DonutLarge";
 import Tooltip from "@mui/material/Tooltip";
+import { db } from "../config/firebase";
+import { useState } from "react";
+import { getDocs, collection } from "firebase/firestore";
+import { useEffect } from "react";
 
 function createData(name, contributors, funds, location, description) {
   return { name, contributors, funds, location, description };
@@ -47,13 +51,12 @@ function createvol(name, email, mobile) {
   return { name, email, mobile };
 }
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
+// function Activities() {
+
+//   return <div></div>;
+// }
+
+// let rows;
 
 const rowsf = [
   createfunds("Frozen yoghurt", 159),
@@ -63,7 +66,6 @@ const rowsf = [
   createfunds("Gingerbread", 35),
   createfunds("Total"),
 ];
-
 const rowsv = [
   createvol("Frozen yoghurt", 159, 3),
   createvol("Ice cream sandwich", 237, 4),
@@ -76,6 +78,28 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 function Ngoactivities() {
+  const [activity, setactivity] = useState([]);
+  const activitylistref = collection(db, "activities");
+
+  useEffect(() => {
+    const getactivity = async () => {
+      try {
+        //read the data
+        //set the activity list 
+        const data = await getDocs(activitylistref);
+        const filterdata = data.docs.map((doc) => ({
+          ...doc.data()
+        }));
+        console.log(filterdata);
+        setactivity(filterdata);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    console.log("datafromactivity", activity);
+    getactivity();
+  }, []);
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -184,13 +208,13 @@ function Ngoactivities() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {activity.map((row) => (
                 <TableRow
                   key={row.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    {row.activityname}
                   </TableCell>
                   <TableCell align="right">{row.contributors}</TableCell>
                   <TableCell align="right">{row.funds}</TableCell>
