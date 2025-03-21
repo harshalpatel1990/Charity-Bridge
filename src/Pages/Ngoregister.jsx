@@ -395,8 +395,6 @@ function Ngoregister() {
         data.city,
         data.contact
       );
-      localStorage.setItem("ngo", JSON.stringify(data));
-      console.log({ data });
     } catch (error) {
       setError(error.message);
     }
