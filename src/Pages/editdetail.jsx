@@ -14,15 +14,14 @@ import { db } from "../config/firebase";
 import { getDocs, collection, addDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useEffect } from "react";
-function Ngoactivitydetail() {
+function Editdetail() {
   let [data, setdata] = React.useState({
     name: "",
-    number: "",
     loc: "",
     desc: "",
     funds: "",
     cont: "",
-    cont_role: "",
+    date:""
   });
 
   let gridStyles = {
@@ -36,7 +35,7 @@ function Ngoactivitydetail() {
     });
   };
   const activitylistref = collection(db, "activities");
-  
+
   const onsubmit = async () => {
     try {
       await addDoc(activitylistref, {
@@ -45,11 +44,17 @@ function Ngoactivitydetail() {
         description: data.desc,
         funds: data.funds,
         location: data.loc,
+        date:data.date
       });
     } catch (err) {
       console.error(err);
     }
   };
+
+  const updateactivity = async () => {
+    
+  }
+
   return (
     <div
       className="box"
@@ -57,7 +62,7 @@ function Ngoactivitydetail() {
     >
       <center style={{ fontFamily: "cursive" }}>
         <h1 style={{ fontFamily: "cursive", marginBottom: "2%" }}>
-          NGO Activity
+          Edit Activity
         </h1>
 
         <Grid container>
@@ -76,21 +81,8 @@ function Ngoactivitydetail() {
           </Grid>
           <Grid item xs={12} sm={12} md={4} lg={4} key={1} sx={gridStyles}>
             <LocalizationProvider dateAdapter={AdapterDayjs} className="date">
-              <DatePicker label="Start Date" style={{ width: "100%" }} />
+              <DatePicker onChange={handleChange} label="Start Date" style={{ width: "100%" }} />
             </LocalizationProvider>
-          </Grid>
-
-          <Grid item xs={12} sm={12} md={4} key={2} sx={gridStyles}>
-            {/* <div className="box2"> */}
-            <TextField
-              id="filled-text"
-              label="Contact No."
-              type="Number"
-              variant="outlined"
-              name="number"
-              onChange={handleChange}
-              fullWidth
-            />
           </Grid>
 
           <Grid item xs={12} sm={12} md={4} key={3} sx={gridStyles}>
@@ -130,18 +122,6 @@ function Ngoactivitydetail() {
             {/* </div> */}
           </Grid>
 
-          <Grid item xs={12} sm={12} md={4} key={7} sx={gridStyles}>
-            <TextField
-              id="outlined-multiline-static"
-              label="Contributers Role"
-              multiline
-              rows={4}
-              placeholder="Contrintributors Role"
-              name="cont_role"
-              onChange={handleChange}
-              fullWidth
-            />
-          </Grid>
           <Grid item xs={12} sm={12} md={4} key={4} sx={gridStyles}>
             <TextField
               id="outlined-multiline-static"
@@ -159,7 +139,11 @@ function Ngoactivitydetail() {
         <Button
           style={{ marginTop: "2%" }}
           variant="contained"
-          onClick={onsubmit}
+          onClick= {() =>{
+            console.log(data);
+            
+
+          }}
         >
           Submit
         </Button>
@@ -169,4 +153,4 @@ function Ngoactivitydetail() {
   );
 }
 
-export default Ngoactivitydetail;
+export default Editdetail;
