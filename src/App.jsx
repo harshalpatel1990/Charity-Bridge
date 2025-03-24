@@ -39,7 +39,7 @@ function App() {
             Component={Ngoactivitydetail}
           ></Route>
           <Route path="/ngo/profile" Component={Ngoprofile}></Route>
-          <Route path="/ngo/dasboard" Component={Ngodashboard}></Route>
+          <Route path="/ngo/dashboard" Component={Ngodashboard}></Route>
 
           <Route path="/user/login" Component={Userlogin}></Route>
           <Route path="/user/register" Component={Userregister}></Route>
@@ -52,7 +52,7 @@ function App() {
           ></Route>
           <Route path="/user/reciepts" Component={Userreciepts}></Route>
           <Route path="/user/recognition" Component={Userrecognition}></Route>
-          <Route path="/user/dasboard" Component={Userdashboard}></Route>
+          <Route path="/user/dashboard" Component={Userdashboard}></Route>
 
           <Route path="/admin/login" Component={Adminlogin}></Route>
           <Route path="/admin/verifyuser" Component={Verifyuser}></Route>

@@ -1,16 +1,22 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Grid, Paper, InputAdornment, IconButton } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LockIcon from "@mui/icons-material/Lock";
+import { auth } from "../config/firebase";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 
 
 function Ngologin() {
+  const navigate = useNavigate();
+  
+  const [Error, setError] = React.useState("");
+
   const [data, setdata] = React.useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -21,6 +27,27 @@ function Ngologin() {
     padding: "7px",
     width: "100%",
   };
+  console.log(auth?.currentUser?.email);
+  const signIn = async () => {
+    try {
+    if (!data.email) {
+      setError("Email is required");
+      return;
+    }
+    if (!data.password) {
+      setError("Password is required");
+      return;
+    }
+      await signInWithEmailAndPassword(auth, data.email, data.password);
+    } catch (Error) {
+      console.error(Error);
+    }
+  };
+  const login = () => {
+    navigate("/ngo/dashboard");
+    signIn();
+  };
+
 
   return (
     <center>
@@ -31,7 +58,6 @@ function Ngologin() {
           borderRadius: 10,
           width: "30%",
           height: "50%",
-          background: "",
         }}
         elevation={5}
       >
@@ -43,10 +69,10 @@ function Ngologin() {
             <Grid item xs={12} sm={12} md={12} key={0}>
               <TextField
                 id="outlined-basic"
-                label="Username"
+                label="Email"
                 variant="outlined"
                 type="text"
-                name="username"
+                name="email"
                 onChange={handlechange}
                 style={loginstyle}
                 InputProps={{
@@ -78,12 +104,11 @@ function Ngologin() {
             </Grid>
             <Button
               variant="outlined"
-              onClick={() => {
-                console.log({ data });
-              }}
+              onClick={login}
             >
-              Submit
+              Login
             </Button>
+            {Error && <p style={{ color: "red" }}>{Error}</p>}
           </div>
         </Grid>
       </Paper>

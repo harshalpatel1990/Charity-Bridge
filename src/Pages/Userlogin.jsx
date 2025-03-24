@@ -4,17 +4,41 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../config/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 
 function Userlogin() {
   const navigate = useNavigate();
+   const [Error, setError] = React.useState("");
   const [data, setdata] = React.useState({
-    username: "",
+    email: "",
     password: "",
   });
 
   const handlechange = (e) => {
     setdata({ ...data, [e.target.name]: e.target.value });
   };
+  console.log(auth?.currentUser?.email);
+    const signIn = async () => {
+      try {
+      if (!data.email) {
+        setError("Email is required");
+        return;
+      }
+      if (!data.password) {
+        setError("Password is required");
+        return;
+      }
+        await signInWithEmailAndPassword(auth, data.email, data.password);
+      } catch (Error) {
+        console.error(Error);
+      }
+    };
+    const login = () => {
+      navigate("/user/dashboard");
+      signIn();
+    };
 
   return (
     <div>
@@ -35,10 +59,10 @@ function Userlogin() {
           <br />
           <TextField
             id='outlined-basic'
-            label='Username'
+            label='Email'
             variant='outlined'
             type='text'
-            name='username'
+            name='email'
             onChange={handlechange}
             sx={{
               width: "300px",
@@ -63,7 +87,7 @@ function Userlogin() {
             id='outlined-basic'
             label='Password'
             variant='outlined'
-            type='text'
+            type='password'
             name='password'
             onChange={handlechange}
             sx={{
@@ -86,14 +110,12 @@ function Userlogin() {
           <br />
           <br />
           <Button
-            sx={{ marginBottom: "20px" }}
-            variant='outlined'
-            onClick={() => {
-              console.log({ data });
-            }}
-          >
-            Submit
-          </Button>
+              variant="outlined"
+              onClick={login}
+            >
+              Login
+            </Button>
+            {Error && <p style={{ color: "red" }}>{Error}</p>}
           <p>
             Don't have account to register{" "}
             <a

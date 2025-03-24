@@ -21,8 +21,9 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { useNavigate } from "react-router-dom";
-// import { signOut } from "firebase/auth";
-
+import { signOut } from "firebase/auth";
+import { auth } from "../config/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const drawerWidth = 240;
 
@@ -129,19 +130,19 @@ export default function NavBar() {
       return arr;
     } else if (window.location.pathname.includes("user")) {
       return ContributorItems;
-    } else if (window.location.pathname.includes("ngo")) {
+    } else if (window.location.pathname.includes("admin")) {
       return AdminItems;
     }
   }
 
-//   const logout = async () => {
-//     try{
-//       await signOut(auth);
-//     }
-//     catch (error) {
-//       console.log(error);
-//   }
-// }
+  const logout = async () => {
+    try{
+      await signOut(auth);
+    }
+    catch (error) {
+      console.log(error);
+  }
+ }
 
   
   return (
@@ -175,7 +176,7 @@ export default function NavBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Charity Bridge
           </Typography>
-          <Button  color="inherit">Logout</Button>
+          <Button  color="inherit" onClick={logout}>Logout</Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -203,7 +204,7 @@ export default function NavBar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {getMenus().map((text, index) => (
+          {getMenus().map((text) => (
             <ListItem
               key={text.name}
               disablePadding
