@@ -34,14 +34,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DonutLargeIcon from "@mui/icons-material/DonutLarge";
 import Tooltip from "@mui/material/Tooltip";
-import { db } from "../config/firebase";
 import { useState } from "react";
-import { getDocs, collection,deleteDoc ,doc } from "firebase/firestore";
+import { db } from "../config/firebase";
+import { getDocs, collection,deleteDoc } from "firebase/firestore";
 import { useEffect } from "react";
 
-function createData(name, contributors, funds, location, description) {
-  return { name, contributors, funds, location, description };
-}
 //for funds
 function createfunds(name, funds) {
   return { name, funds };
@@ -51,13 +48,6 @@ function createfunds(name, funds) {
 function createvol(name, email, mobile) {
   return { name, email, mobile };
 }
-
-// function Activities() {
-
-//   return <div></div>;
-// }
-
-// let rows;
 
 const rowsf = [
   createfunds("Frozen yoghurt", 159),
@@ -79,6 +69,55 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 function Ngoactivities() {
+  const [open, setOpen] = React.useState(false);
+  
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  
+  const handleClose = () => {
+    setOpen(false);
+  };
+  
+  const [opendailogdel, setOpendailogdel] = React.useState(false);
+  
+  const handleClickOpendailog = () => {
+    setOpendailogdel(true);
+  };
+  
+  const handleClosedailog = () => {
+    setOpendailogdel(false);
+  };
+  const [opendailogedit, setOpendailogedit] = React.useState(false);
+  
+  const handleClickOpendailogedit = () => {
+    setOpendailogedit(true);
+  };
+  
+  const handleClosedailogedit = () => {
+    setOpendailogedit(false);
+  };
+  
+  
+  const [opendailogpg, setOpendailogpg] = React.useState(false);
+  
+  const handleopenpg = () => {
+    setOpendailogpg(true);
+  };
+  
+  const handleclosepg = () => {
+    setOpendailogpg(false);
+  };
+  
+  const [value, setValue] = React.useState("1");
+  
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  
+  const style = {
+    marginLeft: 5,
+  };
   const [activity, setactivity] = useState([]);
   const activitylistref = collection(db, "activities");
 
@@ -93,7 +132,8 @@ function Ngoactivities() {
       }));
       console.log(filterdata);
       setactivity(filterdata);
-    } catch (err) {
+    } 
+    catch (err) {
       console.error(err);
     }
   };
@@ -102,63 +142,19 @@ function Ngoactivities() {
     getactivity();
   }, []);
   
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const [opendailogdel, setOpendailogdel] = React.useState(false);
-
-  const handleClickOpendailog = () => {
-    setOpendailogdel(true);
-  };
-
-  const handleClosedailog = () => {
-    setOpendailogdel(false);
-  };
-  const [opendailogedit, setOpendailogedit] = React.useState(false);
-
-  const handleClickOpendailogedit = () => {
-    setOpendailogedit(true);
-  };
-
-  const handleClosedailogedit = () => {
-    setOpendailogedit(false);
-  };
-
-
-  const [opendailogpg, setOpendailogpg] = React.useState(false);
-
-  const handleopenpg = () => {
-    setOpendailogpg(true);
-  };
-
-  const handleclosepg = () => {
-    setOpendailogpg(false);
-  };
-
-  const [value, setValue] = React.useState("1");
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const style = {
-    marginLeft: 5,
-  };
   const deleteactivity = async (id) => {
-    const activitydoc = doc(db,"activities" ,id )
-    await deleteDoc(activitydoc);
+    try{
+      const activitydoc = doc(db,"activities",id )
+      await deleteDoc(activitydoc);
+    }
+    catch(err){
+      console.error(err);
+    }
 
   }
   const fordelete = () =>{
     deleteactivity(activity.id)
-    {handleClosedailog}
+    handleClosedailog();
     
   }
   return (
@@ -212,6 +208,7 @@ function Ngoactivities() {
             </Toolbar>
           </AppBar>
           <Ngoactivitydetail />
+          
         </Dialog>
       </React.Fragment>
       <div
@@ -241,7 +238,7 @@ function Ngoactivities() {
                   <TableCell align="right">{row.contributors}</TableCell>
                   <TableCell align="right">{row.funds}</TableCell>
                   <TableCell align="right">{row.location}</TableCell>
-                  <TableCell align="right">{row.description}</TableCell>
+                  <TableCell align="right">{row.discription}</TableCell>
                   <TableCell align="right">
                     <React.Fragment>
                       <Button
@@ -505,7 +502,7 @@ function Ngoactivities() {
                         </DialogContent>
                         <DialogActions>
                           <Button onClick={handleClosedailog}>Disagree</Button>
-                          <Button onClick= {fordelete} autoFocus>
+                          <Button onClick= {fordelete } autoFocus>
                             Agree
                           </Button>
                         </DialogActions>

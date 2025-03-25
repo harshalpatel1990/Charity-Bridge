@@ -28,14 +28,14 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 const drawerWidth = 240;
 
 let arr = [
-  // {
-  //   name: "Register",
-  //   path: "/ngo/register",
-  // },
-  // {
-  //   name: "Login",
-  //   path: "/ngo/login",
-  // },
+  {
+    name: "Register",
+    path: "/ngo/register",
+  },
+  {
+    name: "Login",
+    path: "/ngo/login",
+  },
   {
     name: "Activities",
     path: "/ngo/activities",

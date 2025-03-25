@@ -24,13 +24,17 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
+import { useState } from "react";
+import { db } from "../config/firebase";
+import { getDocs, collection, deleteDoc } from "firebase/firestore";
+import { useEffect } from "react";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
@@ -54,25 +58,18 @@ function a11yProps(index) {
   };
 }
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 
 function Useractivities() {
   const [open, setOpen] = React.useState(false);
+  const [selectedActivityName, setSelectedActivityName] = React.useState(""); // Existing state
+  const [selectedFunds, setSelectedFunds] = React.useState(""); // New state for funds
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (activityName, funds) => {
+    setSelectedActivityName(activityName); // Set the selected activity name
+    setSelectedFunds(funds); // Set the selected funds value
     setOpen(true);
   };
 
@@ -85,36 +82,64 @@ function Useractivities() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const [activity, setactivity] = useState([]);
+  const activitylistref = collection(db, "activities");
+
+  const getactivity = async () => {
+    try {
+      //read the data
+      //set the activity list
+      const data = await getDocs(activitylistref);
+      const filterdata = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      console.log(filterdata);
+      setactivity(filterdata);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  console.log("datafromactivity", activity);
+  useEffect(() => {
+    getactivity();
+  }, []);
   return (
-    <div style={{display:"flex",justifyContent:"center",padding:"3%"}}>
+    <div style={{ display: "flex", justifyContent: "center", padding: "3%" }}>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="right">Contributors</TableCell>
-              <TableCell align="right">Funds</TableCell>
-              <TableCell align="right">Location</TableCell>
-              <TableCell align="right">Protein&nbsp;(g)</TableCell>
-              <TableCell align="right"></TableCell>
+              <TableCell align='center'>Name</TableCell>
+              <TableCell align='center'>Contributors</TableCell>
+              <TableCell align='center'>Funds</TableCell>
+              <TableCell align='center'>Location</TableCell>
+              <TableCell align='center'>Description&nbsp;(g)</TableCell>
+              <TableCell align='center'></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {activity.map((row) => (
               <TableRow
-                key={row.name}
+                key={row.activityname}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
-                  {row.name}
+                <TableCell align='center'>{row.activityname}</TableCell>
+                <TableCell align='center' component='th' scope='row'>
+                  {row.contributors}
                 </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
-                <TableCell align="right">
+                <TableCell align='center'>{row.funds}</TableCell>
+                <TableCell align='center'>{row.location}</TableCell>
+
+                <TableCell align='center'>{row.discription}</TableCell>
+                <TableCell align='center'>
                   <React.Fragment>
-                    <Button variant="outlined" onClick={handleClickOpen}>
+                    <Button
+                      variant='outlined'
+                      onClick={() =>
+                        handleClickOpen(row.activityname, row.funds)
+                      } // Pass activityname and funds
+                    >
                       Participate
                     </Button>
                     <Dialog
@@ -126,18 +151,19 @@ function Useractivities() {
                       <AppBar sx={{ position: "relative" }}>
                         <Toolbar>
                           <IconButton
-                            edge="start"
-                            color="inherit"
+                            edge='start'
+                            color='inherit'
                             onClick={handleClose}
-                            aria-label="close"
+                            aria-label='close'
                           >
                             <CloseIcon />
                           </IconButton>
 
                           <Button
                             autoFocus
-                            color="inherit"
+                            color='inherit'
                             onClick={handleClose}
+                            sx={{ marginLeft: "auto" }} // Align the button to the right
                           >
                             save
                           </Button>
@@ -148,10 +174,10 @@ function Useractivities() {
                           <Tabs
                             value={value}
                             onChange={handleChange}
-                            aria-label="basic tabs example"
+                            aria-label='basic tabs example'
                           >
-                            <Tab label="Volunteer" {...a11yProps(0)} />
-                            <Tab label="Contribute" {...a11yProps(1)} />
+                            <Tab label='Volunteer' {...a11yProps(0)} />
+                            <Tab label='Contribute' {...a11yProps(1)} />
                           </Tabs>
                         </Box>
                         <CustomTabPanel value={value} index={0}>
@@ -167,9 +193,9 @@ function Useractivities() {
                               >
                                 <TextField
                                   disabled
-                                  id="outlined-disabled"
-                                  label="Activity Detail"
-                                  defaultValue=""
+                                  id='outlined-disabled'
+                                  label='Activity Name'
+                                  defaultValue={selectedActivityName} // Use selected activity name
                                 />
                               </Grid>
                               <br />
@@ -184,9 +210,9 @@ function Useractivities() {
                                 }}
                               >
                                 <TextField
-                                  id="outlined-basic"
-                                  label="message"
-                                  variant="outlined"
+                                  id='outlined-basic'
+                                  label='message'
+                                  variant='outlined'
                                 />
                               </Grid>
                               <br />
@@ -199,7 +225,7 @@ function Useractivities() {
                                   justifyContent: "center",
                                 }}
                               >
-                                <Button variant="outlined">
+                                <Button variant='outlined'>
                                   Participate as volunteer
                                 </Button>
                               </Grid>
@@ -212,9 +238,9 @@ function Useractivities() {
                             <Grid Container sx={{ width: "50%" }}>
                               <Grid>
                                 <TextField
-                                  id="outlined-basic"
-                                  label="Amount"
-                                  variant="outlined"
+                                  id='outlined-basic'
+                                  label='Amount'
+                                  variant='outlined'
                                   sx={{ width: "100%" }}
                                 />
 
@@ -222,23 +248,23 @@ function Useractivities() {
                                 <br />
                                 <TextField
                                   disabled
-                                  id="outlined-disabled"
-                                  label="Activity Detail"
-                                  defaultValue=""
+                                  id='outlined-disabled'
+                                  label='Activity Detail'
+                                  defaultValue={selectedActivityName}
                                 />
                                 <br />
                                 <br />
                                 <TextField
                                   disabled
-                                  id="outlined-disabled"
-                                  label="Funds Required"
-                                  defaultValue=""
+                                  id='outlined-disabled'
+                                  label='Funds Required'
+                                  defaultValue={selectedFunds} // Use selected funds value
                                 />
                                 <br />
                                 <br />
 
                                 <center>
-                                  <Button variant="outlined">Submit</Button>
+                                  <Button variant='outlined'>Submit</Button>
                                 </center>
                               </Grid>
                             </Grid>

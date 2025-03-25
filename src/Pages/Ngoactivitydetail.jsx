@@ -42,7 +42,7 @@ function Ngoactivitydetail() {
       await addDoc(activitylistref, {
         activityname: data.name,
         contributors: data.cont,
-        description: data.desc,
+        discription: data.desc,
         funds: data.funds,
         location: data.loc,
       });
