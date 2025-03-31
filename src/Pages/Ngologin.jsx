@@ -6,14 +6,13 @@ import { Grid, Paper, InputAdornment, IconButton } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LockIcon from "@mui/icons-material/Lock";
 import { auth } from "../config/firebase";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+
+
+
 function Ngologin() {
   const navigate = useNavigate();
-
+  
   const [Error, setError] = React.useState("");
 
   const [data, setdata] = React.useState({
@@ -31,23 +30,24 @@ function Ngologin() {
   console.log(auth?.currentUser?.email);
   const signIn = async () => {
     try {
-      if (!data.email) {
-        setError("Email is required");
-        return;
-      }
-      if (!data.password) {
-        setError("Password is required");
-        return;
-      }
+    if (!data.email) {
+      setError("Email is required");
+      return;
+    }
+    if (!data.password) {
+      setError("Password is required");
+      return;
+    }
       await signInWithEmailAndPassword(auth, data.email, data.password);
-      navigate("/ngo/dashboard");
     } catch (Error) {
-      setError(Error.toString());
+      console.error(Error);
     }
   };
   const login = () => {
+    navigate("/ngo/dashboard");
     signIn();
   };
+
 
   return (
     <center>
@@ -65,12 +65,6 @@ function Ngologin() {
         <br />
 
         <Grid container justifyContent="center">
-          <DotLottieReact
-            style={{ width: "500px" }}
-            src="https://lottie.host/41745df3-534c-4309-b44d-28bc53fa3e8f/XbaUdDOzKC.lottie"
-            loop
-            autoplay
-          />
           <div>
             <Grid item xs={12} sm={12} md={12} key={0}>
               <TextField
@@ -108,10 +102,26 @@ function Ngologin() {
                 }}
               />
             </Grid>
-            <Button variant="outlined" onClick={login}>
+            <Button
+              variant="outlined"
+              onClick={login}
+            >
               Login
             </Button>
             {Error && <p style={{ color: "red" }}>{Error}</p>}
+            <p>
+            Don't have account to register{" "}
+            <a
+              onClick={() => navigate("/ngo/register")}
+              style={{
+                cursor: "pointer",
+                color: "blue",
+                textDecoration: "underline",
+              }}
+            >
+              Click here!
+            </a>
+          </p>
           </div>
         </Grid>
       </Paper>
@@ -119,3 +129,7 @@ function Ngologin() {
   );
 }
 export default Ngologin;
+
+
+
+

@@ -7,8 +7,10 @@ import { auth } from "../config/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { Grid, Paper } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function Ngoregister() {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     username: "",
     email: "",
@@ -69,6 +71,7 @@ function Ngoregister() {
     } catch (error) {
       setError(error.message);
     }
+    navigate("/ngo/login")
   };
 
   let gridstyle = {

@@ -88,7 +88,7 @@ const Userprofile = () => {
           <Button
             fullWidth
             variant="contained"
-            style={{ backgroundColor: "#5DADE2" }}
+            style={{ backgroundColor: "#1976D2" }}
             onClick={() => setIsEditing(!isEditing)}
           >
             {isEditing ? "Save Profile" : "Edit Profile"}
