@@ -138,8 +138,13 @@ function Ngoactivities() {
     try{
       const activitydoc = doc(db,"activities",id )
       await deleteDoc(activitydoc);
-      getactivity();
+<<<<<<< HEAD
+      getactivity()
     } catch (err) {
+=======
+    }
+    catch(err){
+>>>>>>> e1601319bb2b0a1b55c94af61ca9b3c8dacaf4c5
       console.error(err);
     }
 
@@ -299,127 +304,93 @@ function Ngoactivities() {
                                   justifyContent: "center",
                                   marginTop: "2%",
                                 }}
+                                
                               >
-                                <TableContainer
-                                  component={Paper}
-                                  sx={{ width: "50%" }}
+<<<<<<< HEAD
+                                <Volunteer/>
+                               
+=======
+                                <Paper
+                                  sx={{
+                                    boxShadow: "10px 10px 20px",
+                                    borderRadius: 10,
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    width: "50%",
+                                    flexWrap: "wrap",
+                                  }}
                                 >
-                                  <Table aria-label="simple table">
-                                    <TableHead>
-                                      <TableRow>
-                                        <TableCell
-                                          sx={{ padding: "16px 24px" }}
-                                        >
-                                          Name
-                                        </TableCell>
-
-                                        <TableCell
-                                          sx={{ padding: "16px 24px" }}
-                                        >
-                                          Mobile
-                                        </TableCell>
-                                        <TableCell
-                                          sx={{ padding: "16px 24px" }}
-                                        >
-                                          Email
-                                        </TableCell>
-                                      </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                      {rowsv.map((row) => (
-                                        <TableRow
-                                          key={row.name}
-                                          sx={{
-                                            "&:last-child td, &:last-child th":
-                                              {
-                                                border: 0,
-                                              },
-                                          }}
-                                        >
-                                          <TableCell
-                                            sx={{ padding: "16px 24px" }}
-                                            component="th"
-                                            scope="row"
-                                          >
-                                            {row.name}
-                                          </TableCell>
-                                          <TableCell
-                                            sx={{ padding: "16px 24px" }}
-                                          >
-                                            {row.mobile}
-                                          </TableCell>
-                                          <TableCell
-                                            sx={{ padding: "16px 24px" }}
-                                          >
-                                            {row.email}
-                                          </TableCell>
-                                          <Button variant="outlined">
-                                            View Details
-                                          </Button>
-                                        </TableRow>
+                                  <ul>
+                                    {activities
+                                      .filter(
+                                        (activity) =>
+                                          activity.id === selectedActivityId
+                                      ) // Filter by selected activity ID
+                                      .flatMap(
+                                        (activity) => activity.volunteers
+                                      ) // Get volunteers for the activity
+                                      .map((volunteer, index) => (
+                                        <li key={index}>
+                                          <strong>Name:</strong>{" "}
+                                          {volunteer.userName} <br />
+                                          <strong>Email:</strong>{" "}
+                                          {volunteer.userEmail} <br />
+                                          <strong>Message:</strong>{" "}
+                                          {volunteer.message} <br />
+                                        </li>
                                       ))}
-                                    </TableBody>
-                                  </Table>
-                                </TableContainer>{" "}
+                                  </ul>
+                                </Paper>
+>>>>>>> e1601319bb2b0a1b55c94af61ca9b3c8dacaf4c5
                               </div>
                             </TabPanel>
-                            <TabPanel value="2">
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  marginTop: "2%",
-                                }}
+                            <TabPanel value='2'>
+                              <TableContainer
+                                component={Paper}
+                                sx={{ width: "50%" }}
                               >
-                                <TableContainer
-                                  component={Paper}
-                                  sx={{ width: "50%" }}
-                                >
-                                  <Table aria-label="simple table">
-                                    <TableHead>
-                                      <TableRow>
-                                        <TableCell
-                                          sx={{ padding: "16px 24px" }}
-                                        >
-                                          Name
-                                        </TableCell>
-
-                                        <TableCell
-                                          sx={{ padding: "16px 24px" }}
-                                        >
-                                          Funds
-                                        </TableCell>
-                                      </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                      {rowsf.map((row) => (
-                                        <TableRow
-                                          key={row.name}
-                                          sx={{
-                                            "&:last-child td, &:last-child th":
-                                              {
-                                                border: 0,
-                                              },
-                                          }}
-                                        >
-                                          <TableCell
-                                            sx={{ padding: "16px 24px" }}
-                                            component="th"
-                                            scope="row"
-                                          >
-                                            {row.name}
+<<<<<<< HEAD
+                                <Funds/>
+                                
+                              </div>
+=======
+                                <Table aria-label='simple table'>
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell>Contributor</TableCell>
+                                      <TableCell>Amount</TableCell>
+                                      <TableCell>Date</TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    {activities
+                                      .filter(
+                                        (activity) =>
+                                          activity.id === selectedActivityId
+                                      ) // Filter by selected activity ID
+                                      .flatMap(
+                                        (activity) => activity.contributions
+                                      ) // Get contributions for the activity
+                                      .map((contribution, index) => (
+                                        <TableRow key={index + 1}>
+                                          <TableCell>
+                                            {contribution.userName}
                                           </TableCell>
-                                          <TableCell
-                                            sx={{ padding: "16px 24px" }}
-                                          >
-                                            {row.funds}
+                                          <TableCell>
+                                            {contribution.amount}
+                                          </TableCell>
+                                          <TableCell>
+                                            {new Date(
+                                              contribution.timestamp.toDate()
+                                            ).toLocaleString()}
                                           </TableCell>
                                         </TableRow>
                                       ))}
-                                    </TableBody>
-                                  </Table>
-                                </TableContainer>{" "}
-                              </div>
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+>>>>>>> e1601319bb2b0a1b55c94af61ca9b3c8dacaf4c5
                             </TabPanel>
                           </TabContext>
                         </Box>
@@ -517,4 +488,3 @@ function Ngoactivities() {
 }
 
 export default Ngoactivities;
- 
