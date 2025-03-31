@@ -7,6 +7,8 @@ import {
   Stack,
   Grid,
 } from "@mui/material";
+import { db } from "../config/firebase";
+import { getDocs, collection } from "firebase/firestore";
 
 const Userprofile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -20,14 +22,36 @@ const Userprofile = () => {
     contact: "",
     gender: "",
   });
-  useEffect(() => {
-    let x = localStorage.getItem("user");
-    setFormData(JSON.parse(x));
-  }, []);
+  // useEffect(() => {
+  //   let x = localStorage.getItem("user");
+  //   setFormData(JSON.parse(x));
+  // }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const ngocollectionref = collection(db, "userinfo");
+  useEffect(() => {
+      const getngoprofile = async () => {
+        //red the data
+        //set the data into fields
+        try {
+          const data = await getDocs(ngocollectionref);
+          const filteredData = data.docs.map((doc) => ({
+            ...doc.data(),
+          
+          }));
+          setFormData(filteredData[0]);
+          console.log(filteredData);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      getngoprofile();
+    }, []);
+    console.log("FormData", formData);
+  
 
   return (
     <Container maxWidth="md">

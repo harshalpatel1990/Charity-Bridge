@@ -18,7 +18,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
-import Ngoactivitydetail from "./Ngoactivitydetail";
+import Ngoactivitydetail from "./ngoactivitydetail";
 import Editdetail from "./editdetail";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -36,7 +36,7 @@ import DonutLargeIcon from "@mui/icons-material/DonutLarge";
 import Tooltip from "@mui/material/Tooltip";
 import { useState } from "react";
 import { db } from "../config/firebase";
-import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
+import { getDocs, collection,deleteDoc } from "firebase/firestore";
 import { useEffect } from "react";
 import Volunteer from "./Volunteer";
 import Funds from "./Funds";
@@ -58,7 +58,7 @@ const rowsf = [
 ];
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 
 function Ngoactivities() {
@@ -73,7 +73,7 @@ function Ngoactivities() {
   };
 
   const [opendailogdel, setOpendailogdel] = React.useState(false);
-
+  
   const handleClickOpendailog = () => {
     setOpendailogdel(true);
   };
@@ -92,7 +92,7 @@ function Ngoactivities() {
   };
 
   const [opendailogpg, setOpendailogpg] = React.useState(false);
-
+  
   const handleopenpg = () => {
     setOpendailogpg(true);
   };
@@ -116,7 +116,7 @@ function Ngoactivities() {
   const getactivity = async () => {
     try {
       //read the data
-      //set the activity list
+      //set the activity list 
       const data = await getDocs(activitylistref);
       const filterdata = data.docs.map((doc) => ({
         ...doc.data(),
@@ -124,7 +124,8 @@ function Ngoactivities() {
       }));
       console.log(filterdata);
       setactivity(filterdata);
-    } catch (err) {
+    } 
+    catch (err) {
       console.error(err);
     }
   };
@@ -132,27 +133,28 @@ function Ngoactivities() {
   useEffect(() => {
     getactivity();
   }, []);
-
+  
   const deleteactivity = async (id) => {
-    try {
-      console.log("fbid", id);
-      const activitydoc = doc(db, "activities", id);
+    try{
+      const activitydoc = doc(db,"activities",id )
       await deleteDoc(activitydoc);
-      getactivity()
+      getactivity();
     } catch (err) {
       console.error(err);
     }
-  };
-  const fordelete = (activity) => {
-    deleteactivity(activity.id);
+
+  }
+  const fordelete = () =>{
+    deleteactivity(activity.id)
     handleClosedailog();
-  };
+    
+  }
   return (
     <div>
       <Grid container>
         <Grid item xs={12} md={5} >
           <Button
-            variant="outlined"
+            variant='outlined'
             onClick={handleClickOpen}
             sx={{
               marginLeft: "30px",
@@ -181,18 +183,18 @@ function Ngoactivities() {
           <AppBar sx={{ position: "relative" }}>
             <Toolbar sx={{ backgroundColor: "#5DADE2" }}>
               <IconButton
-                edge="start"
-                color="inherit"
+                edge='start'
+                color='inherit'
                 onClick={handleClose}
-                aria-label="close"
+                aria-label='close'
               >
                 <CloseIcon />
               </IconButton>
-              <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
                 New Activity
               </Typography>
 
-              <Button autoFocus color="inherit" onClick={handleClose}>
+              <Button autoFocus color='inherit' onClick={handleClose}>
                 save
               </Button>
             </Toolbar>
@@ -204,15 +206,15 @@ function Ngoactivities() {
         style={{ display: "flex", justifyContent: "center", marginTop: "3%" }}
       >
         <TableContainer component={Paper} sx={{ width: "80%" }}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell align="right">Contributors</TableCell>
-                <TableCell align="right">Funds</TableCell>
-                <TableCell align="right">Location</TableCell>
-                <TableCell align="right">Description</TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell align='right'>Contributors</TableCell>
+                <TableCell align='right'>Funds</TableCell>
+                <TableCell align='right'>Location</TableCell>
+                <TableCell align='right'>Description</TableCell>
+                <TableCell align='right'></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -221,21 +223,21 @@ function Ngoactivities() {
                   key={row.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell component='th' scope='row'>
                     {row.activityname}
                   </TableCell>
-                  <TableCell align="right">{row.contributors}</TableCell>
-                  <TableCell align="right">{row.funds}</TableCell>
-                  <TableCell align="right">{row.location}</TableCell>
-                  <TableCell align="right">{row.discription}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align='right'>{row.contributors}</TableCell>
+                  <TableCell align='right'>{row.funds}</TableCell>
+                  <TableCell align='right'>{row.location}</TableCell>
+                  <TableCell align='right'>{row.description}</TableCell>
+                  <TableCell align='right'>
                     <React.Fragment>
                       <Button
                         onClick={() => {
-                          handleopenpg();
+                          handleopenpg(row.id); // Pass the activity ID
                         }}
                       >
-                        <Tooltip title="Activity Progress">
+                        <Tooltip title='Activity Progress'>
                           <DonutLargeIcon sx={{ color: "black" }} />
                         </Tooltip>
                       </Button>
@@ -253,23 +255,23 @@ function Ngoactivities() {
                         >
                           <Toolbar>
                             <IconButton
-                              edge="start"
-                              color="inherit"
+                              edge='start'
+                              color='inherit'
                               onClick={handleclosepg}
-                              aria-label="close"
+                              aria-label='close'
                             >
                               <CloseIcon />
                             </IconButton>
                             <Typography
                               sx={{ ml: 2, flex: 1 }}
-                              variant="h6"
-                              component="div"
+                              variant='h6'
+                              component='div'
                             >
                               Activity Progress
                             </Typography>
                             <Button
                               autoFocus
-                              color="inherit"
+                              color='inherit'
                               onClick={handleclosepg}
                             >
                               save
@@ -284,23 +286,81 @@ function Ngoactivities() {
                             >
                               <TabList
                                 onChange={handleChange}
-                                aria-label="lab API tabs example"
+                                aria-label='lab API tabs example'
                               >
-                                <Tab label="Volunteers" value="1" />
-                                <Tab label="Funds" value="2" />
+                                <Tab label='Volunteers' value='1' />
+                                <Tab label='Funds' value='2' />
                               </TabList>
                             </Box>
-                            <TabPanel value="1">
+                            <TabPanel value='1'>
                               <div
                                 style={{
                                   display: "flex",
                                   justifyContent: "center",
                                   marginTop: "2%",
                                 }}
-                                
                               >
-                                <Volunteer/>
-                               
+                                <TableContainer
+                                  component={Paper}
+                                  sx={{ width: "50%" }}
+                                >
+                                  <Table aria-label="simple table">
+                                    <TableHead>
+                                      <TableRow>
+                                        <TableCell
+                                          sx={{ padding: "16px 24px" }}
+                                        >
+                                          Name
+                                        </TableCell>
+
+                                        <TableCell
+                                          sx={{ padding: "16px 24px" }}
+                                        >
+                                          Mobile
+                                        </TableCell>
+                                        <TableCell
+                                          sx={{ padding: "16px 24px" }}
+                                        >
+                                          Email
+                                        </TableCell>
+                                      </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                      {rowsv.map((row) => (
+                                        <TableRow
+                                          key={row.name}
+                                          sx={{
+                                            "&:last-child td, &:last-child th":
+                                              {
+                                                border: 0,
+                                              },
+                                          }}
+                                        >
+                                          <TableCell
+                                            sx={{ padding: "16px 24px" }}
+                                            component="th"
+                                            scope="row"
+                                          >
+                                            {row.name}
+                                          </TableCell>
+                                          <TableCell
+                                            sx={{ padding: "16px 24px" }}
+                                          >
+                                            {row.mobile}
+                                          </TableCell>
+                                          <TableCell
+                                            sx={{ padding: "16px 24px" }}
+                                          >
+                                            {row.email}
+                                          </TableCell>
+                                          <Button variant="outlined">
+                                            View Details
+                                          </Button>
+                                        </TableRow>
+                                      ))}
+                                    </TableBody>
+                                  </Table>
+                                </TableContainer>{" "}
                               </div>
                             </TabPanel>
                             <TabPanel value="2">
@@ -311,8 +371,54 @@ function Ngoactivities() {
                                   marginTop: "2%",
                                 }}
                               >
-                                <Funds/>
-                                
+                                <TableContainer
+                                  component={Paper}
+                                  sx={{ width: "50%" }}
+                                >
+                                  <Table aria-label="simple table">
+                                    <TableHead>
+                                      <TableRow>
+                                        <TableCell
+                                          sx={{ padding: "16px 24px" }}
+                                        >
+                                          Name
+                                        </TableCell>
+
+                                        <TableCell
+                                          sx={{ padding: "16px 24px" }}
+                                        >
+                                          Funds
+                                        </TableCell>
+                                      </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                      {rowsf.map((row) => (
+                                        <TableRow
+                                          key={row.name}
+                                          sx={{
+                                            "&:last-child td, &:last-child th":
+                                              {
+                                                border: 0,
+                                              },
+                                          }}
+                                        >
+                                          <TableCell
+                                            sx={{ padding: "16px 24px" }}
+                                            component="th"
+                                            scope="row"
+                                          >
+                                            {row.name}
+                                          </TableCell>
+                                          <TableCell
+                                            sx={{ padding: "16px 24px" }}
+                                          >
+                                            {row.funds}
+                                          </TableCell>
+                                        </TableRow>
+                                      ))}
+                                    </TableBody>
+                                  </Table>
+                                </TableContainer>{" "}
                               </div>
                             </TabPanel>
                           </TabContext>
@@ -325,57 +431,45 @@ function Ngoactivities() {
                         handleClickOpendailogedit();
                       }}
                     >
-                      <Tooltip title="Edit">
+                      <Tooltip title='Edit'>
                         <ModeEditIcon sx={{ color: "black" }} />
                       </Tooltip>
                     </Button>
                     <React.Fragment>
-                      <Dialog
-                        fullScreen
-                        open={opendailogedit}
-                        onClose={handleClosedailogedit}
-                        TransitionComponent={Transition}
-                      >
-                        <AppBar
-                          sx={{
-                            position: "relative",
-                            backgroundColor: "#5DADE2",
-                          }}
-                        >
-                          <Toolbar>
-                            <IconButton
-                              edge="start"
-                              color="inherit"
-                              onClick={handleClosedailogedit}
-                              aria-label="close"
-                            >
-                              <CloseIcon />
-                            </IconButton>
-                            <Typography
-                              sx={{ ml: 2, flex: 1 }}
-                              variant="h6"
-                              component="div"
-                            >
-                              New Activity
-                            </Typography>
+        <Dialog
+          fullScreen
+          open={opendailogedit}
+          onClose={handleClosedailogedit}
+          TransitionComponent={Transition}
+        >
+          <AppBar sx={{ position: "relative" }}>
+            <Toolbar>
+              <IconButton
+                edge="start"
+                color="inherit"
+                onClick={handleClosedailogedit}
+                aria-label="close"
+              >
+                <CloseIcon />
+              </IconButton>
+              <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                New Activity
+              </Typography>
 
-                            <Button
-                              autoFocus
-                              color="inherit"
-                              onClick={handleClosedailogedit}
-                            >
-                              save
-                            </Button>
-                          </Toolbar>
-                        </AppBar>
-                        <Editdetail />
-                      </Dialog>
-                    </React.Fragment>
+              <Button autoFocus color="inherit" onClick={handleClosedailogedit}>
+                save
+              </Button>
+            </Toolbar>
+          </AppBar>
+          <Editdetail />
+        </Dialog>
+      </React.Fragment>
                     <Button
-                      onClick={async () => {
+                      onClick={() => {
                         handleClickOpendailog();
                       }}
                     >
+
                       <Tooltip title="Delete">
                         <DeleteIcon sx={{ color: "black" }} />
                       </Tooltip>
@@ -385,8 +479,8 @@ function Ngoactivities() {
                       <Dialog
                         open={opendailogdel}
                         onClose={handleClosedailog}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
+                        aria-labelledby='alert-dialog-title'
+                        aria-describedby='alert-dialog-description'
                         BackdropProps={{
                           style: {
                             backgroundColor: "transparent",
@@ -394,17 +488,18 @@ function Ngoactivities() {
                           },
                         }}
                       >
-                        <DialogTitle id="alert-dialog-title">
+                        <DialogTitle id='alert-dialog-title'>
                           {"Confirm Delete?"}
                         </DialogTitle>
                         <DialogContent>
-                          <DialogContentText id="alert-dialog-description">
-                            Confirm Delete
+                          <DialogContentText id='alert-dialog-description'>
+                            Are you sure you want to delete this activity? This
+                            action cannot be undone.
                           </DialogContentText>
                         </DialogContent>
                         <DialogActions>
                           <Button onClick={handleClosedailog}>Disagree</Button>
-                          <Button onClick={() => fordelete(row)} autoFocus>
+                          <Button onClick= {fordelete } autoFocus>
                             Agree
                           </Button>
                         </DialogActions>
