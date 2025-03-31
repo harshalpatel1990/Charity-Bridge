@@ -38,6 +38,8 @@ import { useState } from "react";
 import { db } from "../config/firebase";
 import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
 import { useEffect } from "react";
+import Volunteer from "./Volunteer";
+import Funds from "./Funds";
 
 //for funds
 function createfunds(name, funds) {
@@ -45,9 +47,6 @@ function createfunds(name, funds) {
 }
 //for volunteer
 
-function createvol(name, email, mobile) {
-  return { name, email, mobile };
-}
 
 const rowsf = [
   createfunds("Frozen yoghurt", 159),
@@ -57,13 +56,7 @@ const rowsf = [
   createfunds("Gingerbread", 35),
   createfunds("Total"),
 ];
-const rowsv = [
-  createvol("Frozen yoghurt", 159, 3),
-  createvol("Ice cream sandwich", 237, 4),
-  createvol("Eclair", 262, 3),
-  createvol("Cupcake", 305, 3),
-  createvol("Gingerbread", 35, 2),
-];
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -145,7 +138,7 @@ function Ngoactivities() {
       console.log("fbid", id);
       const activitydoc = doc(db, "activities", id);
       await deleteDoc(activitydoc);
-      getactivity();
+      getactivity()
     } catch (err) {
       console.error(err);
     }
@@ -157,7 +150,7 @@ function Ngoactivities() {
   return (
     <div>
       <Grid container>
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} md={5} >
           <Button
             variant="outlined"
             onClick={handleClickOpen}
@@ -304,68 +297,10 @@ function Ngoactivities() {
                                   justifyContent: "center",
                                   marginTop: "2%",
                                 }}
+                                
                               >
-                                <TableContainer
-                                  component={Paper}
-                                  sx={{ width: "50%" }}
-                                >
-                                  <Table aria-label="simple table">
-                                    <TableHead>
-                                      <TableRow>
-                                        <TableCell
-                                          sx={{ padding: "16px 24px" }}
-                                        >
-                                          Name
-                                        </TableCell>
-
-                                        <TableCell
-                                          sx={{ padding: "16px 24px" }}
-                                        >
-                                          Mobile
-                                        </TableCell>
-                                        <TableCell
-                                          sx={{ padding: "16px 24px" }}
-                                        >
-                                          Email
-                                        </TableCell>
-                                      </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                      {rowsv.map((row) => (
-                                        <TableRow
-                                          key={row.name}
-                                          sx={{
-                                            "&:last-child td, &:last-child th":
-                                              {
-                                                border: 0,
-                                              },
-                                          }}
-                                        >
-                                          <TableCell
-                                            sx={{ padding: "16px 24px" }}
-                                            component="th"
-                                            scope="row"
-                                          >
-                                            {row.name}
-                                          </TableCell>
-                                          <TableCell
-                                            sx={{ padding: "16px 24px" }}
-                                          >
-                                            {row.mobile}
-                                          </TableCell>
-                                          <TableCell
-                                            sx={{ padding: "16px 24px" }}
-                                          >
-                                            {row.email}
-                                          </TableCell>
-                                          <Button variant="outlined">
-                                            View Details
-                                          </Button>
-                                        </TableRow>
-                                      ))}
-                                    </TableBody>
-                                  </Table>
-                                </TableContainer>{" "}
+                                <Volunteer/>
+                               
                               </div>
                             </TabPanel>
                             <TabPanel value="2">
@@ -376,54 +311,8 @@ function Ngoactivities() {
                                   marginTop: "2%",
                                 }}
                               >
-                                <TableContainer
-                                  component={Paper}
-                                  sx={{ width: "50%" }}
-                                >
-                                  <Table aria-label="simple table">
-                                    <TableHead>
-                                      <TableRow>
-                                        <TableCell
-                                          sx={{ padding: "16px 24px" }}
-                                        >
-                                          Name
-                                        </TableCell>
-
-                                        <TableCell
-                                          sx={{ padding: "16px 24px" }}
-                                        >
-                                          Funds
-                                        </TableCell>
-                                      </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                      {rowsf.map((row) => (
-                                        <TableRow
-                                          key={row.name}
-                                          sx={{
-                                            "&:last-child td, &:last-child th":
-                                              {
-                                                border: 0,
-                                              },
-                                          }}
-                                        >
-                                          <TableCell
-                                            sx={{ padding: "16px 24px" }}
-                                            component="th"
-                                            scope="row"
-                                          >
-                                            {row.name}
-                                          </TableCell>
-                                          <TableCell
-                                            sx={{ padding: "16px 24px" }}
-                                          >
-                                            {row.funds}
-                                          </TableCell>
-                                        </TableRow>
-                                      ))}
-                                    </TableBody>
-                                  </Table>
-                                </TableContainer>{" "}
+                                <Funds/>
+                                
                               </div>
                             </TabPanel>
                           </TabContext>
