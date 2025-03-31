@@ -36,7 +36,7 @@ import DonutLargeIcon from "@mui/icons-material/DonutLarge";
 import Tooltip from "@mui/material/Tooltip";
 import { useState } from "react";
 import { db } from "../config/firebase";
-import { getDocs, collection,deleteDoc } from "firebase/firestore";
+import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
 import { useEffect } from "react";
 
 //for funds
@@ -70,51 +70,50 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function Ngoactivities() {
   const [open, setOpen] = React.useState(false);
-  
+
   const handleClickOpen = () => {
     setOpen(true);
   };
-  
+
   const handleClose = () => {
     setOpen(false);
   };
-  
+
   const [opendailogdel, setOpendailogdel] = React.useState(false);
-  
+
   const handleClickOpendailog = () => {
     setOpendailogdel(true);
   };
-  
+
   const handleClosedailog = () => {
     setOpendailogdel(false);
   };
   const [opendailogedit, setOpendailogedit] = React.useState(false);
-  
+
   const handleClickOpendailogedit = () => {
     setOpendailogedit(true);
   };
-  
+
   const handleClosedailogedit = () => {
     setOpendailogedit(false);
   };
-  
-  
+
   const [opendailogpg, setOpendailogpg] = React.useState(false);
-  
+
   const handleopenpg = () => {
     setOpendailogpg(true);
   };
-  
+
   const handleclosepg = () => {
     setOpendailogpg(false);
   };
-  
+
   const [value, setValue] = React.useState("1");
-  
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  
+
   const style = {
     marginLeft: 5,
   };
@@ -124,16 +123,15 @@ function Ngoactivities() {
   const getactivity = async () => {
     try {
       //read the data
-      //set the activity list 
+      //set the activity list
       const data = await getDocs(activitylistref);
       const filterdata = data.docs.map((doc) => ({
         ...doc.data(),
-        id: doc.id
+        id: doc.id,
       }));
       console.log(filterdata);
       setactivity(filterdata);
-    } 
-    catch (err) {
+    } catch (err) {
       console.error(err);
     }
   };
@@ -141,22 +139,21 @@ function Ngoactivities() {
   useEffect(() => {
     getactivity();
   }, []);
-  
+
   const deleteactivity = async (id) => {
-    try{
-      const activitydoc = doc(db,"activities",id )
+    try {
+      console.log("fbid", id);
+      const activitydoc = doc(db, "activities", id);
       await deleteDoc(activitydoc);
-    }
-    catch(err){
+      getactivity();
+    } catch (err) {
       console.error(err);
     }
-
-  }
-  const fordelete = () =>{
-    deleteactivity(activity.id)
+  };
+  const fordelete = (activity) => {
+    deleteactivity(activity.id);
     handleClosedailog();
-    
-  }
+  };
   return (
     <div>
       <Grid container>
@@ -166,8 +163,8 @@ function Ngoactivities() {
             onClick={handleClickOpen}
             sx={{
               marginLeft: "30px",
-              backgroundColor: "black",
-              color: "white",
+              backgroundColor: "",
+              color: "#5DADE2",
             }}
           >
             Add Activity
@@ -189,7 +186,7 @@ function Ngoactivities() {
           TransitionComponent={Transition}
         >
           <AppBar sx={{ position: "relative" }}>
-            <Toolbar>
+            <Toolbar sx={{ backgroundColor: "#5DADE2" }}>
               <IconButton
                 edge="start"
                 color="inherit"
@@ -208,7 +205,6 @@ function Ngoactivities() {
             </Toolbar>
           </AppBar>
           <Ngoactivitydetail />
-          
         </Dialog>
       </React.Fragment>
       <div
@@ -256,7 +252,12 @@ function Ngoactivities() {
                         onClose={handleclosepg}
                         TransitionComponent={Transition}
                       >
-                        <AppBar sx={{ position: "relative" }}>
+                        <AppBar
+                          sx={{
+                            position: "relative",
+                            backgroundColor: "#5DADE2",
+                          }}
+                        >
                           <Toolbar>
                             <IconButton
                               edge="start"
@@ -440,40 +441,52 @@ function Ngoactivities() {
                       </Tooltip>
                     </Button>
                     <React.Fragment>
-        <Dialog
-          fullScreen
-          open={opendailogedit}
-          onClose={handleClosedailogedit}
-          TransitionComponent={Transition}
-        >
-          <AppBar sx={{ position: "relative" }}>
-            <Toolbar>
-              <IconButton
-                edge="start"
-                color="inherit"
-                onClick={handleClosedailogedit}
-                aria-label="close"
-              >
-                <CloseIcon />
-              </IconButton>
-              <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                New Activity
-              </Typography>
+                      <Dialog
+                        fullScreen
+                        open={opendailogedit}
+                        onClose={handleClosedailogedit}
+                        TransitionComponent={Transition}
+                      >
+                        <AppBar
+                          sx={{
+                            position: "relative",
+                            backgroundColor: "#5DADE2",
+                          }}
+                        >
+                          <Toolbar>
+                            <IconButton
+                              edge="start"
+                              color="inherit"
+                              onClick={handleClosedailogedit}
+                              aria-label="close"
+                            >
+                              <CloseIcon />
+                            </IconButton>
+                            <Typography
+                              sx={{ ml: 2, flex: 1 }}
+                              variant="h6"
+                              component="div"
+                            >
+                              New Activity
+                            </Typography>
 
-              <Button autoFocus color="inherit" onClick={handleClosedailogedit}>
-                save
-              </Button>
-            </Toolbar>
-          </AppBar>
-          <Editdetail />
-        </Dialog>
-      </React.Fragment>
+                            <Button
+                              autoFocus
+                              color="inherit"
+                              onClick={handleClosedailogedit}
+                            >
+                              save
+                            </Button>
+                          </Toolbar>
+                        </AppBar>
+                        <Editdetail />
+                      </Dialog>
+                    </React.Fragment>
                     <Button
-                      onClick={() => {
+                      onClick={async () => {
                         handleClickOpendailog();
                       }}
                     >
-
                       <Tooltip title="Delete">
                         <DeleteIcon sx={{ color: "black" }} />
                       </Tooltip>
@@ -502,7 +515,7 @@ function Ngoactivities() {
                         </DialogContent>
                         <DialogActions>
                           <Button onClick={handleClosedailog}>Disagree</Button>
-                          <Button onClick= {fordelete } autoFocus>
+                          <Button onClick={() => fordelete(row)} autoFocus>
                             Agree
                           </Button>
                         </DialogActions>

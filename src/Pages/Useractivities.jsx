@@ -34,7 +34,7 @@ function CustomTabPanel(props) {
 
   return (
     <div
-      role='tabpanel'
+      role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
@@ -59,7 +59,7 @@ function a11yProps(index) {
 }
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />;
+  return <Slide direction="up" ref={ref} {...props} />;
 });
 
 function Useractivities() {
@@ -107,15 +107,15 @@ function Useractivities() {
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "3%" }}>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align='center'>Name</TableCell>
-              <TableCell align='center'>Contributors</TableCell>
-              <TableCell align='center'>Funds</TableCell>
-              <TableCell align='center'>Location</TableCell>
-              <TableCell align='center'>Description&nbsp;(g)</TableCell>
-              <TableCell align='center'></TableCell>
+              <TableCell align="center">Name</TableCell>
+              <TableCell align="center">Contributors</TableCell>
+              <TableCell align="center">Funds</TableCell>
+              <TableCell align="center">Location</TableCell>
+              <TableCell align="center">Description&nbsp;(g)</TableCell>
+              <TableCell align="center"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -124,18 +124,18 @@ function Useractivities() {
                 key={row.activityname}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align='center'>{row.activityname}</TableCell>
-                <TableCell align='center' component='th' scope='row'>
+                <TableCell align="center">{row.activityname}</TableCell>
+                <TableCell align="center" component="th" scope="row">
                   {row.contributors}
                 </TableCell>
-                <TableCell align='center'>{row.funds}</TableCell>
-                <TableCell align='center'>{row.location}</TableCell>
+                <TableCell align="center">{row.funds}</TableCell>
+                <TableCell align="center">{row.location}</TableCell>
 
-                <TableCell align='center'>{row.discription}</TableCell>
-                <TableCell align='center'>
+                <TableCell align="center">{row.discription}</TableCell>
+                <TableCell align="center">
                   <React.Fragment>
                     <Button
-                      variant='outlined'
+                      variant="outlined"
                       onClick={() =>
                         handleClickOpen(row.activityname, row.funds)
                       } // Pass activityname and funds
@@ -149,19 +149,19 @@ function Useractivities() {
                       TransitionComponent={Transition}
                     >
                       <AppBar sx={{ position: "relative" }}>
-                        <Toolbar>
+                        <Toolbar sx={{ backgroundColor: "#5DADE2" }}>
                           <IconButton
-                            edge='start'
-                            color='inherit'
+                            edge="start"
+                            color="inherit"
                             onClick={handleClose}
-                            aria-label='close'
+                            aria-label="close"
                           >
                             <CloseIcon />
                           </IconButton>
 
                           <Button
                             autoFocus
-                            color='inherit'
+                            color="inherit"
                             onClick={handleClose}
                             sx={{ marginLeft: "auto" }} // Align the button to the right
                           >
@@ -174,10 +174,10 @@ function Useractivities() {
                           <Tabs
                             value={value}
                             onChange={handleChange}
-                            aria-label='basic tabs example'
+                            aria-label="basic tabs example"
                           >
-                            <Tab label='Volunteer' {...a11yProps(0)} />
-                            <Tab label='Contribute' {...a11yProps(1)} />
+                            <Tab label="Volunteer" {...a11yProps(0)} />
+                            <Tab label="Contribute" {...a11yProps(1)} />
                           </Tabs>
                         </Box>
                         <CustomTabPanel value={value} index={0}>
@@ -193,8 +193,8 @@ function Useractivities() {
                               >
                                 <TextField
                                   disabled
-                                  id='outlined-disabled'
-                                  label='Activity Name'
+                                  id="outlined-disabled"
+                                  label="Activity Name"
                                   defaultValue={selectedActivityName} // Use selected activity name
                                 />
                               </Grid>
@@ -210,9 +210,9 @@ function Useractivities() {
                                 }}
                               >
                                 <TextField
-                                  id='outlined-basic'
-                                  label='message'
-                                  variant='outlined'
+                                  id="outlined-basic"
+                                  label="message"
+                                  variant="outlined"
                                 />
                               </Grid>
                               <br />
@@ -225,7 +225,7 @@ function Useractivities() {
                                   justifyContent: "center",
                                 }}
                               >
-                                <Button variant='outlined'>
+                                <Button variant="outlined">
                                   Participate as volunteer
                                 </Button>
                               </Grid>
@@ -238,9 +238,9 @@ function Useractivities() {
                             <Grid Container sx={{ width: "50%" }}>
                               <Grid>
                                 <TextField
-                                  id='outlined-basic'
-                                  label='Amount'
-                                  variant='outlined'
+                                  id="outlined-basic"
+                                  label="Amount"
+                                  variant="outlined"
                                   sx={{ width: "100%" }}
                                 />
 
@@ -248,23 +248,23 @@ function Useractivities() {
                                 <br />
                                 <TextField
                                   disabled
-                                  id='outlined-disabled'
-                                  label='Activity Detail'
+                                  id="outlined-disabled"
+                                  label="Activity Detail"
                                   defaultValue={selectedActivityName}
                                 />
                                 <br />
                                 <br />
                                 <TextField
                                   disabled
-                                  id='outlined-disabled'
-                                  label='Funds Required'
+                                  id="outlined-disabled"
+                                  label="Funds Required"
                                   defaultValue={selectedFunds} // Use selected funds value
                                 />
                                 <br />
                                 <br />
 
                                 <center>
-                                  <Button variant='outlined'>Submit</Button>
+                                  <Button variant="outlined">Submit</Button>
                                 </center>
                               </Grid>
                             </Grid>
