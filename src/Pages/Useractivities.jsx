@@ -25,8 +25,20 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
-import { db } from "../config/firebase";
-import { getDocs, collection, deleteDoc } from "firebase/firestore";
+import { db, auth } from "../config/firebase";
+
+import {
+  query,
+  where,
+  getDocs,
+  collection,
+  deleteDoc,
+  doc,
+  addDoc,
+  updateDoc,
+  increment,
+  getDoc,
+} from "firebase/firestore"; // Import Firebase functions
 import { useEffect } from "react";
 
 function CustomTabPanel(props) {
@@ -66,9 +78,12 @@ function Useractivities() {
   const [open, setOpen] = React.useState(false);
   const [selectedActivityName, setSelectedActivityName] = React.useState(""); // Existing state
   const [selectedFunds, setSelectedFunds] = React.useState(""); // New state for funds
+  const [donationAmount, setDonationAmount] = React.useState(""); // New state for donation amount
+  const [selectedActivityId, setSelectedActivityId] = React.useState(""); // New state for Firestore document ID
 
-  const handleClickOpen = (activityName, funds) => {
-    setSelectedActivityName(activityName); // Set the selected activity name
+  const handleClickOpen = (activityId, activityName, funds) => {
+    setSelectedActivityName(activityName); // Set the activity name for display
+    setSelectedActivityId(activityId); // Set the Firestore document ID
     setSelectedFunds(funds); // Set the selected funds value
     setOpen(true);
   };
@@ -104,6 +119,125 @@ function Useractivities() {
   useEffect(() => {
     getactivity();
   }, []);
+
+  const handleVolunteerParticipation = async () => {
+    try {
+      const userEmail = auth?.currentUser?.email; // Replace with the logged-in user's email
+      const userQuery = query(
+        collection(db, "userinfo"),
+        where("email", "==", userEmail)
+      );
+      const userSnapshot = await getDocs(userQuery);
+
+      if (userSnapshot.empty) {
+        alert("User information not found.");
+        return;
+      }
+
+      // Extract the user's name from the query result
+      const userDoc = userSnapshot.docs[0];
+      const volunteerDetails = {
+        activityId: selectedActivityId, // Reference to the activity
+        userName: userDoc.data().name, // Replace with actual user details (e.g., from a form or auth)
+        userEmail: auth?.currentUser?.email, // Replace with actual user details
+        message: "I want to volunteer!", // Example message (can be taken from a TextField)
+        timestamp: new Date(), // Add a timestamp
+      };
+
+      // Reference the specific activity document
+      // const activityDocRef = doc(db, "activities", selectedActivityName);
+
+      // Add the volunteer details to the "volunteers" subcollection
+      const volunteersCollectionRef = collection(db, "volunteers");
+      await addDoc(volunteersCollectionRef, volunteerDetails);
+
+      alert("Thank you for volunteering!");
+      setOpen(false); // Close the dialog box
+    } catch (error) {
+      console.error("Error adding volunteer details: ", error);
+      alert("Failed to submit your participation. Please try again.");
+    }
+  };
+
+  const handleContribute = async (amount) => {
+    if (amount > selectedFunds) {
+      alert("The donation amount cannot exceed the required funds.");
+      return;
+    }
+
+    try {
+      const userEmail = auth?.currentUser?.email; // Get the logged-in user's email
+      const userQuery = query(
+        collection(db, "userinfo"),
+        where("email", "==", userEmail)
+      );
+      const userSnapshot = await getDocs(userQuery);
+
+      if (userSnapshot.empty) {
+        alert("User information not found.");
+        return;
+      }
+
+      // Extract the user's name from the query result
+      const userDoc = userSnapshot.docs[0];
+      const userName = userDoc.data().name;
+
+      // Reference the specific activity document using its Firestore ID
+      const activityDocRef = doc(db, "activities", selectedActivityId);
+
+      // Fetch the current activity document to check the funds field
+      const activitySnapshot = await getDoc(activityDocRef);
+      if (!activitySnapshot.exists()) {
+        alert("Activity not found.");
+        return;
+      }
+
+      const activityData = activitySnapshot.data();
+      const currentFunds = activityData.funds || 0; // Default to 0 if funds is not set
+
+      // Ensure funds is a valid number before updating
+      if (typeof currentFunds !== "number") {
+        await updateDoc(activityDocRef, { funds: 0 });
+      }
+
+      // Deduct the donated amount from the "funds" field
+      await updateDoc(activityDocRef, {
+        funds: increment(-amount), // Deduct the donated amount from the required funds
+      });
+
+      // Add the contribution to the "contributions" collection
+      const contributionsCollectionRef = collection(db, "contributions");
+      await addDoc(contributionsCollectionRef, {
+        activityId: selectedActivityId, // Reference to the activity
+        userName: userName, // Use the fetched user name
+        amount: amount, // The donated amount
+        timestamp: new Date(), // The current timestamp
+      });
+
+      alert("Thank you for your contribution!");
+      setOpen(false); // Close the dialog box
+    } catch (error) {
+      console.error("Error processing contribution: ", error);
+      alert("Failed to process your contribution. Please try again.");
+    }
+  };
+
+  const onsubmit = async () => {
+    try {
+      await addDoc(activitylistref, {
+        activityname: data.name,
+        contributors: data.cont,
+        description: data.desc,
+        funds: Number(data.funds) || 0, // Ensure funds is initialized as a number
+        location: data.loc,
+      });
+      alert("Activity added successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to add activity. Please try again.");
+    }
+  };
+
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "3%" }}>
       <TableContainer component={Paper}>
@@ -121,7 +255,7 @@ function Useractivities() {
           <TableBody>
             {activity.map((row) => (
               <TableRow
-                key={row.activityname}
+                key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell align='center'>{row.activityname}</TableCell>
@@ -131,14 +265,14 @@ function Useractivities() {
                 <TableCell align='center'>{row.funds}</TableCell>
                 <TableCell align='center'>{row.location}</TableCell>
 
-                <TableCell align='center'>{row.discription}</TableCell>
+                <TableCell align='center'>{row.description}</TableCell>
                 <TableCell align='center'>
                   <React.Fragment>
                     <Button
                       variant='outlined'
                       onClick={() =>
-                        handleClickOpen(row.activityname, row.funds)
-                      } // Pass activityname and funds
+                        handleClickOpen(row.id, row.activityname, row.funds)
+                      } // Pass activityId, activityname, and funds
                     >
                       Participate
                     </Button>
@@ -225,7 +359,10 @@ function Useractivities() {
                                   justifyContent: "center",
                                 }}
                               >
-                                <Button variant='outlined'>
+                                <Button
+                                  variant='outlined'
+                                  onClick={handleVolunteerParticipation}
+                                >
                                   Participate as volunteer
                                 </Button>
                               </Grid>
@@ -242,6 +379,9 @@ function Useractivities() {
                                   label='Amount'
                                   variant='outlined'
                                   sx={{ width: "100%" }}
+                                  onChange={(e) =>
+                                    setDonationAmount(e.target.value)
+                                  } // Capture the donation amount
                                 />
 
                                 <br />
@@ -264,7 +404,14 @@ function Useractivities() {
                                 <br />
 
                                 <center>
-                                  <Button variant='outlined'>Submit</Button>
+                                  <Button
+                                    variant='outlined'
+                                    onClick={() =>
+                                      handleContribute(Number(donationAmount))
+                                    } // Pass the donation amount
+                                  >
+                                    Submit
+                                  </Button>
                                 </center>
                               </Grid>
                             </Grid>
