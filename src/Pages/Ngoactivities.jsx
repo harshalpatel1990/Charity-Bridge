@@ -102,9 +102,11 @@ function Ngoactivities() {
     setOpendailogdel(false);
   };
   const [opendailogedit, setOpendailogedit] = React.useState(false);
+  const [selectedActivity, setSelectedActivity] = useState(null); // State to store the selected activity for editing
 
-  const handleClickOpendailogedit = () => {
-    setOpendailogedit(true);
+  const handleClickOpendailogedit = (activity) => {
+    setSelectedActivity(activity); // Set the selected activity for editing
+    setOpendailogedit(true); // Open the edit dialog
   };
 
   const handleClosedailogedit = () => {
@@ -142,7 +144,7 @@ function Ngoactivities() {
       const data = await getDocs(activitylistref);
       const filterdata = data.docs.map((doc) => ({
         ...doc.data(),
-        id: doc.id,//if you want id from the database
+        id: doc.id, //if you want id from the database
       }));
       setactivity(filterdata); // Update the state with the latest data
     } catch (err) {
@@ -505,7 +507,7 @@ function Ngoactivities() {
 
                     <Button
                       onClick={() => {
-                        handleClickOpendailogedit();
+                        handleClickOpendailogedit(row);
                       }}
                     >
                       <Tooltip title="Edit">
@@ -546,7 +548,11 @@ function Ngoactivities() {
                             </Button>
                           </Toolbar>
                         </AppBar>
-                        <Editdetail />
+                        <Editdetail
+                          selectedActivity={selectedActivity} // Pass the selected activity
+                          onUpdate={getactivity} // Callback to refresh the activity list
+                          onclose={handleClosedailogedit} // Callback to close the dialog
+                        />
                       </Dialog>
                     </React.Fragment>
                     <Button

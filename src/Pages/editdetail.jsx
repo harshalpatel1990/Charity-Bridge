@@ -11,17 +11,16 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import "./Form.css";
 import { db } from "../config/firebase";
-import { getDocs, collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useEffect } from "react";
-function Editdetail() {
+function Editdetail({ selectedActivity, onUpdate, onclose }) {
   let [data, setdata] = React.useState({
-    name: "",
-    loc: "",
-    desc: "",
-    funds: "",
-    cont: "",
-    date:""
+    name: selectedActivity?.activityname || "",
+    loc: selectedActivity?.location || "",
+    desc: selectedActivity?.description || "",
+    funds: selectedActivity?.funds || "",
+    cont: selectedActivity?.contributors || "",
   });
 
   let gridStyles = {
@@ -44,16 +43,37 @@ function Editdetail() {
         description: data.desc,
         funds: data.funds,
         location: data.loc,
-        date:data.date
+        date: data.date,
       });
     } catch (err) {
       console.error(err);
     }
   };
 
-  const updateactivity = async () => {
-    
-  }
+  const handleSubmit = async () => {
+    try {
+      if (!selectedActivity || !selectedActivity.id) {
+        alert("No activity selected for editing.");
+        return;
+      }
+
+      const activityDocRef = doc(db, "activities", selectedActivity.id);
+      await updateDoc(activityDocRef, {
+        activityname: data.name,
+        contributors: Number(data.cont),
+        description: data.desc,
+        funds: Number(data.funds),
+        location: data.loc,
+      });
+
+      alert("Activity updated successfully!");
+      onUpdate(); // Refresh the activity list
+      onclose(); // Close the edit dialog
+    } catch (err) {
+      console.error("Error updating activity: ", err);
+      alert("Error updating activity. Please try again.");
+    }
+  };
 
   return (
     <div
@@ -81,7 +101,11 @@ function Editdetail() {
           </Grid>
           <Grid item xs={12} sm={12} md={4} lg={4} key={1} sx={gridStyles}>
             <LocalizationProvider dateAdapter={AdapterDayjs} className="date">
-              <DatePicker onChange={handleChange} label="Start Date" style={{ width: "100%" }} />
+              <DatePicker
+                onChange={handleChange}
+                label="Start Date"
+                style={{ width: "100%" }}
+              />
             </LocalizationProvider>
           </Grid>
 
@@ -139,11 +163,7 @@ function Editdetail() {
         <Button
           style={{ marginTop: "2%" }}
           variant="contained"
-          onClick= {() =>{
-            console.log(data);
-            
-
-          }}
+          onClick={handleSubmit}
         >
           Submit
         </Button>
