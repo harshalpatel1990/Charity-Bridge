@@ -23,15 +23,16 @@ function Volunteer() {
 
   return (
     <>
-      <Grid container alignItems="center" justifyContent="center" spacing={2}>
-        <Grid item xs={12} sm={10} md={8} lg={6} xl={4}>
-          <TableContainer component={Paper} sx={{ width: "100%" }}>
+      <Grid container spacing={2} sx={{ padding: "20px" }}>
+        <Grid item xs={12} md={12} lg={12}>
+          <TableContainer sx={{ width: "100%" }}>
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell sx={{ padding: "16px 24px" }}>Name</TableCell>
                   <TableCell sx={{ padding: "16px 24px" }}>Mobile</TableCell>
                   <TableCell sx={{ padding: "16px 24px" }}>Email</TableCell>
+                  <TableCell sx={{ padding: "16px 24px" }}></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -58,7 +59,11 @@ function Volunteer() {
                       {row.email}
                     </TableCell>
                     <TableCell>
-                      <Button variant="outlined">View Details</Button>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} md={12} lg={12}>
+                          <Button variant="outlined">View Details</Button>
+                        </Grid>
+                      </Grid>
                     </TableCell>
                   </TableRow>
                 ))}
