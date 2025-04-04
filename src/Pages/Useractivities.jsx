@@ -26,11 +26,12 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
 import { db, auth } from "../config/firebase";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
 
 import {
   query,
   where,
-  getDocs, 
+  getDocs,
   collection,
   deleteDoc,
   doc,
@@ -465,6 +466,14 @@ function Useractivities() {
                                 </p>
                                 <p>
                                   <strong>Contact:</strong> {ngoDetails.contact}
+                                </p>
+                                <p>
+                                  <strong>Verification Status:</strong>{" "}
+                                  {ngoDetails.verifyngo && (
+                                    <span style={{ color: "#5DADE2" }}>
+                                      Verified <DoneAllIcon />
+                                    </span>
+                                  )}
                                 </p>
                               </div>
                             ) : (

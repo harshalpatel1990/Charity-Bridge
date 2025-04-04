@@ -89,7 +89,7 @@ function Useregister() {
         city: data.city,
         contact: data.contact,
         gender: data.gender,
-        userId: userCredential.user.uid, // Store the user's UID for reference
+        verifyuser: false,
       });
 
       alert("User registered successfully!");

@@ -126,12 +126,12 @@ export default function NavBar() {
   // console.log(window.location);
 
   const getMenus = () => {
-    if (window.location.pathname.includes("ngo")) {
-      return arr;
+    if (window.location.pathname.includes("admin")) {
+      return AdminItems;
     } else if (window.location.pathname.includes("user")) {
       return ContributorItems;
-    } else if (window.location.pathname.includes("admin")) {
-      return AdminItems;
+    } else if (window.location.pathname.includes("ngo")) {
+      return arr;
     }
   }
 

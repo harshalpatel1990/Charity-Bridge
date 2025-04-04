@@ -6,7 +6,8 @@ import Button from "@mui/material/Button";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardActions from "@mui/material/CardActions";
 import { db } from "../config/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore"; // Import Firestore functions
+import TaskAltIcon from '@mui/icons-material/TaskAlt'; // Import TaskAltIcon
 
 function Verifyngo() {
   const [registerdata, setRegisterData] = useState([]); // State to store fetched data
@@ -28,6 +29,26 @@ function Verifyngo() {
 
     fetchData();
   }, []);
+
+  // Handle Verify Button Click
+  const handleVerify = async (id) => {
+    try {
+      const ngoDocRef = doc(db, "ngoinfo", id); // Reference to the specific document
+      await updateDoc(ngoDocRef, {
+        verifyngo: true, // Update the 'verifyngo' field to true
+      });
+      alert("NGO verified successfully!");
+      // Optionally, update the local state to reflect the change
+      setRegisterData((prevData) =>
+        prevData.map((item) =>
+          item.id === id ? { ...item, verifyngo: true } : item
+        )
+      );
+    } catch (error) {
+      console.error("Error verifying NGO:", error);
+      alert("Failed to verify NGO. Please try again.");
+    }
+  };
 
   return (
     <div
@@ -57,7 +78,9 @@ function Verifyngo() {
                     mb: 2,
                   }}
                 >
-                  NGO Name: {item.ngoname}
+                  NGO Name: {item.ngoname} {" "}
+                  {item.verifyngo ? <TaskAltIcon/> : null}
+
                 </Typography>
 
                 {/* User Details */}
@@ -115,7 +138,7 @@ function Verifyngo() {
                 size="small"
                 color="primary"
                 sx={{ fontFamily: "cursive" }}
-                
+                onClick={() => handleVerify(item.id)} // Pass the document ID
               >
                 Verify
               </Button>

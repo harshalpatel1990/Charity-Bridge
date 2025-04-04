@@ -75,7 +75,7 @@ function Ngoregister() {
         yearofestablishment: data.yearofestablishment,
         city: data.city,
         contact: data.contact,
-        userId: userCredential.user.uid, // Store the user's UID for reference
+        verifyngo: false,
       });
 
       alert("NGO registered successfully!");
