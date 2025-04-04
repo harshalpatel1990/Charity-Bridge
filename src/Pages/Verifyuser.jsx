@@ -1,45 +1,102 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import CardActionArea from '@mui/material/CardActionArea';
-import CardActions from '@mui/material/CardActions';
-import image from "./child.jpg"
+import React, { useEffect, useState } from "react";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import CardActionArea from "@mui/material/CardActionArea";
+import CardActions from "@mui/material/CardActions";
+import { db } from "../config/firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
-function Verifyuser() {
+function VerifyUser() {
+  const [userdata, setUserData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "userinfo"));
+        const data = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setUserData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <div style={{display:"flex" , justifyContent:"center",alignItems:"center" }}>
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "20px",
+        justifyContent: "center",
+        padding: "20px",
+      }}
+    >
+      {loading ? (
+          <DotLottieReact
+          width="300px"
+          src="https://lottie.host/b7474075-e871-4bd4-bc13-3cfadd9b52e6/UZLtIAKm9x.lottie"
+          loop
+          autoplay
+        />
+      ) : userdata.length === 0 ? (
+        <Typography variant="h6" sx={{ fontFamily: "cursive" }}>No users found.</Typography>
+      ) : (
+        userdata.map((item) => (
+          <Card key={item.id} sx={{ maxWidth: 345 }}>
+            <CardActionArea>
+              <CardContent sx={{ padding: "20px" }}>
+                <Typography
+                  variant="h5"
+                  component="div"
+                  sx={{ fontWeight: "bold", color: "primary.main", mb: 2, fontFamily: "cursive" }}
+                >
+                  Name: {item.name}
+                </Typography>
 
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="250"
-          image={image}
-          alt="green iguana"
-          style={{display:"flext" , justifyContent:"center",alignItems:"center"}}
-          />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
-          </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Verify
-        </Button>
-      </CardActions>
-    </Card>
-          </div>
-    
-  )
+                <Typography variant="body1" sx={{ mb: 1, fontFamily: "cursive" }}>
+                  <strong>Username:</strong> {item.username}
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 1, fontFamily: "cursive" }}>
+                  <strong>User ID:</strong> {item.userId}
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 1, fontFamily: "cursive" }}>
+                  <strong>Age:</strong> {item.age}
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 1, fontFamily: "cursive" }}>
+                  <strong>City:</strong> {item.city}
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 1, fontFamily: "cursive" }}>
+                  <strong>Contact:</strong> {item.contact}
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 1, fontFamily: "cursive" }}>
+                  <strong>Email:</strong> {item.email}
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 1, fontFamily: "cursive" }}>
+                  <strong>Gender:</strong> {item.gender}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions sx={{ display: "flex", justifyContent: "center" }}>
+              <Button size="small" color="primary" sx={{ fontFamily: "cursive" }}>
+                Verify
+              </Button>
+            </CardActions>
+          </Card>
+        ))
+      )}
+    </div>
+  );
 }
 
-export default Verifyuser;
+export default VerifyUser;

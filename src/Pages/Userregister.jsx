@@ -14,8 +14,9 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { Paper, Grid } from "@mui/material";
-import { auth } from "../config/firebase";
+import { auth, db } from "../config/firebase"; // Import Firestore (db)
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore"; // Import Firestore functions
 
 function Useregister() {
   const navigate = useNavigate();
@@ -30,12 +31,14 @@ function Useregister() {
     gender: "",
   });
   const [error, setError] = React.useState("");
+
   const handlechange = (e) => {
     setdata({ ...data, [e.target.name]: e.target.value });
   };
 
   const handleRegister = async () => {
     try {
+      // Validation checks
       if (!data.username) {
         setError("Username is required");
         return;
@@ -49,11 +52,11 @@ function Useregister() {
         return;
       }
       if (!data.name) {
-        setError("NGO Name is required");
+        setError("Name is required");
         return;
       }
       if (!data.age) {
-        setError("Year of Establishment is required");
+        setError("Age is required");
         return;
       }
       if (!data.city) {
@@ -64,23 +67,35 @@ function Useregister() {
         setError("Contact is required");
         return;
       }
-
       if (!data.gender) {
         setError("Gender is required");
         return;
       }
 
-      await createUserWithEmailAndPassword(
+      // Create user in Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(
         auth,
         data.email,
-        data.password,
-        data.name,
-        data.age,
-        data.city,
-        data.contact,
-        data.gender
+        data.password
       );
+
+      // Add user data to Firestore
+      const userinfoCollectionRef = collection(db, "userinfo"); // Reference to the 'userinfo' collection
+      await addDoc(userinfoCollectionRef, {
+        username: data.username,
+        email: data.email,
+        name: data.name,
+        age: data.age,
+        city: data.city,
+        contact: data.contact,
+        gender: data.gender,
+        userId: userCredential.user.uid, // Store the user's UID for reference
+      });
+
+      alert("User registered successfully!");
+      navigate("/user/login"); // Redirect to login page
     } catch (error) {
+      console.error("Error registering user: ", error);
       setError(error.message);
     }
   };
@@ -129,7 +144,7 @@ function Useregister() {
                 id="outlined-basic"
                 label="Password"
                 variant="outlined"
-                type="text"
+                type="password"
                 name="password"
                 onChange={handlechange}
               />
@@ -137,7 +152,6 @@ function Useregister() {
             </Grid>
             <Grid item xs={12} sm={12} md={4} key={0}>
               <br />
-
               <TextField
                 id="outlined-basic"
                 label="Name"
@@ -182,7 +196,6 @@ function Useregister() {
                 name="contact"
                 onChange={handlechange}
               />
-
               <br />
             </Grid>
             <Grid item xs={12} sm={12} md={4} key={0}>
@@ -204,7 +217,6 @@ function Useregister() {
                   <MenuItem value={"Female"}>Female</MenuItem>
                 </Select>
               </FormControl>
-
               <br />
             </Grid>
           </Grid>

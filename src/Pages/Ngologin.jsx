@@ -6,13 +6,15 @@ import { Grid, Paper, InputAdornment, IconButton } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LockIcon from "@mui/icons-material/Lock";
 import { auth } from "../config/firebase";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-
-
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 function Ngologin() {
   const navigate = useNavigate();
-  
+
   const [Error, setError] = React.useState("");
 
   const [data, setdata] = React.useState({
@@ -30,14 +32,14 @@ function Ngologin() {
   console.log(auth?.currentUser?.email);
   const signIn = async () => {
     try {
-    if (!data.email) {
-      setError("Email is required");
-      return;
-    }
-    if (!data.password) {
-      setError("Password is required");
-      return;
-    }
+      if (!data.email) {
+        setError("Email is required");
+        return;
+      }
+      if (!data.password) {
+        setError("Password is required");
+        return;
+      }
       await signInWithEmailAndPassword(auth, data.email, data.password);
     } catch (Error) {
       console.error(Error);
@@ -47,7 +49,6 @@ function Ngologin() {
     navigate("/ngo/dashboard");
     signIn();
   };
-
 
   return (
     <center>
@@ -67,6 +68,11 @@ function Ngologin() {
         <Grid container justifyContent="center">
           <div>
             <Grid item xs={12} sm={12} md={12} key={0}>
+              <DotLottieReact
+                src="https://lottie.host/0dd0333a-ce18-481a-bd7a-5b5acf483129/TADIRP0kgk.lottie"
+                loop
+                autoplay
+              />
               <TextField
                 id="outlined-basic"
                 label="Email"
@@ -102,26 +108,23 @@ function Ngologin() {
                 }}
               />
             </Grid>
-            <Button
-              variant="outlined"
-              onClick={login}
-            >
+            <Button variant="outlined" onClick={login}>
               Login
             </Button>
             {Error && <p style={{ color: "red" }}>{Error}</p>}
             <p>
-            Don't have account to register{" "}
-            <a
-              onClick={() => navigate("/ngo/register")}
-              style={{
-                cursor: "pointer",
-                color: "blue",
-                textDecoration: "underline",
-              }}
-            >
-              Click here!
-            </a>
-          </p>
+              Don't have account to register{" "}
+              <a
+                onClick={() => navigate("/ngo/register")}
+                style={{
+                  cursor: "pointer",
+                  color: "blue",
+                  textDecoration: "underline",
+                }}
+              >
+                Click here!
+              </a>
+            </p>
           </div>
         </Grid>
       </Paper>
@@ -129,7 +132,3 @@ function Ngologin() {
   );
 }
 export default Ngologin;
-
-
-
-

@@ -86,7 +86,7 @@ const NgoProfile = () => {
           <Button
             fullWidth
             variant="contained"
-            style={{ backgroundColor: "black" }}
+            style={{ backgroundColor: "#5DADE2" }}
             onClick={() => setIsEditing(!isEditing)}
           >
             {isEditing ? "Save Profile" : "Edit Profile"}

@@ -30,7 +30,7 @@ import { db, auth } from "../config/firebase";
 import {
   query,
   where,
-  getDocs,
+  getDocs, 
   collection,
   deleteDoc,
   doc,
@@ -46,7 +46,7 @@ function CustomTabPanel(props) {
 
   return (
     <div
-      role='tabpanel'
+      role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
@@ -71,7 +71,7 @@ function a11yProps(index) {
 }
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />;
+  return <Slide direction="up" ref={ref} {...props} />;
 });
 
 function Useractivities() {
@@ -80,12 +80,29 @@ function Useractivities() {
   const [selectedFunds, setSelectedFunds] = React.useState(""); // New state for funds
   const [donationAmount, setDonationAmount] = React.useState(""); // New state for donation amount
   const [selectedActivityId, setSelectedActivityId] = React.useState(""); // New state for Firestore document ID
+  const [ngoDetails, setNgoDetails] = React.useState(null); // State to store NGO details
 
-  const handleClickOpen = (activityId, activityName, funds) => {
+  const handleClickOpen = async (activityId, activityName, funds, ngoid) => {
     setSelectedActivityName(activityName); // Set the activity name for display
     setSelectedActivityId(activityId); // Set the Firestore document ID
     setSelectedFunds(funds); // Set the selected funds value
     setOpen(true);
+
+    try {
+      // Query the 'ngoinfo' collection to fetch NGO details by ngoid
+      const ngoDocRef = doc(db, "ngoinfo", ngoid);
+      const ngoDoc = await getDoc(ngoDocRef);
+
+      if (ngoDoc.exists()) {
+        setNgoDetails(ngoDoc.data()); // Store the fetched NGO details in state
+      } else {
+        alert("NGO details not found.");
+        setNgoDetails(null); // Clear the state if no details are found
+      }
+    } catch (error) {
+      console.error("Error fetching NGO details: ", error);
+      alert("Failed to fetch NGO details. Please try again.");
+    }
   };
 
   const handleClose = () => {
@@ -115,7 +132,6 @@ function Useractivities() {
       console.error(err);
     }
   };
-  console.log("datafromactivity", activity);
   useEffect(() => {
     getactivity();
   }, []);
@@ -241,15 +257,15 @@ function Useractivities() {
   return (
     <div style={{ display: "flex", justifyContent: "center", padding: "3%" }}>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align='center'>Name</TableCell>
-              <TableCell align='center'>Contributors</TableCell>
-              <TableCell align='center'>Funds</TableCell>
-              <TableCell align='center'>Location</TableCell>
-              <TableCell align='center'>Description&nbsp;(g)</TableCell>
-              <TableCell align='center'></TableCell>
+              <TableCell align="center">Name</TableCell>
+              <TableCell align="center">Contributors</TableCell>
+              <TableCell align="center">Funds</TableCell>
+              <TableCell align="center">Location</TableCell>
+              <TableCell align="center">Description</TableCell>
+              <TableCell align="center"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -258,21 +274,27 @@ function Useractivities() {
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align='center'>{row.activityname}</TableCell>
-                <TableCell align='center' component='th' scope='row'>
+                <TableCell align="center">{row.activityname}</TableCell>
+                <TableCell align="center" component="th" scope="row">
                   {row.contributors}
                 </TableCell>
-                <TableCell align='center'>{row.funds}</TableCell>
-                <TableCell align='center'>{row.location}</TableCell>
+                <TableCell align="center">{row.funds}</TableCell>
+                <TableCell align="center">{row.location}</TableCell>
 
-                <TableCell align='center'>{row.description}</TableCell>
-                <TableCell align='center'>
+                <TableCell align="center">{row.description}</TableCell>
+                <TableCell align="center">
                   <React.Fragment>
                     <Button
-                      variant='outlined'
-                      onClick={() =>
-                        handleClickOpen(row.id, row.activityname, row.funds)
-                      } // Pass activityId, activityname, and funds
+                      variant="outlined"
+                      onClick={
+                        () =>
+                          handleClickOpen(
+                            row.id,
+                            row.activityname,
+                            row.funds,
+                            row.ngoid
+                          ) // Pass ngoid
+                      }
                     >
                       Participate
                     </Button>
@@ -282,20 +304,25 @@ function Useractivities() {
                       onClose={handleClose}
                       TransitionComponent={Transition}
                     >
-                      <AppBar sx={{ position: "relative" }}>
+                      <AppBar
+                        sx={{
+                          position: "relative",
+                          backgroundColor: "#5DADE2",
+                        }}
+                      >
                         <Toolbar>
                           <IconButton
-                            edge='start'
-                            color='inherit'
+                            edge="start"
+                            color="inherit"
                             onClick={handleClose}
-                            aria-label='close'
+                            aria-label="close"
                           >
                             <CloseIcon />
                           </IconButton>
 
                           <Button
                             autoFocus
-                            color='inherit'
+                            color="inherit"
                             onClick={handleClose}
                             sx={{ marginLeft: "auto" }} // Align the button to the right
                           >
@@ -308,10 +335,11 @@ function Useractivities() {
                           <Tabs
                             value={value}
                             onChange={handleChange}
-                            aria-label='basic tabs example'
+                            aria-label="basic tabs example"
                           >
-                            <Tab label='Volunteer' {...a11yProps(0)} />
-                            <Tab label='Contribute' {...a11yProps(1)} />
+                            <Tab label="Volunteer" {...a11yProps(0)} />
+                            <Tab label="Contribute" {...a11yProps(1)} />
+                            <Tab label="Ngo Details" {...a11yProps(2)} />
                           </Tabs>
                         </Box>
                         <CustomTabPanel value={value} index={0}>
@@ -327,8 +355,8 @@ function Useractivities() {
                               >
                                 <TextField
                                   disabled
-                                  id='outlined-disabled'
-                                  label='Activity Name'
+                                  id="outlined-disabled"
+                                  label="Activity Name"
                                   defaultValue={selectedActivityName} // Use selected activity name
                                 />
                               </Grid>
@@ -344,9 +372,9 @@ function Useractivities() {
                                 }}
                               >
                                 <TextField
-                                  id='outlined-basic'
-                                  label='message'
-                                  variant='outlined'
+                                  id="outlined-basic"
+                                  label="message"
+                                  variant="outlined"
                                 />
                               </Grid>
                               <br />
@@ -360,7 +388,7 @@ function Useractivities() {
                                 }}
                               >
                                 <Button
-                                  variant='outlined'
+                                  variant="outlined"
                                   onClick={handleVolunteerParticipation}
                                 >
                                   Participate as volunteer
@@ -375,9 +403,9 @@ function Useractivities() {
                             <Grid Container sx={{ width: "50%" }}>
                               <Grid>
                                 <TextField
-                                  id='outlined-basic'
-                                  label='Amount'
-                                  variant='outlined'
+                                  id="outlined-basic"
+                                  label="Amount"
+                                  variant="outlined"
                                   sx={{ width: "100%" }}
                                   onChange={(e) =>
                                     setDonationAmount(e.target.value)
@@ -388,16 +416,16 @@ function Useractivities() {
                                 <br />
                                 <TextField
                                   disabled
-                                  id='outlined-disabled'
-                                  label='Activity Detail'
+                                  id="outlined-disabled"
+                                  label="Activity Detail"
                                   defaultValue={selectedActivityName}
                                 />
                                 <br />
                                 <br />
                                 <TextField
                                   disabled
-                                  id='outlined-disabled'
-                                  label='Funds Required'
+                                  id="outlined-disabled"
+                                  label="Funds Required"
                                   defaultValue={selectedFunds} // Use selected funds value
                                 />
                                 <br />
@@ -405,7 +433,7 @@ function Useractivities() {
 
                                 <center>
                                   <Button
-                                    variant='outlined'
+                                    variant="outlined"
                                     onClick={() =>
                                       handleContribute(Number(donationAmount))
                                     } // Pass the donation amount
@@ -415,6 +443,33 @@ function Useractivities() {
                                 </center>
                               </Grid>
                             </Grid>
+                          </center>
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={2}>
+                          <center>
+                            {ngoDetails ? (
+                              <div>
+                                <h3>NGO Details</h3>
+                                <p>
+                                  <strong>Name:</strong> {ngoDetails.ngoname}
+                                </p>
+                                <p>
+                                  <strong>Email:</strong> {ngoDetails.email}
+                                </p>
+                                <p>
+                                  <strong>Year of Establishment:</strong>{" "}
+                                  {ngoDetails.yearofestablishment}
+                                </p>
+                                <p>
+                                  <strong>City:</strong> {ngoDetails.city}
+                                </p>
+                                <p>
+                                  <strong>Contact:</strong> {ngoDetails.contact}
+                                </p>
+                              </div>
+                            ) : (
+                              <p>No NGO details available.</p>
+                            )}
                           </center>
                         </CustomTabPanel>
                       </Box>

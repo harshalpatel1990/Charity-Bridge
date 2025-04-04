@@ -14,6 +14,8 @@ import { db } from "../config/firebase";
 import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useEffect } from "react";
+import Swal from "sweetalert2";
+
 function Editdetail({ selectedActivity, onUpdate, onclose }) {
   let [data, setdata] = React.useState({
     name: selectedActivity?.activityname || "",
@@ -66,7 +68,12 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
         location: data.loc,
       });
 
-      alert("Activity updated successfully!");
+      Swal.fire({
+        title: "Success!",
+        text: "your activity has been updated successfully.",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
       onUpdate(); // Refresh the activity list
       onclose(); // Close the edit dialog
     } catch (err) {
@@ -161,7 +168,7 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
         </Grid>
 
         <Button
-          style={{ marginTop: "2%" }}
+          style={{ marginTop: "2%", backgroundColor: "#5DADE2" }}
           variant="contained"
           onClick={handleSubmit}
         >

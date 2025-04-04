@@ -10,7 +10,7 @@ import { Button, Container, Grid } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
-import List from "@mui/material/List";
+import List from "@mui/material/List"; 
 import Divider from "@mui/material/Divider";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -18,7 +18,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
-import Ngoactivitydetail from "./ngoactivitydetail";
+import Ngoactivitydetail from "./Ngoactivitydetail";
 import Editdetail from "./editdetail";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -49,7 +49,7 @@ import {
 } from "firebase/firestore";
 import { useEffect } from "react";
 import Funds from "./Funds";
-import Volunteer from "./volunteer";
+import Volunteer from "./Volunteer";
 
 //for funds
 function createfunds(name, funds) {
@@ -285,7 +285,7 @@ function Ngoactivities() {
             onClick={handleClickOpen}
             sx={{
               marginLeft: "30px",
-              backgroundColor: "black",
+              backgroundColor: "#5DADE2",
               color: "white",
             }}
           >
@@ -307,7 +307,7 @@ function Ngoactivities() {
           onClose={handleClose}
           TransitionComponent={Transition}
         >
-          <AppBar sx={{ position: "relative" }}>
+          <AppBar sx={{ position: "relative", backgroundColor: "#5DADE2" }}>
             <Toolbar>
               <IconButton
                 edge="start"
@@ -350,7 +350,7 @@ function Ngoactivities() {
               {/* activity read from the firebase database and read from the firebase data base */}
               {activity.map((row) => (
                 <TableRow
-                  key={row.name}
+                  key={row.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
@@ -521,7 +521,12 @@ function Ngoactivities() {
                         onClose={handleClosedailogedit}
                         TransitionComponent={Transition}
                       >
-                        <AppBar sx={{ position: "relative" }}>
+                        <AppBar
+                          sx={{
+                            position: "relative",
+                            backgroundColor: "#5DADE2",
+                          }}
+                        >
                           <Toolbar>
                             <IconButton
                               edge="start"

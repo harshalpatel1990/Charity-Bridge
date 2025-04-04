@@ -10,8 +10,8 @@ import { experimentalStyled as styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import "./Form.css";
-import { db } from "../config/firebase";
-import { getDocs, collection, addDoc } from "firebase/firestore";
+import { db, auth } from "../config/firebase";
+import { getDocs, collection, addDoc, query, where } from "firebase/firestore";
 import { useState } from "react";
 import { useEffect } from "react";
 function Ngoactivitydetail() {
@@ -28,7 +28,6 @@ function Ngoactivitydetail() {
   let gridStyles = {
     padding: "7px",
   };
-
   const handleChange = (event) => {
     setdata({
       ...data,
@@ -36,15 +35,33 @@ function Ngoactivitydetail() {
     });
   };
   const activitylistref = collection(db, "activities");
-  
+
   const onsubmit = async () => {
     try {
+      const ngoinfoCollectionRef = collection(db, "ngoinfo");
+
+      // Query to find the logged-in NGO's document using their email
+      const ngoQuery = query(
+        ngoinfoCollectionRef,
+        where("email", "==", auth?.currentUser?.email)
+      );
+      const ngoSnapshot = await getDocs(ngoQuery);
+
+      if (ngoSnapshot.empty) {
+        alert("NGO information not found.");
+        return;
+      }
+
+      // Get the first document (assuming email is unique)
+      const ngoDoc = ngoSnapshot.docs[0];
+      const ngoId = ngoDoc.id;
       await addDoc(activitylistref, {
         activityname: data.name,
         contributors: data.cont,
-        discription: data.desc,
+        description: data.desc,
         funds: data.funds,
         location: data.loc,
+        ngoid: ngoId,
       });
     } catch (err) {
       console.error(err);
@@ -157,7 +174,7 @@ function Ngoactivitydetail() {
         </Grid>
 
         <Button
-          style={{ marginTop: "2%" }}
+          style={{ marginTop: "2%", backgroundColor: "#5DADE2" }}
           variant="contained"
           onClick={onsubmit}
         >
