@@ -7,8 +7,9 @@ import {
   Stack,
   Grid,
 } from "@mui/material";
-import { db } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 import { getDocs, collection } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Userprofile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -31,24 +32,46 @@ const Userprofile = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const ngocollectionref = collection(db, "userinfo");
   useEffect(() => {
       const getngoprofile = async () => {
         //red the data
         //set the data into fields
         try {
-          const data = await getDocs(ngocollectionref);
-          const filteredData = data.docs.map((doc) => ({
-            ...doc.data(),
-          
-          }));
-          setFormData(filteredData[0]);
-          console.log(filteredData);
+          const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+          console.log("No user is logged in.");
+          return;
+        }
+
+        const userEmail = currentUser.email; // Get the user's email
+        console.log("Current User Email:", userEmail);
+
+        // Query Firestore for the user document with the matching email
+        const userQuery = collection(db, "userinfo");
+        const data = await getDocs(userQuery);
+        const filteredData = data.docs
+          .map((doc) => ({ ...doc.data(), id: doc.id }))
+          .filter((user) => user.email === userEmail); // Match the email
+
+        if (filteredData.length > 0) {
+          setFormData(filteredData[0]); // Set the user's data
+        } else {
+          console.log("No user data found for the current user.");
+        }
         } catch (err) {
           console.log(err);
         }
       };
-      getngoprofile();
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          getngoprofile(); // Fetch user profile when logged in
+        } else {
+          console.log("User is not logged in.");
+        }
+      });
+  
+      return () => unsubscribe(); // Cleanup the listener
     }, []);
     console.log("FormData", formData);
   
