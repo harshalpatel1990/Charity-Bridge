@@ -7,7 +7,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardActions from "@mui/material/CardActions";
 import { db } from "../config/firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+
 
 function VerifyUser() {
   const [userdata, setUserData] = useState([]);
@@ -42,14 +42,7 @@ function VerifyUser() {
         padding: "20px",
       }}
     >
-      {loading ? (
-          <DotLottieReact
-          width="300px"
-          src="https://lottie.host/b7474075-e871-4bd4-bc13-3cfadd9b52e6/UZLtIAKm9x.lottie"
-          loop
-          autoplay
-        />
-      ) : userdata.length === 0 ? (
+      { userdata.length === 0 ? (
         <Typography variant="h6" sx={{ fontFamily: "cursive" }}>No users found.</Typography>
       ) : (
         userdata.map((item) => (
