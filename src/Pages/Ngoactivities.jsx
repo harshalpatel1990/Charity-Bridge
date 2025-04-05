@@ -60,7 +60,7 @@ function createvol(name, email, mobile) {
 }
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />;
+  return <Slide direction="up" ref={ref} {...props} />;
 });
 
 function Ngoactivities() {
@@ -247,7 +247,7 @@ function Ngoactivities() {
       <Grid container>
         <Grid item xs={12} md={5}>
           <Button
-            variant='outlined'
+            variant="outlined"
             onClick={handleClickOpen}
             sx={{
               marginLeft: "30px",
@@ -273,21 +273,21 @@ function Ngoactivities() {
           onClose={handleClose}
           TransitionComponent={Transition}
         >
-          <AppBar sx={{ color:"5dade2", position: "relative" }}>
+          <AppBar sx={{ color: "5dade2", position: "relative" }}>
             <Toolbar sx={{ backgroundColor: "#5dade2" }}>
               <IconButton
-                edge='start'
-                color='inherit'
+                edge="start"
+                color="inherit"
                 onClick={handleClose}
-                aria-label='close'
+                aria-label="close"
               >
                 <CloseIcon />
               </IconButton>
-              <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
+              <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                 New Activity
               </Typography>
 
-              <Button autoFocus color='inherit' onClick={handleClose}>
+              <Button autoFocus color="inherit" onClick={handleClose}>
                 save
               </Button>
             </Toolbar>
@@ -299,15 +299,15 @@ function Ngoactivities() {
         style={{ display: "flex", justifyContent: "center", marginTop: "3%" }}
       >
         <TableContainer component={Paper} sx={{ width: "80%" }}>
-          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell align='right'>Contributors</TableCell>
-                <TableCell align='right'>Funds</TableCell>
-                <TableCell align='right'>Location</TableCell>
-                <TableCell align='right'>Description</TableCell>
-                <TableCell align='right'></TableCell>
+                <TableCell align="right">Contributors</TableCell>
+                <TableCell align="right">Funds</TableCell>
+                <TableCell align="right">Location</TableCell>
+                <TableCell align="right">Description</TableCell>
+                <TableCell align="right"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -316,21 +316,21 @@ function Ngoactivities() {
                   key={row.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component='th' scope='row'>
+                  <TableCell component="th" scope="row">
                     {row.activityname}
                   </TableCell>
-                  <TableCell align='right'>{row.contributors}</TableCell>
-                  <TableCell align='right'>{row.funds}</TableCell>
-                  <TableCell align='right'>{row.location}</TableCell>
-                  <TableCell align='right'>{row.description}</TableCell>
-                  <TableCell align='right'>
+                  <TableCell align="right">{row.contributors}</TableCell>
+                  <TableCell align="right">{row.funds}</TableCell>
+                  <TableCell align="right">{row.location}</TableCell>
+                  <TableCell align="right">{row.description}</TableCell>
+                  <TableCell align="right">
                     <React.Fragment>
                       <Button
                         onClick={() => {
                           handleopenpg(row.id); // Pass the activity ID
                         }}
                       >
-                        <Tooltip title='Activity Progress'>
+                        <Tooltip title="Activity Progress">
                           <DonutLargeIcon sx={{ color: "5dade2" }} />
                         </Tooltip>
                       </Button>
@@ -343,23 +343,23 @@ function Ngoactivities() {
                         <AppBar sx={{ position: "relative" }}>
                           <Toolbar sx={{ backgroundColor: "#5dade2" }}>
                             <IconButton
-                              edge='start'
-                              color='inherit'
+                              edge="start"
+                              color="inherit"
                               onClick={handleclosepg}
-                              aria-label='close'
+                              aria-label="close"
                             >
                               <CloseIcon />
                             </IconButton>
                             <Typography
                               sx={{ ml: 2, flex: 1 }}
-                              variant='h6'
-                              component='div'
+                              variant="h6"
+                              component="div"
                             >
                               Activity Progress
                             </Typography>
                             <Button
                               autoFocus
-                              color='inherit'
+                              color="inherit"
                               onClick={handleclosepg}
                             >
                               save
@@ -374,13 +374,13 @@ function Ngoactivities() {
                             >
                               <TabList
                                 onChange={handleChange}
-                                aria-label='lab API tabs example'
+                                aria-label="lab API tabs example"
                               >
-                                <Tab label='Volunteers' value='1' />
-                                <Tab label='Funds' value='2' />
+                                <Tab label="Volunteers" value="1" />
+                                <Tab label="Funds" value="2" />
                               </TabList>
                             </Box>
-                            <TabPanel value='1'>
+                            <TabPanel value="1">
                               <div
                                 style={{
                                   display: "flex",
@@ -418,16 +418,37 @@ function Ngoactivities() {
                                           {volunteer.message} <br />
                                         </li>
                                       ))}
+                                    {activities
+                                      .filter(
+                                        (activity) =>
+                                          activity.id === selectedActivityId
+                                      )
+                                      .flatMap(
+                                        (activity) => activity.volunteers
+                                      ).length === 0 && (
+                                      <Typography
+                                        variant="body1"
+                                        sx={{
+                                          fontFamily: "cursive",
+                                          color: "text.secondary",
+                                          mt: 2,
+                                        }}
+                                      >
+                                        No volunteers participated.
+                                      </Typography>
+                                    )}
                                   </ul>
                                 </Paper>
                               </div>
                             </TabPanel>
-                            <TabPanel value='2'>
+                            <TabPanel value="2">
+                              <center>
+
                               <TableContainer
                                 component={Paper}
                                 sx={{ width: "50%" }}
-                              >
-                                <Table aria-label='simple table'>
+                                >
+                                <Table aria-label="simple table">
                                   <TableHead>
                                     <TableRow>
                                       <TableCell>Contributor</TableCell>
@@ -459,9 +480,33 @@ function Ngoactivities() {
                                           </TableCell>
                                         </TableRow>
                                       ))}
+                                    {activities
+                                      .filter(
+                                        (activity) =>
+                                          activity.id === selectedActivityId
+                                      )
+                                      .flatMap(
+                                        (activity) => activity.contributions
+                                      ).length === 0 && (
+                                        <TableRow>
+                                        <TableCell colSpan={3} align="center">
+                                          <Typography
+                                            variant="body1"
+                                            sx={{
+                                              fontFamily: "cursive",
+                                              color: "text.secondary",
+                                              mt: 2,
+                                            }}
+                                            >
+                                            No contributions made.
+                                          </Typography>
+                                        </TableCell>
+                                      </TableRow>
+                                    )}
                                   </TableBody>
                                 </Table>
                               </TableContainer>
+                                    </center>
                             </TabPanel>
                           </TabContext>
                         </Box>
@@ -469,12 +514,12 @@ function Ngoactivities() {
                     </React.Fragment>
 
                     <Button
-                      name='edit'
+                      name="edit"
                       onClick={() => {
                         handleClickOpendailogedit(row); // Pass the activity data
                       }}
                     >
-                      <Tooltip title='Edit'>
+                      <Tooltip title="Edit">
                         <ModeEditIcon sx={{ color: "5dade2" }} />
                       </Tooltip>
                     </Button>
@@ -488,17 +533,17 @@ function Ngoactivities() {
                         <AppBar sx={{ position: "relative" }}>
                           <Toolbar sx={{ backgroundColor: "#5dade2" }}>
                             <IconButton
-                              edge='start'
-                              color='inherit'
+                              edge="start"
+                              color="inherit"
                               onClick={handleClosedailogedit}
-                              aria-label='close'
+                              aria-label="close"
                             >
                               <CloseIcon />
                             </IconButton>
                             <Typography
                               sx={{ ml: 2, flex: 1 }}
-                              variant='h6'
-                              component='div'
+                              variant="h6"
+                              component="div"
                             >
                               Edit Activity
                             </Typography>
@@ -516,7 +561,7 @@ function Ngoactivities() {
                         handleClickOpendailog(row.id); // Pass the activity ID
                       }}
                     >
-                      <Tooltip title='Delete'>
+                      <Tooltip title="Delete">
                         <DeleteIcon sx={{ color: "5dade2" }} />
                       </Tooltip>
                     </Button>
@@ -525,8 +570,8 @@ function Ngoactivities() {
                       <Dialog
                         open={opendailogdel}
                         onClose={handleClosedailog}
-                        aria-labelledby='alert-dialog-title'
-                        aria-describedby='alert-dialog-description'
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
                         BackdropProps={{
                           style: {
                             backgroundColor: "transparent",
@@ -534,11 +579,11 @@ function Ngoactivities() {
                           },
                         }}
                       >
-                        <DialogTitle id='alert-dialog-title'>
+                        <DialogTitle id="alert-dialog-title">
                           {"Confirm Delete?"}
                         </DialogTitle>
                         <DialogContent>
-                          <DialogContentText id='alert-dialog-description'>
+                          <DialogContentText id="alert-dialog-description">
                             Are you sure you want to delete this activity? This
                             action cannot be undone.
                           </DialogContentText>
