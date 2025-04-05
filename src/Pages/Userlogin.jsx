@@ -20,26 +20,35 @@ function Userlogin() {
     setdata({ ...data, [e.target.name]: e.target.value });
   };
   console.log(auth?.currentUser?.email);
-    const signIn = async () => {
+  const signIn = async () => {
+    if (!data.email) {
+      setError("Email is required");
+      return Promise.reject();  // return reject so login() knows something went wrong
+    }
+    if (!data.password) {
+      setError("Password is required");
+      return Promise.reject();
+    }
+    try {
+      await signInWithEmailAndPassword(auth, data.email, data.password);
+    } catch (error) {
+      console.error(error);
+      throw error;  // throw error so login() can catch it
+    }
+  };
+    const login = async () => {
       try {
-      if (!data.email) {
-        setError("Email is required");
-        return;
-      }
-      if (!data.password) {
-        setError("Password is required");
-        return;
-      }
-        await signInWithEmailAndPassword(auth, data.email, data.password);
-      } catch (Error) {
-        console.error(Error);
+        await signIn();  // First wait for sign-in
+        const idToken = await auth.currentUser.getIdToken(); // Then get the access token
+        console.log("Access Token:", idToken);
+    
+        navigate("/user/dashboard"); // After successful login + token fetching
+      } catch (error) {
+        console.error("Login failed:", error);
+        setError("Login failed. Please check your credentials.");
       }
     };
-    const login = () => {
-      navigate("/user/dashboard");
-      signIn();
-    };
-
+    
   return (
     <div>
       {" "}
