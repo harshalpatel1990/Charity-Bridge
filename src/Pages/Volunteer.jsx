@@ -14,58 +14,49 @@ function Volunteer() {
   }
 
   const rowsv = [
-    
+    createvol("Frozen yoghurt", 159, 3),
+    createvol("Ice cream sandwich", 237, 4),
+    createvol("Eclair", 262, 3),
+    createvol("Cupcake", 305, 3),
+    createvol("Gingerbread", 35, 2),
   ];
 
   return (
     <>
       <Grid container spacing={2} sx={{ padding: "20px" }}>
         <Grid item xs={12} md={12} lg={12}>
-          <TableContainer sx={{ width: "100%" }}>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell sx={{ padding: "16px 24px" }}>Name</TableCell>
-                  <TableCell sx={{ padding: "16px 24px" }}>Mobile</TableCell>
-                  <TableCell sx={{ padding: "16px 24px" }}>Email</TableCell>
-                  <TableCell sx={{ padding: "16px 24px" }}></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rowsv.map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{
-                      "&:last-child td, &:last-child th": {
-                        border: 0,
-                      },
-                    }}
-                  >
-                    <TableCell
-                      sx={{ padding: "16px 24px" }}
-                      component="th"
-                      scope="row"
-                    >
-                      {row.name}
-                    </TableCell>
-                    <TableCell sx={{ padding: "16px 24px" }}>
-                      {row.mobile}
-                    </TableCell>
-                    <TableCell sx={{ padding: "16px 24px" }}>
-                      {row.email}
-                    </TableCell>
-                    <TableCell>
-                      <Grid container spacing={2}>
-                        <Grid item xs={12} md={12} lg={12}>
-                          <Button variant="outlined">View Details</Button>
-                        </Grid>
-                      </Grid>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+        <Paper
+                                  sx={{
+                                    boxShadow: "10px 10px 20px",
+                                    borderRadius: 10,
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    width: "50%",
+                                    flexWrap: "wrap",
+                                  }}
+                                >
+                                  <ul>
+                                    {activities
+                                      .filter(
+                                        (activity) =>
+                                          activity.id === selectedActivityId
+                                      ) // Filter by selected activity ID
+                                      .flatMap(
+                                        (activity) => activity.volunteers
+                                      ) // Get volunteers for the activity
+                                      .map((volunteer, index) => (
+                                        <li key={index}>
+                                          <strong>Name:</strong>{" "}
+                                          {volunteer.userName} <br />
+                                          <strong>Email:</strong>{" "}
+                                          {volunteer.userEmail} <br />
+                                          <strong>Message:</strong>{" "}
+                                          {volunteer.message} <br />
+                                        </li>
+                                      ))}
+                                  </ul>
+                                  </Paper>
         </Grid>
       </Grid>
     </>
