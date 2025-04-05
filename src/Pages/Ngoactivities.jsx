@@ -341,7 +341,7 @@ function Ngoactivities() {
                         TransitionComponent={Transition}
                       >
                         <AppBar sx={{ position: "relative" }}>
-                          <Toolbar>
+                          <Toolbar sx={{ backgroundColor: "#5dade2" }}>
                             <IconButton
                               edge='start'
                               color='inherit'
@@ -486,7 +486,7 @@ function Ngoactivities() {
                         TransitionComponent={Transition}
                       >
                         <AppBar sx={{ position: "relative" }}>
-                          <Toolbar>
+                          <Toolbar sx={{ backgroundColor: "#5dade2" }}>
                             <IconButton
                               edge='start'
                               color='inherit'
