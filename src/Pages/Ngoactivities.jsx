@@ -10,7 +10,7 @@ import { Button, Container, Grid } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
-import List from "@mui/material/List"; 
+import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -18,7 +18,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
-import Ngoactivitydetail from "./Ngoactivitydetail";
+import Ngoactivitydetail from "./ngoactivitydetail";
 import Editdetail from "./editdetail";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -48,8 +48,6 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { useEffect } from "react";
-import Funds from "./Funds";
-import Volunteer from "./Volunteer";
 
 //for funds
 function createfunds(name, funds) {
@@ -61,23 +59,8 @@ function createvol(name, email, mobile) {
   return { name, email, mobile };
 }
 
-const rowsf = [
-  createfunds("Frozen yoghurt", 159),
-  createfunds("Ice cream sandwich", 237),
-  createfunds("Eclair", 262),
-  createfunds("Cupcake", 305),
-  createfunds("Gingerbread", 35),
-  createfunds("Total"),
-];
-const rowsv = [
-  createvol("Frozen yoghurt", 159, 3),
-  createvol("Ice cream sandwich", 237, 4),
-  createvol("Eclair", 262, 3),
-  createvol("Cupcake", 305, 3),
-  createvol("Gingerbread", 35, 2),
-];
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 
 function Ngoactivities() {
@@ -102,10 +85,9 @@ function Ngoactivities() {
     setOpendailogdel(false);
   };
   const [opendailogedit, setOpendailogedit] = React.useState(false);
-  const [selectedActivity, setSelectedActivity] = useState(null); // State to store the selected activity for editing
 
   const handleClickOpendailogedit = (activity) => {
-    setSelectedActivity(activity); // Set the selected activity for editing
+    setSelectedActivity(activity); // Set the selected activity data
     setOpendailogedit(true); // Open the edit dialog
   };
 
@@ -116,6 +98,7 @@ function Ngoactivities() {
   const [opendailogpg, setOpendailogpg] = React.useState(false);
 
   const [selectedActivityId, setSelectedActivityId] = useState(""); // State to store the selected activity ID
+  const [selectedActivity, setSelectedActivity] = useState(null); // State to store the selected activity data
 
   const handleopenpg = (activityId) => {
     setSelectedActivityId(activityId); // Set the selected activity ID
@@ -144,7 +127,7 @@ function Ngoactivities() {
       const data = await getDocs(activitylistref);
       const filterdata = data.docs.map((doc) => ({
         ...doc.data(),
-        id: doc.id, //if you want id from the database
+        id: doc.id,
       }));
       setactivity(filterdata); // Update the state with the latest data
     } catch (err) {
@@ -227,22 +210,6 @@ function Ngoactivities() {
     fetchActivitiesWithDetails();
   }, []);
 
-  const onsubmit = async () => {
-    try {
-      await addDoc(activitylistref, {
-        activityname: data.name,
-        contributors: data.cont,
-        description: data.desc,
-        funds: Number(data.funds) || 0, // Ensure funds is initialized as a number
-        location: data.loc,
-      });
-      alert("Activity added successfully!");
-    } catch (err) {
-      console.error(err);
-      alert("Failed to add activity. Please try again.");
-    }
-  };
-
   const handleContribute = async (amount) => {
     if (amount > selectedFunds) {
       alert("The donation amount cannot exceed the required funds.");
@@ -279,13 +246,12 @@ function Ngoactivities() {
     <div>
       <Grid container>
         <Grid item xs={12} md={5}>
-          {/* for add activity start  */}
           <Button
-            variant="outlined"
+            variant='outlined'
             onClick={handleClickOpen}
             sx={{
               marginLeft: "30px",
-              backgroundColor: "#5DADE2",
+              backgroundColor: "black",
               color: "white",
             }}
           >
@@ -307,68 +273,64 @@ function Ngoactivities() {
           onClose={handleClose}
           TransitionComponent={Transition}
         >
-          <AppBar sx={{ position: "relative", backgroundColor: "#5DADE2" }}>
+          <AppBar sx={{ position: "relative" }}>
             <Toolbar>
               <IconButton
-                edge="start"
-                color="inherit"
+                edge='start'
+                color='inherit'
                 onClick={handleClose}
-                aria-label="close"
+                aria-label='close'
               >
                 <CloseIcon />
               </IconButton>
-              <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
                 New Activity
               </Typography>
 
-              <Button autoFocus color="inherit" onClick={handleClose}>
+              <Button autoFocus color='inherit' onClick={handleClose}>
                 save
               </Button>
             </Toolbar>
           </AppBar>
           <Ngoactivitydetail />
-          {/* adding activity close dialogue close */}
         </Dialog>
       </React.Fragment>
-      {/* NGO activities table adding and deleteing and editing */}
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "3%" }}
       >
         <TableContainer component={Paper} sx={{ width: "80%" }}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell align="right">Contributors</TableCell>
-                <TableCell align="right">Funds</TableCell>
-                <TableCell align="right">Location</TableCell>
-                <TableCell align="right">Description</TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell align='right'>Contributors</TableCell>
+                <TableCell align='right'>Funds</TableCell>
+                <TableCell align='right'>Location</TableCell>
+                <TableCell align='right'>Description</TableCell>
+                <TableCell align='right'></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {/* activity read from the firebase database and read from the firebase data base */}
               {activity.map((row) => (
                 <TableRow
-                  key={row.id}
+                  key={row.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell component='th' scope='row'>
                     {row.activityname}
                   </TableCell>
-                  <TableCell align="right">{row.contributors}</TableCell>
-                  <TableCell align="right">{row.funds}</TableCell>
-                  <TableCell align="right">{row.location}</TableCell>
-                  <TableCell align="right">{row.description}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align='right'>{row.contributors}</TableCell>
+                  <TableCell align='right'>{row.funds}</TableCell>
+                  <TableCell align='right'>{row.location}</TableCell>
+                  <TableCell align='right'>{row.description}</TableCell>
+                  <TableCell align='right'>
                     <React.Fragment>
-                      {/* activity progress button */}
                       <Button
                         onClick={() => {
                           handleopenpg(row.id); // Pass the activity ID
                         }}
                       >
-                        <Tooltip title="Activity Progress">
+                        <Tooltip title='Activity Progress'>
                           <DonutLargeIcon sx={{ color: "black" }} />
                         </Tooltip>
                       </Button>
@@ -381,23 +343,23 @@ function Ngoactivities() {
                         <AppBar sx={{ position: "relative" }}>
                           <Toolbar>
                             <IconButton
-                              edge="start"
-                              color="inherit"
+                              edge='start'
+                              color='inherit'
                               onClick={handleclosepg}
-                              aria-label="close"
+                              aria-label='close'
                             >
                               <CloseIcon />
                             </IconButton>
                             <Typography
                               sx={{ ml: 2, flex: 1 }}
-                              variant="h6"
-                              component="div"
+                              variant='h6'
+                              component='div'
                             >
                               Activity Progress
                             </Typography>
                             <Button
                               autoFocus
-                              color="inherit"
+                              color='inherit'
                               onClick={handleclosepg}
                             >
                               save
@@ -412,13 +374,13 @@ function Ngoactivities() {
                             >
                               <TabList
                                 onChange={handleChange}
-                                aria-label="lab API tabs example"
+                                aria-label='lab API tabs example'
                               >
-                                <Tab label="Volunteers" value="1" />
-                                <Tab label="Funds" value="2" />
+                                <Tab label='Volunteers' value='1' />
+                                <Tab label='Funds' value='2' />
                               </TabList>
                             </Box>
-                            <TabPanel value="1">
+                            <TabPanel value='1'>
                               <div
                                 style={{
                                   display: "flex",
@@ -437,7 +399,6 @@ function Ngoactivities() {
                                     flexWrap: "wrap",
                                   }}
                                 >
-                                  <Volunteer />
                                   <ul>
                                     {activities
                                       .filter(
@@ -461,10 +422,12 @@ function Ngoactivities() {
                                 </Paper>
                               </div>
                             </TabPanel>
-                            <TabPanel value="2">
-                              <TableContainer>
-                                <Funds />
-                                <Table aria-label="simple table">
+                            <TabPanel value='2'>
+                              <TableContainer
+                                component={Paper}
+                                sx={{ width: "50%" }}
+                              >
+                                <Table aria-label='simple table'>
                                   <TableHead>
                                     <TableRow>
                                       <TableCell>Contributor</TableCell>
@@ -506,11 +469,12 @@ function Ngoactivities() {
                     </React.Fragment>
 
                     <Button
+                      name='edit'
                       onClick={() => {
-                        handleClickOpendailogedit(row);
+                        handleClickOpendailogedit(row); // Pass the activity data
                       }}
                     >
-                      <Tooltip title="Edit">
+                      <Tooltip title='Edit'>
                         <ModeEditIcon sx={{ color: "black" }} />
                       </Tooltip>
                     </Button>
@@ -521,42 +485,29 @@ function Ngoactivities() {
                         onClose={handleClosedailogedit}
                         TransitionComponent={Transition}
                       >
-                        <AppBar
-                          sx={{
-                            position: "relative",
-                            backgroundColor: "#5DADE2",
-                          }}
-                        >
+                        <AppBar sx={{ position: "relative" }}>
                           <Toolbar>
                             <IconButton
-                              edge="start"
-                              color="inherit"
+                              edge='start'
+                              color='inherit'
                               onClick={handleClosedailogedit}
-                              aria-label="close"
+                              aria-label='close'
                             >
                               <CloseIcon />
                             </IconButton>
                             <Typography
                               sx={{ ml: 2, flex: 1 }}
-                              variant="h6"
-                              component="div"
+                              variant='h6'
+                              component='div'
                             >
-                              New Activity
+                              Edit Activity
                             </Typography>
-
-                            <Button
-                              autoFocus
-                              color="inherit"
-                              onClick={handleClosedailogedit}
-                            >
-                              save
-                            </Button>
                           </Toolbar>
                         </AppBar>
                         <Editdetail
-                          selectedActivity={selectedActivity} // Pass the selected activity
-                          onUpdate={getactivity} // Callback to refresh the activity list
-                          onclose={handleClosedailogedit} // Callback to close the dialog
+                          selectedActivity={selectedActivity}
+                          onClose={handleClosedailogedit}
+                          onUpdate={getactivity} // Refresh the activity list after editing
                         />
                       </Dialog>
                     </React.Fragment>
@@ -565,7 +516,7 @@ function Ngoactivities() {
                         handleClickOpendailog(row.id); // Pass the activity ID
                       }}
                     >
-                      <Tooltip title="Delete">
+                      <Tooltip title='Delete'>
                         <DeleteIcon sx={{ color: "black" }} />
                       </Tooltip>
                     </Button>
@@ -574,8 +525,8 @@ function Ngoactivities() {
                       <Dialog
                         open={opendailogdel}
                         onClose={handleClosedailog}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
+                        aria-labelledby='alert-dialog-title'
+                        aria-describedby='alert-dialog-description'
                         BackdropProps={{
                           style: {
                             backgroundColor: "transparent",
@@ -583,11 +534,11 @@ function Ngoactivities() {
                           },
                         }}
                       >
-                        <DialogTitle id="alert-dialog-title">
+                        <DialogTitle id='alert-dialog-title'>
                           {"Confirm Delete?"}
                         </DialogTitle>
                         <DialogContent>
-                          <DialogContentText id="alert-dialog-description">
+                          <DialogContentText id='alert-dialog-description'>
                             Are you sure you want to delete this activity? This
                             action cannot be undone.
                           </DialogContentText>
