@@ -52,10 +52,10 @@ function Ngologin() {
       const idToken = await auth.currentUser.getIdToken(); // Then get the access token
       console.log("Access Token:", idToken);
       localStorage.setItem("accessToken", idToken);
-      navigate("/ngo/dashboard");
-    } catch (Error) {
-      console.error("Login failed:", Error);
-      setError("Login failed. Please check your credentials.");
+      navigate("/ngo/dashboard"); // Navigate only if login is successful
+    } catch (error) {
+      console.error("Login failed:", error);
+      setError("Login failed. Please check your email and password."); // Display error on screen
     }
   };
 
@@ -74,25 +74,25 @@ function Ngologin() {
         <h1 style={{ fontFamily: "cursive" }}>NGO Login</h1>
         <br />
 
-        <Grid container justifyContent="center">
+        <Grid container justifyContent='center'>
           <div>
             <Grid item xs={12} sm={12} md={12} key={0}>
               <DotLottieReact
-                src="https://lottie.host/0dd0333a-ce18-481a-bd7a-5b5acf483129/TADIRP0kgk.lottie"
+                src='https://lottie.host/0dd0333a-ce18-481a-bd7a-5b5acf483129/TADIRP0kgk.lottie'
                 loop
                 autoplay
               />
               <TextField
-                id="outlined-basic"
-                label="Email"
-                variant="outlined"
-                type="text"
-                name="email"
+                id='outlined-basic'
+                label='Email'
+                variant='outlined'
+                type='text'
+                name='email'
                 onChange={handlechange}
                 style={loginstyle}
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">
+                    <InputAdornment position='start'>
                       <AccountCircleIcon />
                     </InputAdornment>
                   ),
@@ -102,22 +102,22 @@ function Ngologin() {
 
             <Grid item xs={12} sm={12} md={12} key={1} style={loginstyle}>
               <TextField
-                id="outlined-basic"
-                label="Password"
-                variant="outlined"
-                type="password"
-                name="password"
+                id='outlined-basic'
+                label='Password'
+                variant='outlined'
+                type='password'
+                name='password'
                 onChange={handlechange}
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">
+                    <InputAdornment position='start'>
                       <LockIcon />
                     </InputAdornment>
                   ),
                 }}
               />
             </Grid>
-            <Button variant="outlined" onClick={login}>
+            <Button variant='outlined' onClick={login}>
               Login
             </Button>
             {Error && <p style={{ color: "red" }}>{Error}</p>}

@@ -7,10 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-
 function Userlogin() {
   const navigate = useNavigate();
-   const [Error, setError] = React.useState("");
+  const [Error, setError] = React.useState("");
   const [data, setdata] = React.useState({
     email: "",
     password: "",
@@ -23,7 +22,7 @@ function Userlogin() {
   const signIn = async () => {
     if (!data.email) {
       setError("Email is required");
-      return Promise.reject();  // return reject so login() knows something went wrong
+      return Promise.reject(); // Return reject so login() knows something went wrong
     }
     if (!data.password) {
       setError("Password is required");
@@ -33,22 +32,24 @@ function Userlogin() {
       await signInWithEmailAndPassword(auth, data.email, data.password);
     } catch (error) {
       console.error(error);
-      throw error;  // throw error so login() can catch it
+      setError("Invalid email or password. Please try again."); // Set error message
+      throw error; // Throw error so login() can catch it
     }
   };
-    const login = async () => {
-      try {
-        await signIn();  // First wait for sign-in
-        const idToken = await auth.currentUser.getIdToken(); // Then get the access token
-        console.log("Access Token:", idToken);
-        localStorage.setItem("accessToken", idToken);
-        navigate("/user/dashboard"); // After successful login + token fetching
-      } catch (error) {
-        console.error("Login failed:", error);
-        setError("Login failed. Please check your credentials.");
-      }
-    };
-    
+
+  const login = async () => {
+    try {
+      await signIn(); // First wait for sign-in
+      const idToken = await auth.currentUser.getIdToken(); // Then get the access token
+      console.log("Access Token:", idToken);
+      localStorage.setItem("accessToken", idToken);
+      navigate("/user/dashboard"); // Navigate only if login is successful
+    } catch (error) {
+      console.error("Login failed:", error);
+      setError("Login failed. Please check your credentials."); // Display error on screen
+    }
+  };
+
   return (
     <div>
       {" "}
@@ -118,13 +119,10 @@ function Userlogin() {
           />
           <br />
           <br />
-          <Button
-              variant="outlined"
-              onClick={login}
-            >
-              Login
-            </Button>
-            {Error && <p style={{ color: "red" }}>{Error}</p>}
+          <Button variant='outlined' onClick={login}>
+            Login
+          </Button>
+          {Error && <p style={{ color: "red" }}>{Error}</p>}
           <p>
             Don't have account to register{" "}
             <a
