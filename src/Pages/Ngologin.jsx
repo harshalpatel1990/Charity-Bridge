@@ -34,20 +34,28 @@ function Ngologin() {
     try {
       if (!data.email) {
         setError("Email is required");
-        return;
+        return Promise.reject("");
       }
       if (!data.password) {
         setError("Password is required");
-        return;
+        return Promise.reject("");
       }
       await signInWithEmailAndPassword(auth, data.email, data.password);
     } catch (Error) {
       console.error(Error);
+      throw Error;
     }
   };
-  const login = () => {
-    navigate("/ngo/dashboard");
-    signIn();
+  const login = async () => {
+    try {
+      await signIn(); // First wait for sign-in
+      const idToken = await auth.currentUser.getIdToken(); // Then get the access token
+      console.log("Access Token:", idToken);
+      navigate("/ngo/dashboard");
+    } catch (Error) {
+      console.error("Login failed:", Error);
+      setError("Login failed. Please check your credentials.");
+    }
   };
 
   return (
