@@ -41,7 +41,7 @@ function Userlogin() {
         await signIn();  // First wait for sign-in
         const idToken = await auth.currentUser.getIdToken(); // Then get the access token
         console.log("Access Token:", idToken);
-    
+        localStorage.setItem("accessToken", idToken);
         navigate("/user/dashboard"); // After successful login + token fetching
       } catch (error) {
         console.error("Login failed:", error);

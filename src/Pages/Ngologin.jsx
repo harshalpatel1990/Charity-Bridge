@@ -51,6 +51,7 @@ function Ngologin() {
       await signIn(); // First wait for sign-in
       const idToken = await auth.currentUser.getIdToken(); // Then get the access token
       console.log("Access Token:", idToken);
+      localStorage.setItem("accessToken", idToken);
       navigate("/ngo/dashboard");
     } catch (Error) {
       console.error("Login failed:", Error);
