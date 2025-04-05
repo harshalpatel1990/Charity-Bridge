@@ -133,18 +133,16 @@ export default function NavBar() {
     } else if (window.location.pathname.includes("ngo")) {
       return arr;
     }
-  }
+  };
 
   const logout = async () => {
-    try{
+    try {
       await signOut(auth);
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
-  }
- }
+    }
+  };
 
-  
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -176,7 +174,9 @@ export default function NavBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Charity Bridge
           </Typography>
-          <Button  color="inherit" onClick={logout}>Logout</Button>
+          <Button color="inherit" onClick={logout}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer

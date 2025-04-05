@@ -14,11 +14,7 @@ function Volunteer() {
   }
 
   const rowsv = [
-    createvol("Frozen yoghurt", 159, 3),
-    createvol("Ice cream sandwich", 237, 4),
-    createvol("Eclair", 262, 3),
-    createvol("Cupcake", 305, 3),
-    createvol("Gingerbread", 35, 2),
+    
   ];
 
   return (
