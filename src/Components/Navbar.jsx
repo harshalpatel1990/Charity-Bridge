@@ -24,6 +24,8 @@ import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
+
 
 const drawerWidth = 240;
 
@@ -31,6 +33,7 @@ let arr = [
   {
     name: "Register",
     path: "/ngo/register",
+    
   },
   {
     name: "Login",
@@ -77,29 +80,6 @@ let AdminItems = [
   },
 ];
 
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
-  ({ theme }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: `-${drawerWidth}px`,
-    variants: [
-      {
-        props: ({ open }) => open,
-        style: {
-          transition: theme.transitions.create("margin", {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-          marginLeft: 0,
-        },
-      },
-    ],
-  })
-);
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -138,6 +118,8 @@ export default function NavBar() {
   const logout = async () => {
     try {
       await signOut(auth);
+      localStorage.removeItem("accessToken");
+      navigate("/ngo/login");
     } catch (error) {
       console.log(error);
     }
@@ -204,7 +186,7 @@ export default function NavBar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {getMenus().map((text) => (
+          {getMenus().map((text,index) => (
             <ListItem
               key={text.name}
               disablePadding
@@ -214,11 +196,11 @@ export default function NavBar() {
               }}
             >
               <ListItemButton>
-                {/* <ListItemIcon>
+                <ListItemIcon>
                   {index % 2 === 0 ? 
                   <InboxIcon /> : 
                   <MailIcon />}
-                </ListItemIcon> */}
+                </ListItemIcon>
                 <ListItemText primary={text.name} />
               </ListItemButton>
             </ListItem>

@@ -52,7 +52,7 @@ function Ngologin() {
       const idToken = await auth.currentUser.getIdToken(); // Then get the access token
       console.log("Access Token:", idToken);
       localStorage.setItem("accessToken", idToken);
-      navigate("/ngo/dashboard"); // Navigate only if login is successful
+      navigate("/ngo/activities"); // Navigate only if login is successful
     } catch (error) {
       console.error("Login failed:", error);
       setError("Login failed. Please check your email and password."); // Display error on screen

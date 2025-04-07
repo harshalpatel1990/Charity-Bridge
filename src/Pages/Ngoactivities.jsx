@@ -134,9 +134,9 @@ function Ngoactivities() {
       console.error(err);
     }
   };
-  console.log("datafromactivity", activity);
+  // console.log("datafromactivity", activity);
   useEffect(() => {
-    getactivity();
+    getactivity();   
   }, []);
 
   const fordelete = async () => {
