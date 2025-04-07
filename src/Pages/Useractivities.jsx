@@ -80,11 +80,30 @@ function Useractivities() {
   const [selectedFunds, setSelectedFunds] = React.useState(""); // New state for funds
   const [donationAmount, setDonationAmount] = React.useState(""); // New state for donation amount
   const [selectedActivityId, setSelectedActivityId] = React.useState(""); // New state for Firestore document ID
+  const [ngoDetails, setNgoDetails] = useState(null); // State to store NGO details
 
-  const handleClickOpen = (activityId, activityName, funds) => {
+  const fetchNgoDetails = async (ngoId) => {
+    try {
+      const ngoDocRef = doc(db, "ngoinfo", ngoId); // Use "ngoinfo" as the collection name
+      const ngoSnapshot = await getDoc(ngoDocRef);
+
+      if (ngoSnapshot.exists()) {
+        setNgoDetails(ngoSnapshot.data()); // Store NGO details in state
+      } else {
+        console.error("NGO not found");
+        setNgoDetails(null);
+      }
+    } catch (error) {
+      console.error("Error fetching NGO details:", error);
+      setNgoDetails(null);
+    }
+  };
+
+  const handleClickOpen = (activityId, activityName, funds, ngoId) => {
     setSelectedActivityName(activityName); // Set the activity name for display
     setSelectedActivityId(activityId); // Set the Firestore document ID
     setSelectedFunds(funds); // Set the selected funds value
+    fetchNgoDetails(ngoId); // Fetch NGO details using ngoId
     setOpen(true);
   };
 
@@ -271,8 +290,13 @@ function Useractivities() {
                     <Button
                       variant='outlined'
                       onClick={() =>
-                        handleClickOpen(row.id, row.activityname, row.funds)
-                      } // Pass activityId, activityname, and funds
+                        handleClickOpen(
+                          row.id,
+                          row.activityname,
+                          row.funds,
+                          row.ngoid
+                        )
+                      } // Pass ngoid
                     >
                       Participate
                     </Button>
@@ -312,6 +336,7 @@ function Useractivities() {
                           >
                             <Tab label='Volunteer' {...a11yProps(0)} />
                             <Tab label='Contribute' {...a11yProps(1)} />
+                            <Tab label='Ngo Details' {...a11yProps(2)} />
                           </Tabs>
                         </Box>
                         <CustomTabPanel value={value} index={0}>
@@ -417,6 +442,47 @@ function Useractivities() {
                             </Grid>
                           </center>
                         </CustomTabPanel>
+                        <CustomTabPanel value={value} index={2}>
+                          <center>
+                            {ngoDetails ? (
+                              <Grid container spacing={2} sx={{ width: "50%" }}>
+                                <Grid item xs={12}>
+                                  <Typography variant='h6' gutterBottom>
+                                    NGO Details
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                  <Typography variant='body1'>
+                                    <strong>NGO Name:</strong>{" "}
+                                    {ngoDetails.ngoname || "N/A"}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                  <Typography variant='body1'>
+                                    <strong>Email:</strong>{" "}
+                                    {ngoDetails.email || "N/A"}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                  <Typography variant='body1'>
+                                    <strong>Contact:</strong>{" "}
+                                    {ngoDetails.contact || "N/A"}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                  <Typography variant='body1'>
+                                    <strong>Address:</strong>{" "}
+                                    {ngoDetails.city || "N/A"}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                            ) : (
+                              <Typography variant='body1'>
+                                No NGO details available.
+                              </Typography>
+                            )}
+                          </center>
+                        </CustomTabPanel>
                       </Box>
                     </Dialog>
                   </React.Fragment>
@@ -426,6 +492,51 @@ function Useractivities() {
           </TableBody>
         </Table>
       </TableContainer>
+      <CustomTabPanel value={value} index={2}>
+        <center>
+          {ngoDetails ? (
+            <Grid container spacing={2} sx={{ width: "50%" }}>
+              <Grid item xs={12}>
+                <Typography variant='h6'>NGO Details</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  disabled
+                  label='NGO Name'
+                  value={ngoDetails.name || "N/A"} // Replace "name" with the actual field name in your NGO collection
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  disabled
+                  label='Email'
+                  value={ngoDetails.email || "N/A"} // Replace "email" with the actual field name
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  disabled
+                  label='Contact'
+                  value={ngoDetails.contact || "N/A"} // Replace "contact" with the actual field name
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  disabled
+                  label='Address'
+                  value={ngoDetails.address || "N/A"} // Replace "address" with the actual field name
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+          ) : (
+            <Typography variant='body1'>No NGO details available.</Typography>
+          )}
+        </center>
+      </CustomTabPanel>
     </div>
   );
 }
