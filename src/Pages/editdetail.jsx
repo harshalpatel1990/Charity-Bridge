@@ -78,13 +78,13 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
           Edit Activity
         </h1>
 
-        <Grid container>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={4} key={0} sx={gridStyles}>
             <div className="box1"
             TextField
             label='Activity Name'
             name='activityname'
-            value={formData.activityname}
+            value={data.name}
             onChange={handleChange}
             fullWidth
           />
@@ -94,7 +94,7 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
             label='Contributors'
             name='contributors'
             type='number'
-            value={formData.contributors}
+            value={data.cont}
             onChange={handleChange}
             fullWidth
           />
@@ -103,7 +103,7 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
           <TextField
             label='Description'
             name='description'
-            value={formData.description}
+            value={data.desc}
             onChange={handleChange}
             fullWidth
           />
@@ -113,7 +113,7 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
             label='Funds'
             name='funds'
             type='number'
-            value={formData.funds}
+            value={data.funds}
             onChange={handleChange}
             fullWidth
           />
@@ -122,7 +122,7 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
           <TextField
             label='Location'
             name='location'
-            value={formData.location}
+            value={data.loc}
             onChange={handleChange}
             fullWidth
           />

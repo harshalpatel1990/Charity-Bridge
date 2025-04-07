@@ -33,15 +33,6 @@ import { useEffect } from "react";
 const drawerWidth = 240;
 
 let arr = [
-  // {
-  //   name: "Register",
-  //   path: "/ngo/register",
-    
-  // },
-  // {
-  //   name: "Login",
-  //   path: "/ngo/login",
-  // },
   {
     name: "Activities",
     path: "/ngo/activities",
@@ -51,10 +42,7 @@ let arr = [
     name: "Profile",
     path: "/ngo/profile",
   },
-  {
-    name: "Contributor Profile",
-    path: "/ngo/contributorprofile",
-  },
+  
 ];
 
 let ContributorItems = [
