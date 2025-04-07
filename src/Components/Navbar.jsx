@@ -25,7 +25,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
-import JWT from "jsonwebtoken";
+// import JWT from "jsonwebtoken";
 import { useState } from "react";
 import { useEffect } from "react";
 
@@ -105,23 +105,23 @@ export default function NavBar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [isauthenticated, setisauthenticated] = useState(false)
+  //const [isauthenticated, setisauthenticated] = useState(false)
 
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    const email = localStorage.getItem("email");
-    if (token) {
-      const decodedToken = JWT.decode(token);
-      if (decodedToken.email === email) {
-        setisauthenticated(true)
-      }else {
-        setisauthenticated(false)
-      }
-    }else {
-      setisauthenticated(false)
-    }
-  }, []);
-  console.log(window.location);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("accessToken");
+  //   const email = localStorage.getItem("email");
+  //   if (token) {
+  //     const decodedToken = JWT.decode(token);
+  //     if (decodedToken.email === email) {
+  //       setisauthenticated(true)
+  //     }else {
+  //       setisauthenticated(false)
+  //     }
+  //   }else {
+  //     setisauthenticated(false)
+  //   }
+  // }, []);
+  // console.log(window.location);
   
 
   const getMenus = () => {
@@ -157,7 +157,7 @@ export default function NavBar() {
         }}
       >
         <Toolbar>
-          {(isauthenticated) ? (<IconButton
+         <IconButton
             size="large"
             edge="start"
             color="inherit"
