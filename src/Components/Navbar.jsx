@@ -25,7 +25,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
-import JWT from "jsonwebtoken";
+// import JWT  from "jsonwebtoken";
 import { useState } from "react";
 import { useEffect } from "react";
 
@@ -33,15 +33,15 @@ import { useEffect } from "react";
 const drawerWidth = 240;
 
 let arr = [
-  {
-    name: "Register",
-    path: "/ngo/register",
+  // {
+  //   name: "Register",
+  //   path: "/ngo/register",
     
-  },
-  {
-    name: "Login",
-    path: "/ngo/login",
-  },
+  // },
+  // {
+  //   name: "Login",
+  //   path: "/ngo/login",
+  // },
   {
     name: "Activities",
     path: "/ngo/activities",
@@ -107,21 +107,25 @@ export default function NavBar() {
   };
   const [isauthenticated, setisauthenticated] = useState(false)
 
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    const email = localStorage.getItem("email");
-    if (token) {
-      const decodedToken = JWT.decode(token);
-      if (decodedToken.email === email) {
-        setisauthenticated(true)
-      }else {
-        setisauthenticated(false)
-      }
-    }else {
-      setisauthenticated(false)
-    }
-  }, []);
-  console.log(window.location);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("accessToken");
+  //   const email = localStorage.getItem("email");
+
+  //   console.log(JWT.decode(token));
+  //   console.log(token,email);
+  //   if(token){
+  //     let tdata = JWT.decode(token);
+  //     if(tdata.email === email){
+  //       console.log("Authenticated")
+  //       setisauthenticated(true)
+  //     } else {
+  //       setisauthenticated(false)
+  //     }
+  //   }else{
+  //     setisauthenticated(false)
+  //   }
+  // }, []);
+  // console.log(window.location);
   
 
   const getMenus = () => {
@@ -157,7 +161,7 @@ export default function NavBar() {
         }}
       >
         <Toolbar>
-          {(isauthenticated) ? (<IconButton
+           <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -172,7 +176,7 @@ export default function NavBar() {
             ]}
           >
             <MenuIcon />
-          </IconButton>) : null}
+          </IconButton>
           
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
