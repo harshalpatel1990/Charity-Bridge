@@ -61,7 +61,7 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
         confirmButtonText: "OK",
       });
       onUpdate(); // Refresh the activity list
-      onclose(); // Close the edit dialog
+      onClose(); // Close the edit dialog
     } catch (err) {
       console.error("Error updating activity: ", err);
       alert("Error updating activity. Please try again.");
