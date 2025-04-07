@@ -16,13 +16,13 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
 
-function Editdetail({ selectedActivity, onUpdate, onclose }) {
+function Editdetail({ selectedActivity, onUpdate, onClose }) {
   let [data, setdata] = React.useState({
-    name: selectedActivity?.activityname || "",
-    loc: selectedActivity?.location || "",
-    desc: selectedActivity?.description || "",
+    activityname: selectedActivity?.activityname || "",
+    location: selectedActivity?.location || "",
+    description: selectedActivity?.description || "",
     funds: selectedActivity?.funds || "",
-    cont: selectedActivity?.contributors || "",
+    contributors: selectedActivity?.contributors || "",
   });
 
   let gridStyles = {
@@ -76,7 +76,7 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
           <TextField
             label='Activity Name'
             name='activityname'
-            value={formData.activityname}
+            value={data.activityname}
             onChange={handleChange}
             fullWidth
           />
@@ -86,7 +86,7 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
             label='Contributors'
             name='contributors'
             type='number'
-            value={formData.contributors}
+            value={data.contributors}
             onChange={handleChange}
             fullWidth
           />
@@ -95,7 +95,7 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
           <TextField
             label='Description'
             name='description'
-            value={formData.description}
+            value={data.description}
             onChange={handleChange}
             fullWidth
           />
@@ -105,7 +105,7 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
             label='Funds'
             name='funds'
             type='number'
-            value={formData.funds}
+            value={data.funds}
             onChange={handleChange}
             fullWidth
           />
@@ -114,7 +114,7 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
           <TextField
             label='Location'
             name='location'
-            value={formData.location}
+            value={data.location}
             onChange={handleChange}
             fullWidth
           />
