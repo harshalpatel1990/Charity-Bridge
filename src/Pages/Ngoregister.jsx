@@ -76,6 +76,7 @@ function Ngoregister() {
         city: data.city,
         contact: data.contact,
         verifyngo: false,
+        password: data.password,
       });
 
       alert("NGO registered successfully!");
