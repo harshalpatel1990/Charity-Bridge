@@ -52,6 +52,7 @@ function Ngologin() {
       const idToken = await auth.currentUser.getIdToken(); // Then get the access token
       console.log("Access Token:", idToken);
       localStorage.setItem("accessToken", idToken);
+      localStorage.setItem("email", data.email.toLowerCase());
       navigate("/ngo/activities"); // Navigate only if login is successful
     } catch (error) {
       console.error("Login failed:", error);
@@ -129,6 +130,7 @@ function Ngologin() {
                   cursor: "pointer",
                   color: "blue",
                   textDecoration: "underline",
+                  
                 }}
               >
                 Click here!
