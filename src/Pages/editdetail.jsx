@@ -69,22 +69,14 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
   };
 
   return (
-    <div
-      className="box"
-      style={{ display: "flex", justifyContent: "center", padding: "3%" }}
-    >
-      <center style={{ fontFamily: "cursive" }}>
-        <h1 style={{ fontFamily: "cursive", marginBottom: "2%" }}>
-          Edit Activity
-        </h1>
-
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={12} md={4} key={0} sx={gridStyles}>
-            <div className="box1"
-            TextField
+    <div style={{ padding: "20px" }}>
+      <h2>Edit Activity</h2>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
             label='Activity Name'
             name='activityname'
-            value={data.name}
+            value={formData.activityname}
             onChange={handleChange}
             fullWidth
           />
@@ -94,7 +86,7 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
             label='Contributors'
             name='contributors'
             type='number'
-            value={data.cont}
+            value={formData.contributors}
             onChange={handleChange}
             fullWidth
           />
@@ -103,7 +95,7 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
           <TextField
             label='Description'
             name='description'
-            value={data.desc}
+            value={formData.description}
             onChange={handleChange}
             fullWidth
           />
@@ -113,7 +105,7 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
             label='Funds'
             name='funds'
             type='number'
-            value={data.funds}
+            value={formData.funds}
             onChange={handleChange}
             fullWidth
           />
@@ -122,22 +114,25 @@ function Editdetail({ selectedActivity, onUpdate, onclose }) {
           <TextField
             label='Location'
             name='location'
-            value={data.loc}
+            value={formData.location}
             onChange={handleChange}
             fullWidth
           />
-          </Grid>
         </Grid>
-
-        <Button
-          style={{ marginTop: "2%", backgroundColor: "#5DADE2" }}
-          variant="contained"
-          onClick={handleSubmit}
-        >
-          Submit
-        </Button>
-        {/* </div> */}
-      </center>
+        <Grid item xs={12}>
+          <Button variant='contained' color='primary' onClick={handleSubmit}>
+            Save Changes
+          </Button>
+          <Button
+            variant='outlined'
+            color='secondary'
+            onClick={onClose}
+            style={{ marginLeft: "10px" }}
+          >
+            Cancel
+          </Button>
+        </Grid>
+      </Grid>
     </div>
   );
 }
