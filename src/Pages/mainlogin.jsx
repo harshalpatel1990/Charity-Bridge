@@ -28,7 +28,7 @@ function MainLogin() {
       sx={{
         display: "flex",
         flexDirection: "column",
-        height: "100vh",
+        height: "78vh",
         justifyContent: "center", // Center content vertically
         alignItems: "center", // Center content horizontally
         backgroundColor: "#ffffff", // White background
