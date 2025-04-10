@@ -26,6 +26,7 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
 import { db, auth } from "../config/firebase";
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 
 import {
   query,
@@ -454,7 +455,7 @@ function Useractivities() {
                                 <Grid item xs={12}>
                                   <Typography variant='body1'>
                                     <strong>NGO Name:</strong>{" "}
-                                    {ngoDetails.ngoname || "N/A"}
+                                    {ngoDetails.ngoname || "N/A"} {ngoDetails.verifyngo ? (<strong><DoneAllIcon/> Verified</strong>): (null)}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
