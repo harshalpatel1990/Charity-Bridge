@@ -129,7 +129,7 @@ export default function NavBar() {
     try {
       await signOut(auth);
       localStorage.removeItem("accessToken");
-      navigate("/ngo/login");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
