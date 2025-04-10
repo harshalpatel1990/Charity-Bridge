@@ -11,6 +11,8 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { collection, query, where, getDocs } from "firebase/firestore"; // Import Firestore functions
+import { db } from "../config/firebase"; // Import your Firestore instance
 
 function Ngologin() {
   const navigate = useNavigate();
@@ -48,7 +50,23 @@ function Ngologin() {
   };
   const login = async () => {
     try {
+      
+      // Check if the email exists in the ngoinfo collection
+      const ngoQuery = query(
+        collection(db, "ngoinfo"), 
+        where("email", "==", data.email.toLowerCase())
+      );
+      const ngoSnapshot = await getDocs(ngoQuery);
+      
+      if (ngoSnapshot.empty) {
+        setError(
+          "Email not found in NGO records. Please check your credentials."
+        );
+        return; // Stop further execution if email is not found
+      }
       await signIn(); // First wait for sign-in
+
+      // If email exists, proceed with login
       const idToken = await auth.currentUser.getIdToken(); // Then get the access token
       console.log("Access Token:", idToken);
       localStorage.setItem("accessToken", idToken);
@@ -130,7 +148,6 @@ function Ngologin() {
                   cursor: "pointer",
                   color: "blue",
                   textDecoration: "underline",
-                  
                 }}
               >
                 Click here!

@@ -5,6 +5,8 @@ import Button from "@mui/material/Button";
 import { Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../config/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore"; // Import Firestore functions
+import { db } from "../config/firebase"; // Import your Firestore instance
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 function Userlogin() {
@@ -39,6 +41,18 @@ function Userlogin() {
 
   const login = async () => {
     try {
+      const userQuery = query(
+        collection(db, "userinfo"),
+        where("email", "==", data.email.toLowerCase())
+      );
+      const userSnapshot = await getDocs(userQuery);
+      
+      if (userSnapshot.empty) {
+        setError(
+          "Email not found in user records. Please check your credentials."
+        );
+        return; // Stop further execution if email is not found
+      }
       await signIn(); // First wait for sign-in
       const idToken = await auth.currentUser.getIdToken(); // Then get the access token
       console.log("Access Token:", idToken);
