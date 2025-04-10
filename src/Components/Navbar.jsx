@@ -93,24 +93,6 @@ export default function NavBar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  //const [isauthenticated, setisauthenticated] = useState(false)
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem("accessToken");
-  //   const email = localStorage.getItem("email");
-  //   if (token) {
-  //     const decodedToken = JWT.decode(token);
-  //     if (decodedToken.email === email) {
-  //       setisauthenticated(true)
-  //     }else {
-  //       setisauthenticated(false)
-  //     }
-  //   }else {
-  //     setisauthenticated(false)
-  //   }
-  // }, []);
-  // console.log(window.location);
-  
 
   const getMenus = () => {
     if (window.location.pathname.includes("admin")) {
@@ -148,7 +130,6 @@ export default function NavBar() {
         }}
       >
         <Toolbar>
-          {localStorage.getItem("accessToken")?
          <IconButton
          size="large"
          edge="start"
@@ -165,16 +146,14 @@ export default function NavBar() {
           >
             <MenuIcon />
           </IconButton>
-            : null}
           
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Charity Bridge
           </Typography>
-          {localStorage.getItem("accessToken")?
           <Button color="inherit" onClick={logout}>
             Logout
-          </Button>:null}
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
