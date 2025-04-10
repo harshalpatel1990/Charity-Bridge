@@ -8,7 +8,7 @@ import {
   Grid,
 } from "@mui/material";
 import { auth, db } from "../config/firebase";
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs, collection, updateDoc, doc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
 const Userprofile = () => {
@@ -23,21 +23,16 @@ const Userprofile = () => {
     contact: "",
     gender: "",
   });
-  // useEffect(() => {
-  //   let x = localStorage.getItem("user");
-  //   setFormData(JSON.parse(x));
-  // }, []);
+  const [userDocId, setUserDocId] = useState(null); // Store the document ID
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
-      const getngoprofile = async () => {
-        //red the data
-        //set the data into fields
-        try {
-          const currentUser = auth.currentUser;
+    const getUserProfile = async () => {
+      try {
+        const currentUser = auth.currentUser;
 
         if (!currentUser) {
           console.log("No user is logged in.");
@@ -56,25 +51,41 @@ const Userprofile = () => {
 
         if (filteredData.length > 0) {
           setFormData(filteredData[0]); // Set the user's data
+          setUserDocId(filteredData[0].id); // Store the document ID
         } else {
           console.log("No user data found for the current user.");
         }
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          getngoprofile(); // Fetch user profile when logged in
-        } else {
-          console.log("User is not logged in.");
-        }
-      });
-  
-      return () => unsubscribe(); // Cleanup the listener
-    }, []);
-    console.log("FormData", formData);
-  
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        getUserProfile(); // Fetch user profile when logged in
+      } else {
+        console.log("User is not logged in.");
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup the listener
+  }, []);
+
+  const handleSave = async () => {
+    if (!userDocId) {
+      console.log("No document ID found for the user.");
+      return;
+    }
+
+    try {
+      const userDocRef = doc(db, "userinfo", userDocId); // Reference to the user's document
+      await updateDoc(userDocRef, formData); // Update the document with the new data
+      console.log("Profile updated successfully!");
+      setIsEditing(false); // Exit editing mode
+    } catch (err) {
+      console.log("Error updating profile:", err);
+    }
+  };
 
   return (
     <Container maxWidth="md">
@@ -92,7 +103,7 @@ const Userprofile = () => {
               { label: "Address", name: "city" },
               { label: "Age", name: "age" },
               { label: "Mobile Number", name: "contact" },
-              {label:"Gender", name:"gender"}
+              { label: "Gender", name: "gender" },
             ].map((field) => (
               <Grid item xs={6} key={field.name}>
                 <TextField
@@ -112,7 +123,7 @@ const Userprofile = () => {
             fullWidth
             variant="contained"
             style={{ backgroundColor: "#5DADE2" }}
-            onClick={() => setIsEditing(!isEditing)}
+            onClick={isEditing ? handleSave : () => setIsEditing(true)}
           >
             {isEditing ? "Save Profile" : "Edit Profile"}
           </Button>

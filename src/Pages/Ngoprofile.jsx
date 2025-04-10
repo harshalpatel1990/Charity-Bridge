@@ -8,7 +8,7 @@ import {
   Grid,
 } from "@mui/material";
 import { auth, db } from "../config/firebase";
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs, collection, updateDoc, doc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
 const NgoProfile = () => {
@@ -22,21 +22,14 @@ const NgoProfile = () => {
     city: "",
     contact: "",
   });
-  // useEffect(() => {
-  //   let x = localStorage.getItem("ngo");
-  //   setFormData(JSON.parse(x));
-  // }, []);
+  const [ngoDocId, setNgoDocId] = useState(null); // Store the document ID
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const ngocollectionref = collection(db, "ngoinfo");
-
   useEffect(() => {
-    const getngoprofile = async () => {
-      //red the data
-      //set the data into fields
+    const getNgoProfile = async () => {
       try {
         const currentUser = auth.currentUser;
 
@@ -44,37 +37,54 @@ const NgoProfile = () => {
           console.log("No user is logged in.");
           return;
         }
-  
+
         const userEmail = currentUser.email; // Get the user's email
         console.log("Current User Email:", userEmail);
-  
-        // Query Firestore for the user document with the matching email
-        const userQuery = collection(db, "ngoinfo");
-       
-          const data = await getDocs(userQuery);
-          const filteredData = data.docs.map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-          })).filter((user) => user.email === userEmail); // Match the email
-          if (filteredData.length > 0) {
-            setFormData(filteredData[0]); // Set the user's data
-          } else {
-            console.log("No user data found for the current user.");
-          }
+
+        // Query Firestore for the NGO document with the matching email
+        const ngoQuery = collection(db, "ngoinfo");
+        const data = await getDocs(ngoQuery);
+        const filteredData = data.docs
+          .map((doc) => ({ ...doc.data(), id: doc.id }))
+          .filter((ngo) => ngo.email === userEmail); // Match the email
+
+        if (filteredData.length > 0) {
+          setFormData(filteredData[0]); // Set the NGO's data
+          setNgoDocId(filteredData[0].id); // Store the document ID
+        } else {
+          console.log("No NGO data found for the current user.");
+        }
       } catch (err) {
         console.log(err);
       }
     };
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        getngoprofile(); // Fetch user profile when logged in
+        getNgoProfile(); // Fetch NGO profile when logged in
       } else {
         console.log("User is not logged in.");
       }
     });
-    return () => unsubscribe();
+
+    return () => unsubscribe(); // Cleanup the listener
   }, []);
-  console.log("FormData", formData);
+
+  const handleSave = async () => {
+    if (!ngoDocId) {
+      console.log("No document ID found for the NGO.");
+      return;
+    }
+
+    try {
+      const ngoDocRef = doc(db, "ngoinfo", ngoDocId); // Reference to the NGO's document
+      await updateDoc(ngoDocRef, formData); // Update the document with the new data
+      console.log("Profile updated successfully!");
+      setIsEditing(false); // Exit editing mode
+    } catch (err) {
+      console.log("Error updating profile:", err);
+    }
+  };
 
   return (
     <Container maxWidth="md">
@@ -90,7 +100,7 @@ const NgoProfile = () => {
               { label: "Password", name: "password", type: "password" },
               { label: "Name", name: "ngoname" },
               { label: "Address", name: "city" },
-              { label: "Year of Establishment:", name: "yearofestablishment" },
+              { label: "Year of Establishment", name: "yearofestablishment" },
               { label: "Mobile Number", name: "contact" },
             ].map((field) => (
               <Grid item xs={6} key={field.name}>
@@ -111,7 +121,7 @@ const NgoProfile = () => {
             fullWidth
             variant="contained"
             style={{ backgroundColor: "#5DADE2" }}
-            onClick={() => setIsEditing(!isEditing)}
+            onClick={isEditing ? handleSave : () => setIsEditing(true)}
           >
             {isEditing ? "Save Profile" : "Edit Profile"}
           </Button>

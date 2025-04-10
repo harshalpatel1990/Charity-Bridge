@@ -24,11 +24,10 @@ import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
+import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
 // import JWT from "jsonwebtoken";
 import { useState } from "react";
 import { useEffect } from "react";
-
 
 const drawerWidth = 240;
 
@@ -42,7 +41,6 @@ let arr = [
     name: "Profile",
     path: "/ngo/profile",
   },
-  
 ];
 
 let ContributorItems = [
@@ -101,8 +99,7 @@ export default function NavBar() {
       return ContributorItems;
     } else if (window.location.pathname.includes("ngo")) {
       return arr;
-    }
-    else{
+    } else {
       return [];
     }
   };
@@ -117,8 +114,6 @@ export default function NavBar() {
     }
   };
 
-
-
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -130,23 +125,22 @@ export default function NavBar() {
         }}
       >
         <Toolbar>
-         <IconButton
-         size="large"
-         edge="start"
-         color="inherit"
-         aria-label="menu"
-         onClick={handleDrawerOpen}
-         onClose={handleDrawerClose}
-         sx={[
-           {
-             mr: 2,
-            },
-            open && { display: "none" },
-          ]}
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={handleDrawerOpen}
+            onClose={handleDrawerClose}
+            sx={[
+              {
+                mr: 2,
+              },
+              open && { display: "none" },
+            ]}
           >
             <MenuIcon />
           </IconButton>
-          
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Charity Bridge
@@ -181,7 +175,7 @@ export default function NavBar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {getMenus().map((text,index) => (
+          {getMenus().map((text, index) => (
             <ListItem
               key={text.name}
               disablePadding
@@ -192,9 +186,7 @@ export default function NavBar() {
             >
               <ListItemButton>
                 <ListItemIcon>
-                  {index % 2 === 0 ? 
-                  <InboxIcon /> : 
-                  <MailIcon />}
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text.name} />
               </ListItemButton>

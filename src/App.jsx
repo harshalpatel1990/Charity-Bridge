@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import NavBar from "./Components/Navbar";
 
-import Ngoregister from "./Pages/ngoregister";
+import Ngoregister from "./Pages/Ngoregister";
 import Ngologin from "./Pages/ngologin";
 import Ngoactivities from "./Pages/Ngoactivities";
 import Ngoactivitydetail from "./Pages/ngoactivitydetail";
