@@ -14,14 +14,15 @@ import Useractivitydetail from "./Pages/Useractivitydetail";
 import Userdashboard from "./Pages/userdashboard";
 import Userlogin from "./Pages/userlogin";
 import Userreciepts from "./Pages/userreciepts";
-import Userrecognition from "./Pages/userrecognition";
-import Userregister from "./Pages/userregister";
+import Userrecognition from "./Pages/Userrecognition";
+import Userregister from "./Pages/Userregister";
 import Userprofile from "./Pages/Userprofile";
 
 import Adminlogin from "./Pages/Adminlogin";
-import Verifyngo from "./Pages/verifyngo";
-import Verifyuser from "./Pages/verifyuser";
-import PrivateRoute from "./privateroutes";
+import Verifyngo from "./Pages/Verifyngo";
+import Verifyuser from "./Pages/Verifyuser";
+import PrivateRoute from "./Privateroutes";
+import MainLogin from "./Pages/mainlogin";
 
 function App() {
   return (
@@ -32,7 +33,9 @@ function App() {
         <br />
         <br />
         <br />
+
         <Routes>
+          <Route path="/" Component={MainLogin}></Route>
           <Route element={<PrivateRoute />}>
             <Route path="/ngo/activities" Component={Ngoactivities}></Route>
             <Route
@@ -64,6 +67,7 @@ function App() {
           <Route path="/admin/verifyngo" Component={Verifyngo}></Route>
         </Routes>
       </BrowserRouter>
+      
     </div>
   );
 }

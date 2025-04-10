@@ -120,6 +120,9 @@ export default function NavBar() {
     } else if (window.location.pathname.includes("ngo")) {
       return arr;
     }
+    else{
+      return [];
+    }
   };
 
   const logout = async () => {
