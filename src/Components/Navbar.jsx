@@ -130,32 +130,30 @@ export default function NavBar() {
         }}
       >
         <Toolbar>
-          {localStorage.getItem("accessToken") ? ( 
          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={handleDrawerOpen}
-            onClose={handleDrawerClose}
-            sx={[
-              {
-                mr: 2,
-              },
-              open && { display: "none" },
-            ]}
+         size="large"
+         edge="start"
+         color="inherit"
+         aria-label="menu"
+         onClick={handleDrawerOpen}
+         onClose={handleDrawerClose}
+         sx={[
+           {
+             mr: 2,
+            },
+            open && { display: "none" },
+          ]}
           >
             <MenuIcon />
-        </IconButton>): null}
+          </IconButton>
           
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Charity Bridge
           </Typography>
-          {localStorage.getItem("accessToken") ? (
           <Button color="inherit" onClick={logout}>
             Logout
-          </Button>): null}
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
