@@ -36,9 +36,7 @@ function Editdetail({ selectedActivity, onUpdate, onClose }) {
     });
   };
 
-  
-
-  const handleSubmit = async () => {
+  const handleSave = async () => {
     try {
       if (!selectedActivity || !selectedActivity.id) {
         alert("No activity selected for editing.");
@@ -47,11 +45,11 @@ function Editdetail({ selectedActivity, onUpdate, onClose }) {
 
       const activityDocRef = doc(db, "activities", selectedActivity.id);
       await updateDoc(activityDocRef, {
-        activityname: data.name,
-        contributors: Number(data.cont),
-        description: data.desc,
+        activityname: data.activityname,
+        contributors: Number(data.contributors),
+        description: data.description,
         funds: Number(data.funds),
-        location: data.loc,
+        location: data.location,
       });
 
       Swal.fire({
@@ -60,11 +58,21 @@ function Editdetail({ selectedActivity, onUpdate, onClose }) {
         icon: "success",
         confirmButtonText: "OK",
       });
-      onUpdate(); // Refresh the activity list
-      onClose(); // Close the edit dialog
+      if (onUpdate) {
+        await onUpdate();
+      }
+      if (onClose) {
+        onClose();
+      }
     } catch (err) {
       console.error("Error updating activity: ", err);
       alert("Error updating activity. Please try again.");
+    }
+  };
+
+  const handleCancel = () => {
+    if (onClose) {
+      onClose();
     }
   };
 
@@ -120,13 +128,13 @@ function Editdetail({ selectedActivity, onUpdate, onClose }) {
           />
         </Grid>
         <Grid item xs={12}>
-          <Button variant='contained' color='primary' onClick={handleSubmit}>
+          <Button variant='contained' color='primary' onClick={handleSave}>
             Save Changes
           </Button>
           <Button
             variant='outlined'
             color='secondary'
-            onClick={onClose}
+            onClick={handleCancel}
             style={{ marginLeft: "10px" }}
           >
             Cancel

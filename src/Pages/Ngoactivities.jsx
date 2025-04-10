@@ -18,7 +18,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
-import Ngoactivitydetail from "./ngoactivitydetail";
+import Ngoactivitydetail from "./Ngoactivitydetail";
 import Editdetail from "./editdetail";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
