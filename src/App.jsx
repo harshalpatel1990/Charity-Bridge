@@ -5,7 +5,7 @@ import NavBar from "./Components/Navbar";
 import Ngoregister from "./Pages/Ngoregister";
 import Ngologin from "./Pages/ngologin";
 import Ngoactivities from "./Pages/Ngoactivities";
-import Ngoactivitydetail from "./Pages/ngoactivitydetail";
+import Ngoactivitydetail from "./Pages/Ngoactivitydetail";
 import Ngoprofile from "./Pages/ngoprofile";
 import Ngodashboard from "./Pages/ngodashboard";
 

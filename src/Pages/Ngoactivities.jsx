@@ -136,7 +136,7 @@ function Ngoactivities() {
   };
   // console.log("datafromactivity", activity);
   useEffect(() => {
-    getactivity();   
+    getactivity();
   }, []);
 
   const fordelete = async () => {
@@ -286,13 +286,9 @@ function Ngoactivities() {
               <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                 New Activity
               </Typography>
-
-              <Button autoFocus color="inherit" onClick={handleClose}>
-                save
-              </Button>
             </Toolbar>
           </AppBar>
-          <Ngoactivitydetail />
+          <Ngoactivitydetail onClose={handleClose}/>
         </Dialog>
       </React.Fragment>
       <div
@@ -443,70 +439,69 @@ function Ngoactivities() {
                             </TabPanel>
                             <TabPanel value="2">
                               <center>
-
-                              <TableContainer
-                                component={Paper}
-                                sx={{ width: "50%" }}
+                                <TableContainer
+                                  component={Paper}
+                                  sx={{ width: "50%" }}
                                 >
-                                <Table aria-label="simple table">
-                                  <TableHead>
-                                    <TableRow>
-                                      <TableCell>Contributor</TableCell>
-                                      <TableCell>Amount</TableCell>
-                                      <TableCell>Date</TableCell>
-                                    </TableRow>
-                                  </TableHead>
-                                  <TableBody>
-                                    {activities
-                                      .filter(
-                                        (activity) =>
-                                          activity.id === selectedActivityId
-                                      ) // Filter by selected activity ID
-                                      .flatMap(
-                                        (activity) => activity.contributions
-                                      ) // Get contributions for the activity
-                                      .map((contribution, index) => (
-                                        <TableRow key={index + 1}>
-                                          <TableCell>
-                                            {contribution.userName}
-                                          </TableCell>
-                                          <TableCell>
-                                            {contribution.amount}
-                                          </TableCell>
-                                          <TableCell>
-                                            {new Date(
-                                              contribution.timestamp.toDate()
-                                            ).toLocaleString()}
+                                  <Table aria-label="simple table">
+                                    <TableHead>
+                                      <TableRow>
+                                        <TableCell>Contributor</TableCell>
+                                        <TableCell>Amount</TableCell>
+                                        <TableCell>Date</TableCell>
+                                      </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                      {activities
+                                        .filter(
+                                          (activity) =>
+                                            activity.id === selectedActivityId
+                                        ) // Filter by selected activity ID
+                                        .flatMap(
+                                          (activity) => activity.contributions
+                                        ) // Get contributions for the activity
+                                        .map((contribution, index) => (
+                                          <TableRow key={index + 1}>
+                                            <TableCell>
+                                              {contribution.userName}
+                                            </TableCell>
+                                            <TableCell>
+                                              {contribution.amount}
+                                            </TableCell>
+                                            <TableCell>
+                                              {new Date(
+                                                contribution.timestamp.toDate()
+                                              ).toLocaleString()}
+                                            </TableCell>
+                                          </TableRow>
+                                        ))}
+                                      {activities
+                                        .filter(
+                                          (activity) =>
+                                            activity.id === selectedActivityId
+                                        )
+                                        .flatMap(
+                                          (activity) => activity.contributions
+                                        ).length === 0 && (
+                                        <TableRow>
+                                          <TableCell colSpan={3} align="center">
+                                            <Typography
+                                              variant="body1"
+                                              sx={{
+                                                fontFamily: "cursive",
+                                                color: "text.secondary",
+                                                mt: 2,
+                                              }}
+                                            >
+                                              No contributions made.
+                                            </Typography>
                                           </TableCell>
                                         </TableRow>
-                                      ))}
-                                    {activities
-                                      .filter(
-                                        (activity) =>
-                                          activity.id === selectedActivityId
-                                      )
-                                      .flatMap(
-                                        (activity) => activity.contributions
-                                      ).length === 0 && (
-                                        <TableRow>
-                                        <TableCell colSpan={3} align="center">
-                                          <Typography
-                                            variant="body1"
-                                            sx={{
-                                              fontFamily: "cursive",
-                                              color: "text.secondary",
-                                              mt: 2,
-                                            }}
-                                            >
-                                            No contributions made.
-                                          </Typography>
-                                        </TableCell>
-                                      </TableRow>
-                                    )}
-                                  </TableBody>
-                                </Table>
-                              </TableContainer>
-                                    </center>
+                                      )}
+                                    </TableBody>
+                                  </Table>
+                                </TableContainer>
+                              </center>
                             </TabPanel>
                           </TabContext>
                         </Box>

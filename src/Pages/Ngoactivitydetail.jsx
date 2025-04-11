@@ -14,8 +14,8 @@ import { db, auth } from "../config/firebase";
 import { getDocs, collection, addDoc, query, where } from "firebase/firestore";
 import { useState } from "react";
 import { useEffect } from "react";
-function Ngoactivitydetail() {
-  let [data, setdata] = React.useState({
+function Ngoactivitydetail({ onClose }) {
+  const [data, setData] = React.useState({
     name: "",
     number: "",
     loc: "",
@@ -25,16 +25,12 @@ function Ngoactivitydetail() {
     cont_role: "",
   });
 
-  let gridStyles = {
-    padding: "7px",
-  };
   const handleChange = (event) => {
-    setdata({
+    setData({
       ...data,
       [event.target.name]: event.target.value,
     });
   };
-  const activitylistref = collection(db, "activities");
 
   const onsubmit = async () => {
     try {
@@ -55,6 +51,7 @@ function Ngoactivitydetail() {
       // Get the first document (assuming email is unique)
       const ngoDoc = ngoSnapshot.docs[0];
       const ngoId = ngoDoc.id;
+      const activitylistref = collection(db, "activities");
       await addDoc(activitylistref, {
         activityname: data.name,
         contributors: data.cont,
@@ -63,10 +60,14 @@ function Ngoactivitydetail() {
         location: data.loc,
         ngoid: ngoId,
       });
+
+      alert("Activity submitted successfully!");
+      onClose(); // Close the dialog box after submission
     } catch (err) {
       console.error(err);
     }
   };
+
   return (
     <div
       className="box"
@@ -78,7 +79,7 @@ function Ngoactivitydetail() {
         </h1>
 
         <Grid container>
-          <Grid item xs={12} sm={12} md={4} key={0} sx={gridStyles}>
+          <Grid item xs={12} sm={12} md={4} key={0} sx={{ padding: "7px" }}>
             <div className="box1">
               <TextField
                 id="filled-text"
@@ -91,13 +92,13 @@ function Ngoactivitydetail() {
               />
             </div>
           </Grid>
-          <Grid item xs={12} sm={12} md={4} lg={4} key={1} sx={gridStyles}>
+          <Grid item xs={12} sm={12} md={4} lg={4} key={1} sx={{ padding: "7px" }}>
             <LocalizationProvider dateAdapter={AdapterDayjs} className="date">
               <DatePicker label="Start Date" style={{ width: "100%" }} />
             </LocalizationProvider>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={4} key={2} sx={gridStyles}>
+          <Grid item xs={12} sm={12} md={4} key={2} sx={{ padding: "7px" }}>
             {/* <div className="box2"> */}
             <TextField
               id="filled-text"
@@ -110,7 +111,7 @@ function Ngoactivitydetail() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={12} md={4} key={3} sx={gridStyles}>
+          <Grid item xs={12} sm={12} md={4} key={3} sx={{ padding: "7px" }}>
             <TextField
               id="outlined-multiline-static"
               label="Location"
@@ -123,7 +124,7 @@ function Ngoactivitydetail() {
             {/* </div> */}
           </Grid>
 
-          <Grid item xs={12} sm={12} md={4} key={5} sx={gridStyles}>
+          <Grid item xs={12} sm={12} md={4} key={5} sx={{ padding: "7px" }}>
             {/* <div className="box2"> */}
             <TextField
               id="filled-text"
@@ -135,7 +136,7 @@ function Ngoactivitydetail() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={12} md={4} key={6} sx={gridStyles}>
+          <Grid item xs={12} sm={12} md={4} key={6} sx={{ padding: "7px" }}>
             <TextField
               id="filled-text"
               label="Contributors Required"
@@ -147,7 +148,7 @@ function Ngoactivitydetail() {
             {/* </div> */}
           </Grid>
 
-          <Grid item xs={12} sm={12} md={4} key={7} sx={gridStyles}>
+          <Grid item xs={12} sm={12} md={4} key={7} sx={{ padding: "7px" }}>
             <TextField
               id="outlined-multiline-static"
               label="Contributers Role"
@@ -159,7 +160,7 @@ function Ngoactivitydetail() {
               fullWidth
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={4} key={4} sx={gridStyles}>
+          <Grid item xs={12} sm={12} md={4} key={4} sx={{ padding: "7px" }}>
             <TextField
               id="outlined-multiline-static"
               label="Description"

@@ -6,21 +6,23 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-
 function Adminlogin() {
   const navigate = useNavigate();
-   const [Error, setError] = React.useState("");
+  const [Error, setError] = React.useState("");
   const [data, setdata] = React.useState({
     email: "",
     password: "",
   });
 
+  // Replace this with your admin email
+  const adminEmail = "harshalpatel26@gmail.com";
+
   const handlechange = (e) => {
     setdata({ ...data, [e.target.name]: e.target.value });
   };
-  console.log(auth?.currentUser?.email);
-    const signIn = async () => {
-      try {
+
+  const signIn = async () => {
+    try {
       if (!data.email) {
         setError("Email is required");
         return;
@@ -29,20 +31,24 @@ function Adminlogin() {
         setError("Password is required");
         return;
       }
-        await signInWithEmailAndPassword(auth, data.email, data.password);
-      } catch (Error) {
-        console.error(Error);
-      }
-    };
-    const login = () => {
-      navigate("/admin/dashboard");
-      signIn();
-    };
 
+      // Check if the entered email matches the admin email
+      if (data.email !== adminEmail) {
+        setError("Unauthorized access. Only the admin can log in.");
+        return;
+      }
+
+      // Sign in with Firebase Authentication
+      await signInWithEmailAndPassword(auth, data.email, data.password);
+      navigate("/admin/dashboard"); // Navigate to the admin dashboard on successful login
+    } catch (error) {
+      console.error(error);
+      setError("Invalid email or password. Please try again.");
+    }
+  };
 
   return (
     <div>
-      {" "}
       <center>
         <Paper
           sx={{
@@ -55,14 +61,14 @@ function Adminlogin() {
             marginTop: "5%",
           }}
         >
-          <h3>Login</h3>
+          <h3>Admin Login</h3>
           <br />
           <TextField
-            id='outlined-basic'
-            label='Email'
-            variant='outlined'
-            type='text'
-            name='email'
+            id="outlined-basic"
+            label="Email"
+            variant="outlined"
+            type="text"
+            name="email"
             onChange={handlechange}
             sx={{
               width: "300px",
@@ -84,11 +90,11 @@ function Adminlogin() {
           <br />
           <br />
           <TextField
-            id='outlined-basic'
-            label='Password'
-            variant='outlined'
-            type='password'
-            name='password'
+            id="outlined-basic"
+            label="Password"
+            variant="outlined"
+            type="password"
+            name="password"
             onChange={handlechange}
             sx={{
               width: "300px",
@@ -109,29 +115,14 @@ function Adminlogin() {
           />
           <br />
           <br />
-          <Button
-              variant="outlined"
-              onClick={login}
-            >
-              Login
-            </Button>
-            {Error && <p style={{ color: "red" }}>{Error}</p>}
-          <p>
-            Don't have account to register{" "}
-            <a
-              onClick={() => navigate("/user/register")}
-              style={{
-                cursor: "pointer",
-                color: "blue",
-                textDecoration: "underline",
-              }}
-            >
-              Click here!
-            </a>
-          </p>
+          <Button variant="outlined" onClick={signIn}>
+            Login
+          </Button>
+          {Error && <p style={{ color: "red" }}>{Error}</p>}
         </Paper>
       </center>
     </div>
   );
 }
+
 export default Adminlogin;
