@@ -124,7 +124,9 @@ export default function NavBar() {
           backgroundColor: "#5DADE2", // Change this to your desired color
         }}
       >
-        <Toolbar>
+          <Toolbar>
+        {(localStorage.getItem("accessToken"))
+        ?(
           <IconButton
             size="large"
             edge="start"
@@ -138,16 +140,18 @@ export default function NavBar() {
               },
               open && { display: "none" },
             ]}
-          >
+            >
             <MenuIcon />
           </IconButton>
+            ) : null}
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Charity Bridge
-          </Typography>
+          </Typography> {(localStorage.getItem("accessToken"))
+        ?(
           <Button color="inherit" onClick={logout}>
             Logout
-          </Button>
+          </Button>):null}
         </Toolbar>
       </AppBar>
       <Drawer
