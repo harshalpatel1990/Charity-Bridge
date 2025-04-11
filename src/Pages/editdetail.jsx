@@ -132,8 +132,8 @@ function Editdetail({ selectedActivity, onUpdate, onClose }) {
             Save Changes
           </Button>
           <Button
-            variant='outlined'
-            color='secondary'
+            variant='contained'
+            color='primary'
             onClick={handleCancel}
             style={{ marginLeft: "10px" }}
           >

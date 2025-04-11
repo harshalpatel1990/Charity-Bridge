@@ -63,6 +63,8 @@ function Ngoactivitydetail({ onClose }) {
 
       alert("Activity submitted successfully!");
       onClose(); // Close the dialog box after submission
+
+      getactivity();
     } catch (err) {
       console.error(err);
     }
@@ -92,7 +94,15 @@ function Ngoactivitydetail({ onClose }) {
               />
             </div>
           </Grid>
-          <Grid item xs={12} sm={12} md={4} lg={4} key={1} sx={{ padding: "7px" }}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={4}
+            lg={4}
+            key={1}
+            sx={{ padding: "7px" }}
+          >
             <LocalizationProvider dateAdapter={AdapterDayjs} className="date">
               <DatePicker label="Start Date" style={{ width: "100%" }} />
             </LocalizationProvider>

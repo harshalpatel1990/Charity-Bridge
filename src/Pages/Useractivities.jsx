@@ -26,7 +26,7 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
 import { db, auth } from "../config/firebase";
-import DoneAllIcon from '@mui/icons-material/DoneAll';
+import DoneAllIcon from "@mui/icons-material/DoneAll";
 
 import {
   query,
@@ -47,7 +47,7 @@ function CustomTabPanel(props) {
 
   return (
     <div
-      role='tabpanel'
+      role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
@@ -72,7 +72,7 @@ function a11yProps(index) {
 }
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />;
+  return <Slide direction="up" ref={ref} {...props} />;
 });
 
 function Useractivities() {
@@ -259,17 +259,26 @@ function Useractivities() {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "3%" }}>
+    <div style={{ display: "flex", flexDirection:"column", justifyContent: "center", padding: "3%" }}>
+      <center>
+        <h1 style={{ fontFamily: "cursive"}}>
+              User Activities
+            </h1>
+        </center>
+        <br/>
+
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
+            
             <TableRow>
-              <TableCell align='center'>Name</TableCell>
-              <TableCell align='center'>Contributors</TableCell>
-              <TableCell align='center'>Funds</TableCell>
-              <TableCell align='center'>Location</TableCell>
-              <TableCell align='center'>Description&nbsp;(g)</TableCell>
-              <TableCell align='center'></TableCell>
+              <TableCell align="center">Name</TableCell>
+              <TableCell align="center">Contributors</TableCell>
+              <TableCell align="center">Funds</TableCell>
+              <TableCell align="center">Location</TableCell>
+              <TableCell align="center">Description&nbsp;(g)</TableCell>
+              <TableCell align="center"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -278,18 +287,18 @@ function Useractivities() {
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align='center'>{row.activityname}</TableCell>
-                <TableCell align='center' component='th' scope='row'>
+                <TableCell align="center">{row.activityname}</TableCell>
+                <TableCell align="center" component="th" scope="row">
                   {row.contributors}
                 </TableCell>
-                <TableCell align='center'>{row.funds}</TableCell>
-                <TableCell align='center'>{row.location}</TableCell>
+                <TableCell align="center">{row.funds}</TableCell>
+                <TableCell align="center">{row.location}</TableCell>
 
-                <TableCell align='center'>{row.description}</TableCell>
-                <TableCell align='center'>
+                <TableCell align="center">{row.description}</TableCell>
+                <TableCell align="center">
                   <React.Fragment>
                     <Button
-                      variant='outlined'
+                      variant="outlined"
                       onClick={() =>
                         handleClickOpen(
                           row.id,
@@ -308,19 +317,19 @@ function Useractivities() {
                       TransitionComponent={Transition}
                     >
                       <AppBar sx={{ position: "relative" }}>
-                        <Toolbar>
+                        <Toolbar sx={{ backgroundColor: "#5dade2" }}>
                           <IconButton
-                            edge='start'
-                            color='inherit'
+                            edge="start"
+                            color="inherit"
                             onClick={handleClose}
-                            aria-label='close'
+                            aria-label="close"
                           >
                             <CloseIcon />
                           </IconButton>
 
                           <Button
                             autoFocus
-                            color='inherit'
+                            color="inherit"
                             onClick={handleClose}
                             sx={{ marginLeft: "auto" }} // Align the button to the right
                           >
@@ -333,11 +342,11 @@ function Useractivities() {
                           <Tabs
                             value={value}
                             onChange={handleChange}
-                            aria-label='basic tabs example'
+                            aria-label="basic tabs example"
                           >
-                            <Tab label='Volunteer' {...a11yProps(0)} />
-                            <Tab label='Contribute' {...a11yProps(1)} />
-                            <Tab label='Ngo Details' {...a11yProps(2)} />
+                            <Tab label="Volunteer" {...a11yProps(0)} />
+                            <Tab label="Contribute" {...a11yProps(1)} />
+                            <Tab label="Ngo Details" {...a11yProps(2)} />
                           </Tabs>
                         </Box>
                         <CustomTabPanel value={value} index={0}>
@@ -353,8 +362,8 @@ function Useractivities() {
                               >
                                 <TextField
                                   disabled
-                                  id='outlined-disabled'
-                                  label='Activity Name'
+                                  id="outlined-disabled"
+                                  label="Activity Name"
                                   defaultValue={selectedActivityName} // Use selected activity name
                                 />
                               </Grid>
@@ -370,9 +379,9 @@ function Useractivities() {
                                 }}
                               >
                                 <TextField
-                                  id='outlined-basic'
-                                  label='message'
-                                  variant='outlined'
+                                  id="outlined-basic"
+                                  label="message"
+                                  variant="outlined"
                                 />
                               </Grid>
                               <br />
@@ -386,7 +395,7 @@ function Useractivities() {
                                 }}
                               >
                                 <Button
-                                  variant='outlined'
+                                  variant="outlined"
                                   onClick={handleVolunteerParticipation}
                                 >
                                   Participate as volunteer
@@ -401,9 +410,9 @@ function Useractivities() {
                             <Grid Container sx={{ width: "50%" }}>
                               <Grid>
                                 <TextField
-                                  id='outlined-basic'
-                                  label='Amount'
-                                  variant='outlined'
+                                  id="outlined-basic"
+                                  label="Amount"
+                                  variant="outlined"
                                   sx={{ width: "100%" }}
                                   onChange={(e) =>
                                     setDonationAmount(e.target.value)
@@ -414,16 +423,16 @@ function Useractivities() {
                                 <br />
                                 <TextField
                                   disabled
-                                  id='outlined-disabled'
-                                  label='Activity Detail'
+                                  id="outlined-disabled"
+                                  label="Activity Detail"
                                   defaultValue={selectedActivityName}
                                 />
                                 <br />
                                 <br />
                                 <TextField
                                   disabled
-                                  id='outlined-disabled'
-                                  label='Funds Required'
+                                  id="outlined-disabled"
+                                  label="Funds Required"
                                   defaultValue={selectedFunds} // Use selected funds value
                                 />
                                 <br />
@@ -431,7 +440,7 @@ function Useractivities() {
 
                                 <center>
                                   <Button
-                                    variant='outlined'
+                                    variant="outlined"
                                     onClick={() =>
                                       handleContribute(Number(donationAmount))
                                     } // Pass the donation amount
@@ -448,37 +457,42 @@ function Useractivities() {
                             {ngoDetails ? (
                               <Grid container spacing={2} sx={{ width: "50%" }}>
                                 <Grid item xs={12}>
-                                  <Typography variant='h6' gutterBottom>
+                                  <Typography variant="h6" gutterBottom>
                                     NGO Details
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                  <Typography variant='body1'>
+                                  <Typography variant="body1">
                                     <strong>NGO Name:</strong>{" "}
-                                    {ngoDetails.ngoname || "N/A"} {ngoDetails.verifyngo ? (<strong><DoneAllIcon/> Verified</strong>): (null)}
+                                    {ngoDetails.ngoname || "N/A"}{" "}
+                                    {ngoDetails.verifyngo ? (
+                                      <strong style={{ color: "#5dade2" }}>
+                                        <DoneAllIcon /> Verified
+                                      </strong>
+                                    ) : null}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                  <Typography variant='body1'>
+                                  <Typography variant="body1">
                                     <strong>Email:</strong>{" "}
                                     {ngoDetails.email || "N/A"}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                  <Typography variant='body1'>
+                                  <Typography variant="body1">
                                     <strong>Contact:</strong>{" "}
                                     {ngoDetails.contact || "N/A"}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                  <Typography variant='body1'>
+                                  <Typography variant="body1">
                                     <strong>Address:</strong>{" "}
                                     {ngoDetails.city || "N/A"}
                                   </Typography>
                                 </Grid>
                               </Grid>
                             ) : (
-                              <Typography variant='body1'>
+                              <Typography variant="body1">
                                 No NGO details available.
                               </Typography>
                             )}
@@ -498,12 +512,12 @@ function Useractivities() {
           {ngoDetails ? (
             <Grid container spacing={2} sx={{ width: "50%" }}>
               <Grid item xs={12}>
-                <Typography variant='h6'>NGO Details</Typography>
+                <Typography variant="h6">NGO Details</Typography>
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   disabled
-                  label='NGO Name'
+                  label="NGO Name"
                   value={ngoDetails.name || "N/A"} // Replace "name" with the actual field name in your NGO collection
                   fullWidth
                 />
@@ -511,7 +525,7 @@ function Useractivities() {
               <Grid item xs={12}>
                 <TextField
                   disabled
-                  label='Email'
+                  label="Email"
                   value={ngoDetails.email || "N/A"} // Replace "email" with the actual field name
                   fullWidth
                 />
@@ -519,7 +533,7 @@ function Useractivities() {
               <Grid item xs={12}>
                 <TextField
                   disabled
-                  label='Contact'
+                  label="Contact"
                   value={ngoDetails.contact || "N/A"} // Replace "contact" with the actual field name
                   fullWidth
                 />
@@ -527,14 +541,14 @@ function Useractivities() {
               <Grid item xs={12}>
                 <TextField
                   disabled
-                  label='Address'
+                  label="Address"
                   value={ngoDetails.address || "N/A"} // Replace "address" with the actual field name
                   fullWidth
                 />
               </Grid>
             </Grid>
           ) : (
-            <Typography variant='body1'>No NGO details available.</Typography>
+            <Typography variant="body1">No NGO details available.</Typography>
           )}
         </center>
       </CustomTabPanel>
