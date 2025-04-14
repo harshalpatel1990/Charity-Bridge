@@ -136,9 +136,8 @@ function Useractivities() {
     }
   };
   console.log("datafromactivity", activity);
-  useEffect(() => {
-    getactivity();
-  }, []);
+
+  getactivity();
 
   const handleVolunteerParticipation = async () => {
     try {
@@ -259,19 +258,22 @@ function Useractivities() {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection:"column", justifyContent: "center", padding: "3%" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        padding: "3%",
+      }}
+    >
       <center>
-        <h1 style={{ fontFamily: "cursive"}}>
-              User Activities
-            </h1>
-        </center>
-        <br/>
+        <h1 style={{ fontFamily: "cursive" }}>User Activities</h1>
+      </center>
+      <br />
 
       <TableContainer component={Paper}>
-
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
-            
             <TableRow>
               <TableCell align="center">Name</TableCell>
               <TableCell align="center">Contributors</TableCell>

@@ -7,11 +7,11 @@ import Ngologin from "./Pages/ngologin";
 import Ngoactivities from "./Pages/Ngoactivities";
 import Ngoactivitydetail from "./Pages/Ngoactivitydetail";
 import Ngoprofile from "./Pages/ngoprofile";
-import Ngodashboard from "./Pages/ngodashboard";
+// import Ngodashboard from "./Pages/ngodashboard";
 
 import Useractivities from "./Pages/Useractivities";
 import Useractivitydetail from "./Pages/Useractivitydetail";
-import Userdashboard from "./Pages/userdashboard";
+// import Userdashboard from "./Pages/userdashboard";
 import Userlogin from "./Pages/userlogin";
 import Userreciepts from "./Pages/userreciepts";
 import Userrecognition from "./Pages/Userrecognition";
@@ -23,7 +23,7 @@ import Verifyngo from "./Pages/Verifyngo";
 import Verifyuser from "./Pages/Verifyuser";
 import PrivateRoute from "./Privateroutes";
 import MainLogin from "./Pages/mainlogin";
-
+import HomePage from "./Pages/HomePage";
 function App() {
   return (
     <div>
@@ -31,11 +31,11 @@ function App() {
         <NavBar />
         <br />
         <br />
-        <br />
-        <br />
+        
 
         <Routes>
-          <Route path="/" Component={MainLogin}></Route>
+          <Route path="/" Component={HomePage}></Route>
+          <Route path="/mainlogin" Component={MainLogin}></Route>
           <Route element={<PrivateRoute />}>
             <Route path="/ngo/activities" Component={Ngoactivities}></Route>
             <Route
@@ -43,7 +43,7 @@ function App() {
               Component={Ngoactivitydetail}
             ></Route>
             <Route path="/ngo/profile" Component={Ngoprofile}></Route>
-            <Route path="/ngo/dashboard" Component={Ngodashboard}></Route>
+            {/* <Route path="/ngo/dashboard" Component={Ngodashboard}></Route> */}
             <Route path="/user/activities" Component={Useractivities}></Route>
             <Route path="/user/profile" Component={Userprofile}></Route>
 
@@ -53,7 +53,7 @@ function App() {
             ></Route>
             <Route path="/user/reciepts" Component={Userreciepts}></Route>
             <Route path="/user/recognition" Component={Userrecognition}></Route>
-            <Route path="/user/dashboard" Component={Userdashboard}></Route>
+            {/* <Route path="/user/dashboard" Component={Userdashboard}></Route> */}
           </Route>
 
           <Route path="/ngo/register" Component={Ngoregister}></Route>
