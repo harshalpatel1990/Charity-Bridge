@@ -98,7 +98,6 @@ const Userprofile = () => {
             {[
               { label: "Username", name: "username" },
               { label: "Email ID", name: "email" },
-              { label: "Password", name: "password", type: "password" },
               { label: "Name", name: "name" },
               { label: "Address", name: "city" },
               { label: "Age", name: "age" },

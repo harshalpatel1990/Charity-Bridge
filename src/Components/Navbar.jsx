@@ -108,6 +108,8 @@ export default function NavBar() {
     try {
       await signOut(auth);
       localStorage.removeItem("accessToken");
+      localStorage.removeItem("ngoid");
+      localStorage.removeItem("email");
       navigate("/");
     } catch (error) {
       console.log(error);

@@ -90,7 +90,6 @@ function Useregister() {
         contact: data.contact,
         gender: data.gender,
         verifyuser: false,
-        password: data.password,
       });
 
       alert("User registered successfully!");

@@ -50,28 +50,35 @@ function Ngologin() {
   };
   const login = async () => {
     try {
-      
       // Check if the email exists in the ngoinfo collection
       const ngoQuery = query(
-        collection(db, "ngoinfo"), 
+        collection(db, "ngoinfo"), // Replace "ngoinfo" with your collection name
         where("email", "==", data.email.toLowerCase())
       );
       const ngoSnapshot = await getDocs(ngoQuery);
-      
+
       if (ngoSnapshot.empty) {
         setError(
           "Email not found in NGO records. Please check your credentials."
         );
         return; // Stop further execution if email is not found
       }
-      await signIn(); // First wait for sign-in
 
-      // If email exists, proceed with login
-      const idToken = await auth.currentUser.getIdToken(); // Then get the access token
-      console.log("Access Token:", idToken);
-      localStorage.setItem("accessToken", idToken);
+      // Retrieve the ngoId from the query result
+      const ngoDoc = ngoSnapshot.docs[0]; // Get the first document
+      const ngoId = ngoDoc.id; // The document ID is the ngoId
+
+      // Proceed with sign-in
+      await signInWithEmailAndPassword(auth, data.email, data.password);
+
+      // Store the ngoId in localStorage
+      localStorage.setItem("ngoid", ngoId);
+      localStorage.setItem("accessToken", await auth.currentUser.getIdToken());
       localStorage.setItem("email", data.email.toLowerCase());
-      navigate("/ngo/activities"); // Navigate only if login is successful
+      console.log("Access Token:", localStorage.getItem("accessToken"));
+
+      // Navigate to the NGO activities page
+      navigate("/ngo/activities");
     } catch (error) {
       console.error("Login failed:", error);
       setError("Login failed. Please check your email and password."); // Display error on screen

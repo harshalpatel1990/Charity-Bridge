@@ -97,7 +97,6 @@ const NgoProfile = () => {
             {[
               { label: "Username", name: "username" },
               { label: "Email ID", name: "email" },
-              { label: "Password", name: "password", type: "password" },
               { label: "Name", name: "ngoname" },
               { label: "Address", name: "city" },
               { label: "Year of Establishment", name: "yearofestablishment" },

@@ -5,7 +5,8 @@ import { Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../config/firebase";
 function Adminlogin() {
   const navigate = useNavigate();
   const [Error, setError] = React.useState("");
@@ -40,12 +41,24 @@ function Adminlogin() {
 
       // Sign in with Firebase Authentication
       await signInWithEmailAndPassword(auth, data.email, data.password);
-      navigate("/admin/dashboard"); // Navigate to the admin dashboard on successful login
     } catch (error) {
       console.error(error);
       setError("Invalid email or password. Please try again.");
+      throw error;
     }
   };
+  const login = async () => {
+      try {
+        await signIn(); // First wait for sign-in
+        const idToken = await auth.currentUser.getIdToken(); // Then get the access token
+        console.log("Access Token:", idToken);
+        localStorage.setItem("accessToken", idToken);
+        navigate("/admin/verifyuser"); // Navigate only if login is successful
+      } catch (error) {
+        console.error("Login failed:", error);
+        setError("Login failed. Please check your credentials."); // Display error on screen
+      }
+    };
 
   return (
     <div>
@@ -115,7 +128,7 @@ function Adminlogin() {
           />
           <br />
           <br />
-          <Button variant="outlined" onClick={signIn}>
+          <Button variant="outlined" onClick={login}>
             Login
           </Button>
           {Error && <p style={{ color: "red" }}>{Error}</p>}
