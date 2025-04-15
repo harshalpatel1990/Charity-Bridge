@@ -24,7 +24,7 @@ import { MenuItem, Select, FormControl, InputLabel } from "@mui/material";
 function HomePage() {
   const [count, setCount] = useState({ donors: 0, projects: 0, volunteers: 0 });
   const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0.2]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -63,16 +63,15 @@ function HomePage() {
         }}
       >
         <motion.div
-          style={{ opacity }}
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
           <Container
-            maxWidth="lg"
+            maxWidth='lg'
             sx={{ pt: 20, position: "relative", zIndex: 2 }}
           >
-            <Grid container spacing={4} alignItems="center">
+            <Grid container spacing={4} alignItems='center'>
               <Grid item xs={12} md={6}>
                 <motion.div
                   initial={{ x: -100, opacity: 0 }}
@@ -80,7 +79,7 @@ function HomePage() {
                   transition={{ duration: 1 }}
                 >
                   <Typography
-                    variant="h1"
+                    variant='h1'
                     sx={{
                       color: "#1a237e",
                       fontWeight: 800,
@@ -94,7 +93,7 @@ function HomePage() {
                     Building Hope
                   </Typography>
                   <Typography
-                    variant="h5" // Changed from h5
+                    variant='h5' // Changed from h5
                     sx={{
                       color: "#1a237e",
                       mb: 4, // Reduced margin
@@ -108,7 +107,7 @@ function HomePage() {
                   </Typography>
                   <FormControl
                     fullWidth
-                    variant="outlined"
+                    variant='outlined'
                     sx={{
                       mt: 4,
                       "& .MuiOutlinedInput-root": {
@@ -140,7 +139,7 @@ function HomePage() {
                     }}
                   >
                     <InputLabel
-                      id="login-select-label"
+                      id='login-select-label'
                       sx={{
                         fontFamily: "'Dancing Script', cursive",
                         color: "#1a237e",
@@ -149,11 +148,11 @@ function HomePage() {
                       Get Started
                     </InputLabel>
                     <Select
-                      labelId="login-select-label"
-                      id="login-select"
+                      labelId='login-select-label'
+                      id='login-select'
                       onChange={handleNavigation}
-                      defaultValue=""
-                      label="Select Login"
+                      defaultValue=''
+                      label='Select Login'
                       sx={{
                         color: "#1a237e",
                         fontFamily: "'Dancing Script', cursive",
@@ -181,29 +180,29 @@ function HomePage() {
                         },
                       }}
                     >
-                      <MenuItem 
-                        value="/ngo/login" 
-                        sx={{ 
+                      <MenuItem
+                        value='/ngo/login'
+                        sx={{
                           color: "#1a237e",
-                          fontFamily: "'Dancing Script', cursive" 
+                          fontFamily: "'Dancing Script', cursive",
                         }}
                       >
                         NGO Login
                       </MenuItem>
-                      <MenuItem 
-                        value="/user/login"
-                        sx={{ 
+                      <MenuItem
+                        value='/user/login'
+                        sx={{
                           color: "#1a237e",
-                          fontFamily: "'Dancing Script', cursive" 
+                          fontFamily: "'Dancing Script', cursive",
                         }}
                       >
                         User Login
                       </MenuItem>
-                      <MenuItem 
-                        value="/admin/login"
-                        sx={{ 
+                      <MenuItem
+                        value='/admin/login'
+                        sx={{
                           color: "#1a237e",
-                          fontFamily: "'Dancing Script', cursive" 
+                          fontFamily: "'Dancing Script', cursive",
                         }}
                       >
                         Admin Login
@@ -224,7 +223,7 @@ function HomePage() {
                   }}
                 >
                   <DotLottieReact
-                    src="https://lottie.host/7b57925a-8cca-4c20-83b4-5c03eb054e13/HH6YzHzpq7.lottie"
+                    src='https://lottie.host/7b57925a-8cca-4c20-83b4-5c03eb054e13/HH6YzHzpq7.lottie'
                     loop
                     autoplay
                     style={{ width: "100%", maxWidth: "500px" }}
@@ -263,7 +262,7 @@ function HomePage() {
       <Box sx={{ py: 2 }}>
         {" "}
         {/* Reduced padding from 6 to 2 */}
-        <Container maxWidth="lg">
+        <Container maxWidth='lg'>
           <Grid
             container
             spacing={2} // Reduced spacing from 3 to 2
@@ -321,7 +320,7 @@ function HomePage() {
                     sx: { fontSize: 40, color: item.color, mb: 1.5 }, // Smaller icon
                   })}
                   <Typography
-                    variant="h4"
+                    variant='h4'
                     sx={{
                       fontWeight: 700,
                       color: item.color,
@@ -333,7 +332,7 @@ function HomePage() {
                     {item.count.toLocaleString()}+
                   </Typography>
                   <Typography
-                    variant="subtitle1"
+                    variant='subtitle1'
                     sx={{
                       fontWeight: 600,
                       color: "#1a237e",
@@ -354,12 +353,12 @@ function HomePage() {
       <Box sx={{ py: 6 }}>
         {" "}
         {/* Reduced padding */}
-        <Container maxWidth="lg">
+        <Container maxWidth='lg'>
           {" "}
           {/* Changed from xl to lg */}
           <Typography
-            variant="h3" // Changed from h2
-            align="center"
+            variant='h3' // Changed from h2
+            align='center'
             sx={{
               mb: 5, // Reduced margin
               fontWeight: 700,
@@ -448,7 +447,7 @@ function HomePage() {
                     sx: { fontSize: 40, color: feature.color, mb: 2 }, // Smaller icon
                   })}
                   <Typography
-                    variant="h5" // Changed from h4
+                    variant='h5' // Changed from h4
                     sx={{
                       mb: 1.5,
                       fontWeight: 700,
@@ -460,7 +459,7 @@ function HomePage() {
                     {feature.title}
                   </Typography>
                   <Typography
-                    variant="body2" // Changed from body1
+                    variant='body2' // Changed from body1
                     sx={{
                       color: "#666",
                       fontSize: { xs: "0.875rem", md: "0.95rem" },
