@@ -2,13 +2,14 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Paper } from "@mui/material";
+import { Paper, IconButton, } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../config/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore"; // Import Firestore functions
 import { db } from "../config/firebase"; // Import your Firestore instance
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import KeyboardBackspaceOutlinedIcon from "@mui/icons-material/KeyboardBackspaceOutlined";
 
 function Userlogin() {
   const navigate = useNavigate();
@@ -64,10 +65,27 @@ function Userlogin() {
       setError("Login failed. Please check your credentials."); // Display error on screen
     }
   };
+  const handleBackToHome = () => {
+    navigate("/");
+  };
 
   return (
     <div>
       {" "}
+      <IconButton
+          onClick={handleBackToHome}
+          sx={{
+            position: "absolute",
+            top: "100px",
+            left: "20px",
+            color: "#1a237e",
+            "&:hover": {
+              backgroundColor: "rgba(93, 173, 226, 0.1)",
+            },
+          }}
+        >
+          <KeyboardBackspaceOutlinedIcon />
+        </IconButton>
       <center>
         <Paper
           sx={{

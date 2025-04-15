@@ -40,25 +40,13 @@ function UserHistory() {
           return;
         }
 
-        // First get the user ID from userinfo collection
-        const userInfoQuery = query(
-          collection(db, "userinfo"),
-          where("email", "==", currentUser.email)
-        );
-        const userInfoSnapshot = await getDocs(userInfoQuery);
+        // Use currentUser.email directly since that's what we store in collections
+        const userEmail = currentUser.email;
 
-        if (userInfoSnapshot.empty) {
-          console.error("User info not found");
-          setLoading(false);
-          return;
-        }
-
-        const userId = userInfoSnapshot.docs[0].id;
-
-        // Fetch volunteer history using user ID
+        // Fetch volunteer history using email directly
         const volunteerQuery = query(
           collection(db, "volunteers"),
-          where("userId", "==", userId)
+          where("userEmail", "==", userEmail)
         );
         const volunteerSnapshot = await getDocs(volunteerQuery);
         const volunteerData = volunteerSnapshot.docs.map((doc) => ({
@@ -67,10 +55,10 @@ function UserHistory() {
           date: doc.data().date?.toDate()?.toLocaleDateString() || "N/A",
         }));
 
-        // Fetch contribution history using user ID
+        // Fetch contribution history using email directly
         const contributionQuery = query(
           collection(db, "contributions"),
-          where("userId", "==", userId)
+          where("userEmail", "==", userEmail)
         );
         const contributionSnapshot = await getDocs(contributionQuery);
         const contributionData = contributionSnapshot.docs.map((doc) => ({

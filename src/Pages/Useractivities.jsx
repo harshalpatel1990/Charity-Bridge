@@ -185,10 +185,10 @@ function Useractivities() {
     }
 
     try {
-      const userEmail = auth?.currentUser?.email; // Get the logged-in user's email
+      const usermail = auth?.currentUser?.email; // Get the logged-in user's email
       const userQuery = query(
         collection(db, "userinfo"),
-        where("email", "==", userEmail)
+        where("email", "==", usermail)
       );
       const userSnapshot = await getDocs(userQuery);
 
@@ -199,7 +199,7 @@ function Useractivities() {
 
       // Extract the user's name from the query result
       const userDoc = userSnapshot.docs[0];
-      const userName = userDoc.data().name;
+      const userEmail = userDoc.data().email;
 
       // Reference the specific activity document using its Firestore ID
       const activityDocRef = doc(db, "activities", selectedActivityId);
@@ -228,7 +228,7 @@ function Useractivities() {
       const contributionsCollectionRef = collection(db, "contributions");
       await addDoc(contributionsCollectionRef, {
         activityId: selectedActivityId, // Reference to the activity
-        userName: userName, // Use the fetched user name
+        userEmail: userEmail, // Use the fetched user name
         amount: amount, // The donated amount
         timestamp: new Date(), // The current timestamp
       });
