@@ -120,12 +120,11 @@ export default function NavBar() {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
-         position="fixed"
-      elevation={0}
-      sx={{
-        backgroundColor: '#1a237e',
-        
-      }}
+        position="fixed"
+        open={open}
+        sx={{
+          backgroundColor: "#5DADE2", // Change this to your desired color
+        }}
       >
         <Toolbar>
           {localStorage.getItem("accessToken") ? (

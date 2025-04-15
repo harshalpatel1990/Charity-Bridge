@@ -19,6 +19,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useNavigate } from "react-router-dom";
+import { MenuItem, Select, FormControl, InputLabel } from "@mui/material";
 
 function HomePage() {
   const [count, setCount] = useState({ donors: 0, projects: 0, volunteers: 0 });
@@ -36,15 +37,27 @@ function HomePage() {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   let navigate = useNavigate();
+  const handleNavigation = (event) => {
+    const selectedPath = event.target.value;
+    if (selectedPath) {
+      navigate(selectedPath); // Navigate to the selected login page
+    }
+  };
+
   return (
     <Box sx={{ overflow: "hidden" }}>
       {/* Hero Section */}
 
       <Box
         sx={{
-          minHeight: "100vh",
-          background: "linear-gradient(135deg, #1a237e 0%, #0d47a1 100%)",
+          minHeight: "80vh",
+          background: "rgba(255,255,255,0.1)",
           position: "relative",
           overflow: "hidden",
         }}
@@ -69,44 +82,134 @@ function HomePage() {
                   <Typography
                     variant="h1"
                     sx={{
-                      color: "white",
+                      color: "#1a237e",
                       fontWeight: 800,
-                      fontSize: { xs: "2.5rem", md: "4rem" },
-                      mb: 3,
+                      fontSize: { xs: "2.5rem", md: "4rem" }, // Reduced font size
+                      mb: 2, // Reduced margin
+                      fontFamily: "'Playfair Display', cursive",
                     }}
                   >
                     Bridging Hearts,
                     <br />
                     Building Hope
                   </Typography>
-
                   <Typography
-                    variant="h5"
+                    variant="h5" // Changed from h5
                     sx={{
-                      color: "rgba(255, 255, 255, 0.9)",
-                      mb: 4,
+                      color: "#1a237e",
+                      mb: 4, // Reduced margin
                       lineHeight: 1.8,
+                      fontSize: { xs: "0.9rem", md: "1.1rem" }, // Smaller font
+                      fontFamily: "'Dancing Script', cursive",
                     }}
                   >
                     Connecting NGOs, Contributors, and Donors to create lasting
                     positive impact in communities.
                   </Typography>
-                  <Button
-                    variant="contained"
-                    size="large"
+                  <FormControl
+                    fullWidth
+                    variant="outlined"
                     sx={{
-                      backgroundColor: "#ff6b6b",
-                      "&:hover": { backgroundColor: "#ff5252" },
-                      borderRadius: "30px",
-                      px: 4,
-                      py: 2,
-                    }}
-                    onClick={() => {
-                      navigate("/mainlogin");
+                      mt: 4,
+                      "& .MuiOutlinedInput-root": {
+                        color: "#1a237e",
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        backdropFilter: "blur(8px)",
+                        borderRadius: "12px",
+                        transition: "all 0.3s ease",
+                        "& fieldset": {
+                          borderColor: "rgba(26, 35, 126, 0.3)",
+                        },
+                        "&:hover fieldset": {
+                          borderColor: "#1a237e",
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#1a237e",
+                        },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "#1a237e",
+                        fontFamily: "'Dancing Script', cursive",
+                      },
+                      "& .MuiInputLabel-root.Mui-focused": {
+                        color: "#1a237e",
+                      },
+                      "& .MuiSelect-icon": {
+                        color: "#1a237e",
+                      },
                     }}
                   >
-                    Get Started
-                  </Button>
+                    <InputLabel
+                      id="login-select-label"
+                      sx={{
+                        fontFamily: "'Dancing Script', cursive",
+                        color: "#1a237e",
+                      }}
+                    >
+                      Get Started
+                    </InputLabel>
+                    <Select
+                      labelId="login-select-label"
+                      id="login-select"
+                      onChange={handleNavigation}
+                      defaultValue=""
+                      label="Select Login"
+                      sx={{
+                        color: "#1a237e",
+                        fontFamily: "'Dancing Script', cursive",
+                      }}
+                      MenuProps={{
+                        PaperProps: {
+                          sx: {
+                            bgcolor: "white",
+                            "& .MuiMenuItem-root": {
+                              color: "#1a237e",
+                              fontFamily: "'Dancing Script', cursive",
+                              transition: "all 0.2s ease",
+                              "&:hover": {
+                                bgcolor: "rgba(26, 35, 126, 0.05)",
+                              },
+                              "&.Mui-selected": {
+                                bgcolor: "rgba(26, 35, 126, 0.1)",
+                                color: "#1a237e",
+                                "&:hover": {
+                                  bgcolor: "rgba(26, 35, 126, 0.15)",
+                                },
+                              },
+                            },
+                          },
+                        },
+                      }}
+                    >
+                      <MenuItem 
+                        value="/ngo/login" 
+                        sx={{ 
+                          color: "#1a237e",
+                          fontFamily: "'Dancing Script', cursive" 
+                        }}
+                      >
+                        NGO Login
+                      </MenuItem>
+                      <MenuItem 
+                        value="/user/login"
+                        sx={{ 
+                          color: "#1a237e",
+                          fontFamily: "'Dancing Script', cursive" 
+                        }}
+                      >
+                        User Login
+                      </MenuItem>
+                      <MenuItem 
+                        value="/admin/login"
+                        sx={{ 
+                          color: "#1a237e",
+                          fontFamily: "'Dancing Script', cursive" 
+                        }}
+                      >
+                        Admin Login
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
                 </motion.div>
               </Grid>
               <Grid item xs={12} md={6}>
@@ -121,7 +224,7 @@ function HomePage() {
                   }}
                 >
                   <DotLottieReact
-                    src="https://lottie.host/ff98a1bd-8141-4a9e-995c-19849464fcca/duUg8losH6.lottie"
+                    src="https://lottie.host/7b57925a-8cca-4c20-83b4-5c03eb054e13/HH6YzHzpq7.lottie"
                     loop
                     autoplay
                     style={{ width: "100%", maxWidth: "500px" }}
@@ -157,13 +260,13 @@ function HomePage() {
       </Box>
 
       {/* Impact Numbers Section */}
-      <Box sx={{ py: 10, backgroundColor: "#f8f9fa" }}>
-        <Container maxWidth="xl" sx={{ px: { xs: 4, md: 8 } }}>
-          {" "}
-          {/* Added horizontal padding */}
+      <Box sx={{ py: 2 }}>
+        {" "}
+        {/* Reduced padding from 6 to 2 */}
+        <Container maxWidth="lg">
           <Grid
             container
-            spacing={4}
+            spacing={2} // Reduced spacing from 3 to 2
             sx={{
               display: "grid",
               gridTemplateColumns: {
@@ -171,9 +274,9 @@ function HomePage() {
                 sm: "1fr 1fr",
                 md: "1fr 1fr 1fr",
               },
-              gap: 4,
+              gap: 2, // Reduced gap from 3 to 2
               alignItems: "stretch",
-              px: 2, // Added padding to grid
+              px: 1, // Reduced padding
             }}
           >
             {[
@@ -207,31 +310,35 @@ function HomePage() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    p: 6, // Increased padding
-                    pl: 8, // Added extra left padding
-                    borderRadius: 4,
-                    boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                    border: `2px solid ${item.color}`,
+                    p: 3, // Reduced padding
+                    pl: 4, // Reduced left padding
+                    borderRadius: 2,
+                    boxShadow: "0 2px 12px rgba(0,0,0,0.08)", // Lighter shadow
+                    border: `1px solid ${item.color}`, // Thinner border
                   }}
                 >
                   {React.cloneElement(item.icon, {
-                    sx: { fontSize: 80, color: item.color, mb: 3 },
+                    sx: { fontSize: 40, color: item.color, mb: 1.5 }, // Smaller icon
                   })}
                   <Typography
-                    variant="h2"
+                    variant="h4"
                     sx={{
-                      fontWeight: 800,
+                      fontWeight: 700,
                       color: item.color,
-                      mb: 2,
+                      mb: 0.5,
+                      fontSize: { xs: "1.5rem", md: "2rem" },
+                      fontFamily: "'Playfair Display', cursive",
                     }}
                   >
                     {item.count.toLocaleString()}+
                   </Typography>
                   <Typography
-                    variant="h5"
+                    variant="subtitle1"
                     sx={{
                       fontWeight: 600,
                       color: "#1a237e",
+                      fontSize: { xs: "0.875rem", md: "1rem" },
+                      fontFamily: "'Dancing Script', cursive",
                     }}
                   >
                     {item.label}
@@ -244,26 +351,32 @@ function HomePage() {
       </Box>
 
       {/* Features Section */}
-      <Box sx={{ py: 10, backgroundColor: "#ffffff" }}>
-        <Container maxWidth="xl">
+      <Box sx={{ py: 6 }}>
+        {" "}
+        {/* Reduced padding */}
+        <Container maxWidth="lg">
+          {" "}
+          {/* Changed from xl to lg */}
           <Typography
-            variant="h2"
+            variant="h3" // Changed from h2
             align="center"
             sx={{
-              mb: 8,
-              fontWeight: 800,
+              mb: 5, // Reduced margin
+              fontWeight: 700,
               color: "#1a237e",
+              fontSize: { xs: "1.75rem", md: "2.25rem" },
               position: "relative",
+              fontFamily: "'Playfair Display', cursive",
               "&::after": {
                 content: '""',
                 position: "absolute",
-                bottom: -16,
+                bottom: -10,
                 left: "50%",
                 transform: "translateX(-50%)",
-                width: 80,
-                height: 4,
+                width: 50, // Reduced width
+                height: 3, // Reduced height
                 backgroundColor: "#ff6b6b",
-                borderRadius: 2,
+                borderRadius: 1,
               },
             }}
           >
@@ -278,7 +391,7 @@ function HomePage() {
                 sm: "1fr 1fr",
                 md: "1fr 1fr 1fr",
               },
-              gap: 4,
+              gap: 3, // Reduced gap
             }}
           >
             {[
@@ -311,9 +424,9 @@ function HomePage() {
                 <Card
                   sx={{
                     height: "100%",
-                    p: 4,
-                    borderRadius: 4,
-                    boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                    p: 2.5, // Reduced padding
+                    borderRadius: 2,
+                    boxShadow: "0 2px 12px rgba(0,0,0,0.08)", // Lighter shadow
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -326,23 +439,34 @@ function HomePage() {
                       top: 0,
                       left: 0,
                       width: "100%",
-                      height: 4,
+                      height: 3, // Reduced height
                       backgroundColor: feature.color,
                     },
                   }}
                 >
                   {React.cloneElement(feature.icon, {
-                    sx: { fontSize: 60, color: feature.color, mb: 3 },
+                    sx: { fontSize: 40, color: feature.color, mb: 2 }, // Smaller icon
                   })}
                   <Typography
-                    variant="h4"
-                    sx={{ mb: 2, fontWeight: 700, color: "#1a237e" }}
+                    variant="h5" // Changed from h4
+                    sx={{
+                      mb: 1.5,
+                      fontWeight: 700,
+                      color: "#1a237e",
+                      fontSize: { xs: "1.1rem", md: "1.3rem" },
+                      fontFamily: "'Playfair Display', cursive",
+                    }}
                   >
                     {feature.title}
                   </Typography>
                   <Typography
-                    variant="body1"
-                    sx={{ color: "#666", fontSize: "1.1rem" }}
+                    variant="body2" // Changed from body1
+                    sx={{
+                      color: "#666",
+                      fontSize: { xs: "0.875rem", md: "0.95rem" },
+                      lineHeight: 1.5,
+                      fontFamily: "'Dancing Script', cursive",
+                    }}
                   >
                     {feature.description}
                   </Typography>

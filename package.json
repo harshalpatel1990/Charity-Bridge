@@ -13,6 +13,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@fontsource/montserrat": "^5.2.5",
+    "@lordicon/react": "^1.10.1",
     "@lottiefiles/dotlottie-react": "^0.13.3",
     "@lottiefiles/react-lottie-player": "^3.6.0",
     "@mui/icons-material": "^6.4.7",
