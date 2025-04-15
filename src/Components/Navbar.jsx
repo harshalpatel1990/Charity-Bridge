@@ -25,6 +25,11 @@ import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
+import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
+import PersonIcon from '@mui/icons-material/Person'; // Add this import
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
+import BusinessIcon from "@mui/icons-material/Business";
 // import JWT from "jsonwebtoken";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -35,11 +40,12 @@ let arr = [
   {
     name: "Activities",
     path: "/ngo/activities",
+    icon: <VolunteerActivismIcon />,
   },
-
   {
     name: "Profile",
     path: "/ngo/profile",
+    icon: <PersonIcon />, // Changed from AccountCircleIcon
   },
 ];
 
@@ -47,25 +53,29 @@ let ContributorItems = [
   {
     name: "Activities",
     path: "/user/activities",
+    icon: <VolunteerActivismIcon />,
   },
-
   {
     name: "Profile",
     path: "/user/profile",
+    icon: <PersonIcon />, // Changed from AccountCircleIcon
   },
   {
     name: "Dashboard",
     path: "/user/dasboard",
+    icon: <DashboardIcon />,
   },
 ];
 let AdminItems = [
   {
     name: "Verify User",
     path: "/admin/verifyuser",
+    icon: <VerifiedUserIcon />,
   },
   {
     name: "Verify NGO",
     path: "/admin/verifyngo",
+    icon: <BusinessIcon />,
   },
 ];
 
@@ -145,7 +155,12 @@ export default function NavBar() {
               <MenuIcon />
             </IconButton>
           ) : null}
-          <Typography variant="h6" component="div" gutterBottom sx={{ flexGrow: 1, fontFamily: "cursive" }}>
+          <Typography
+            variant="h6"
+            component="div"
+            gutterBottom
+            sx={{ flexGrow: 1, fontFamily: "cursive" }}
+          >
             Charity Bridge
           </Typography>{" "}
           {localStorage.getItem("accessToken") ? (
@@ -180,20 +195,46 @@ export default function NavBar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {getMenus().map((text, index) => (
+          {getMenus().map((item, index) => (
             <ListItem
-              key={text.name}
+              key={item.name}
               disablePadding
               onClick={() => {
-                navigate(text.path);
+                navigate(item.path);
                 setOpen(false);
               }}
             >
               <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <ListItemIcon
+                  sx={{
+                    backgroundColor: "rgba(26, 35, 126, 0.1)", // Light navy blue background
+                    borderRadius: "50%", // Makes it circular
+                    width: 40,
+                    height: 40,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#1a237e", // Navy blue color for icons
+                    marginRight: 1,
+                    "& .MuiSvgIcon-root": {
+                      fontSize: "1.5rem", // Adjust icon size
+                    },
+                    "&:hover": {
+                      backgroundColor: "rgba(26, 35, 126, 0.2)", // Darker on hover
+                    },
+                  }}
+                >
+                  {item.icon}
                 </ListItemIcon>
-                <ListItemText primary={text.name} />
+                <ListItemText
+                  primary={item.name}
+                  sx={{
+                    "& .MuiTypography-root": {
+                      color: "#1a237e",
+                      fontFamily: "'Dancing Script', cursive",
+                    },
+                  }}
+                />
               </ListItemButton>
             </ListItem>
           ))}
