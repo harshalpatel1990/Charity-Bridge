@@ -8,7 +8,6 @@ import Ngoactivities from "./Pages/Ngoactivities";
 import Ngoactivitydetail from "./Pages/Ngoactivitydetail";
 import Ngoprofile from "./Pages/ngoprofile";
 
-
 import Useractivities from "./Pages/Useractivities";
 import Useractivitydetail from "./Pages/Useractivitydetail";
 
@@ -23,11 +22,11 @@ import Adminlogin from "./Pages/Adminlogin";
 import Verifyngo from "./Pages/Verifyngo";
 import Verifyuser from "./Pages/Verifyuser";
 import PrivateRoute from "./Privateroutes";
-import MainLogin from "./Pages/mainlogin";
 import HomePage from "./Pages/HomePage";
 import Aboutus from "./Pages/aboutus";
 import Contactus from "./Pages/contactus";
 import OurServices from "./Pages/ourservices";
+import Footer from "./Components/Footer";
 
 function App() {
   return (
@@ -37,7 +36,7 @@ function App() {
 
         <Routes>
           <Route path="/" Component={HomePage}></Route>
-          <Route path="/mainlogin" Component={MainLogin}></Route>
+
           <Route path="/aboutus" Component={Aboutus}></Route>
           <Route path="/contactus" Component={Contactus}></Route>
           <Route path="/ourservices" Component={OurServices}></Route>
