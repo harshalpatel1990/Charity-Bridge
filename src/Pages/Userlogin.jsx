@@ -8,6 +8,7 @@ import { auth } from "../config/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore"; // Import Firestore functions
 import { db } from "../config/firebase"; // Import your Firestore instance
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 function Userlogin() {
   const navigate = useNavigate();
@@ -70,16 +71,21 @@ function Userlogin() {
       <center>
         <Paper
           sx={{
-            padding: 10,
+            padding: 5,
             background: "",
             borderRadius: 10,
-            width: "40%",
+            width: "30%",
             height: "100%",
             boxShadow: "10px 10px 20px",
-            marginTop: "10%",
+            marginTop: "7%",
           }}
         >
-          <h4>Login</h4>
+          <h4 style={{fontFamily:"cursive",fontSize:"30px"}}>User Login</h4>
+           <DotLottieReact
+                          src='https://lottie.host/828acf0a-f662-4c4f-9329-9ba61bdf3dda/2exwJb1XH0.lottie'
+                          loop
+                          autoplay
+                        />
           <br />
           <TextField
             id='outlined-basic'

@@ -7,6 +7,7 @@ import { auth } from "../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 function Adminlogin() {
   const navigate = useNavigate();
   const [Error, setError] = React.useState("");
@@ -48,34 +49,38 @@ function Adminlogin() {
     }
   };
   const login = async () => {
-      try {
-        await signIn(); // First wait for sign-in
-        const idToken = await auth.currentUser.getIdToken(); // Then get the access token
-        console.log("Access Token:", idToken);
-        localStorage.setItem("accessToken", idToken);
-        navigate("/admin/verifyuser"); // Navigate only if login is successful
-      } catch (error) {
-        console.error("Login failed:", error);
-        setError("Login failed. Please check your credentials."); // Display error on screen
-      }
-    };
+    try {
+      await signIn(); // First wait for sign-in
+      const idToken = await auth.currentUser.getIdToken(); // Then get the access token
+      console.log("Access Token:", idToken);
+      localStorage.setItem("accessToken", idToken);
+      navigate("/admin/verifyuser"); // Navigate only if login is successful
+    } catch (error) {
+      console.error("Login failed:", error);
+      setError("Login failed. Please check your credentials."); // Display error on screen
+    }
+  };
 
   return (
     <div>
       <center>
         <Paper
           sx={{
-            padding: 10,
-            background: "",
+            padding: 7,
             borderRadius: 10,
-            width: "40%",
+            width: "33%",
             height: "100%",
             boxShadow: "10px 10px 20px",
-            marginTop: "10%",
+            marginTop: "7%",
           }}
         >
-          <h3>Admin Login</h3>
+          <h3 style={{fontFamily:"cursive",fontSize:"30px"}}>Admin Login</h3>
           <br />
+          <DotLottieReact
+            src="https://lottie.host/86b763ec-0e97-4fb2-a395-6e1fd9eabdd0/cTLQdtVVA9.lottie"
+            loop
+            autoplay
+          />
           <TextField
             id="outlined-basic"
             label="Email"
