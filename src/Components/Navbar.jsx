@@ -123,7 +123,7 @@ export default function NavBar() {
         position="fixed"
         open={open}
         sx={{
-          backgroundColor: "#5DADE2", // Change this to your desired color
+          backgroundColor: "#1a237e", // Change this to your desired color
         }}
       >
         <Toolbar>
