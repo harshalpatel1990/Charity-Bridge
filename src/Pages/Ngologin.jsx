@@ -94,6 +94,7 @@ function Ngologin() {
           borderRadius: 10,
           width: "30%",
           height: "50%",
+          marginTop: "6%",
         }}
         elevation={5}
       >

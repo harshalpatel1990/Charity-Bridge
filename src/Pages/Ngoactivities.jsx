@@ -255,7 +255,7 @@ function Ngoactivities() {
   };
 
   return (
-    <div>
+    <div style={{marginTop: "8%"}}>
       <Grid container>
         <Grid item xs={12} md={5}>
           <Button

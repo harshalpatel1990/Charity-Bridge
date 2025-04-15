@@ -91,8 +91,11 @@ const Userprofile = () => {
     <Container maxWidth="md">
       <Paper
         elevation={3}
-        style={{ padding: 20, background: "white", borderRadius: 10 }}
+        sx={{ padding: 10, background: "white", borderRadius: 10, marginTop : "12%" }}
       >
+        <h1 style={{ fontFamily: "cursive",display:"flex",justifyContent:"center" }}>
+          Profile
+          </h1>
         <Stack spacing={3} alignItems="center">
           <Grid container spacing={2}>
             {[

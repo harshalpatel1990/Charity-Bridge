@@ -73,10 +73,10 @@ function Userlogin() {
             padding: 10,
             background: "",
             borderRadius: 10,
-            width: "50%",
+            width: "40%",
             height: "100%",
             boxShadow: "10px 10px 20px",
-            marginTop: "5%",
+            marginTop: "10%",
           }}
         >
           <h4>Login</h4>
