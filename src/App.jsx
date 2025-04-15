@@ -7,11 +7,11 @@ import Ngologin from "./Pages/ngologin";
 import Ngoactivities from "./Pages/Ngoactivities";
 import Ngoactivitydetail from "./Pages/Ngoactivitydetail";
 import Ngoprofile from "./Pages/ngoprofile";
-// import Ngodashboard from "./Pages/ngodashboard";
+
 
 import Useractivities from "./Pages/Useractivities";
 import Useractivitydetail from "./Pages/Useractivitydetail";
-// import Userdashboard from "./Pages/userdashboard";
+
 import Userlogin from "./Pages/userlogin";
 import Userreciepts from "./Pages/userreciepts";
 import Userrecognition from "./Pages/Userrecognition";
@@ -31,8 +31,6 @@ function App() {
     <div>
       <BrowserRouter>
         <NavBar />
-        
-        
 
         <Routes>
           <Route path="/" Component={HomePage}></Route>
@@ -70,7 +68,6 @@ function App() {
           <Route path="/admin/verifyngo" Component={Verifyngo}></Route>
         </Routes>
       </BrowserRouter>
-      
     </div>
   );
 }
