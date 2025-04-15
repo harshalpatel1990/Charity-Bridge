@@ -20,19 +20,17 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
-import PersonIcon from '@mui/icons-material/Person'; // Add this import
+import PersonIcon from "@mui/icons-material/Person"; // Add this import
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import BusinessIcon from "@mui/icons-material/Business";
-// import JWT from "jsonwebtoken";
-import { useState } from "react";
-import { useEffect } from "react";
+
 
 const drawerWidth = 240;
 
@@ -61,8 +59,8 @@ let ContributorItems = [
     icon: <PersonIcon />, // Changed from AccountCircleIcon
   },
   {
-    name: "Dashboard",
-    path: "/user/dasboard",
+    name: "History",
+    path: "/user/history",
     icon: <DashboardIcon />,
   },
 ];
@@ -91,6 +89,7 @@ export default function NavBar() {
   const theme = useTheme();
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [open, setOpen] = React.useState(false);
 
@@ -126,11 +125,22 @@ export default function NavBar() {
     }
   };
 
+  const handleAboutUs = () => {
+    navigate("/aboutus");
+  };
+
+  const handleContactUs = () => {
+    navigate("/contactus");
+  };
+  const handleOurservices = () => {
+    navigate("/ourservices");
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
-        position="fixed"
+        position='fixed'
         open={open}
         sx={{
           backgroundColor: "#1a237e", // Change this to your desired color
@@ -139,10 +149,10 @@ export default function NavBar() {
         <Toolbar>
           {localStorage.getItem("accessToken") ? (
             <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
+              size='large'
+              edge='start'
+              color='inherit'
+              aria-label='menu'
               onClick={handleDrawerOpen}
               onClose={handleDrawerClose}
               sx={[
@@ -156,15 +166,76 @@ export default function NavBar() {
             </IconButton>
           ) : null}
           <Typography
-            variant="h6"
-            component="div"
+            variant='h6'
+            component='div'
             gutterBottom
             sx={{ flexGrow: 1, fontFamily: "cursive" }}
           >
             Charity Bridge
-          </Typography>{" "}
+          </Typography>
+
+          {/* Only show these buttons on home page */}
+          {location.pathname === "/" && (
+            <>
+              <Button
+                color='inherit'
+                onClick={handleAboutUs}
+                sx={{
+                  mx: 1,
+                  fontFamily: "'Dancing Script', cursive",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                  },
+                  textTransform: "none",
+                  borderBottom:
+                    location.pathname === "/about-us"
+                      ? "2px solid white"
+                      : "none",
+                }}
+              >
+                About Us
+              </Button>
+              <Button
+                color='inherit'
+                onClick={handleContactUs}
+                sx={{
+                  mx: 1,
+                  fontFamily: "'Dancing Script', cursive",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                  },
+                  textTransform: "none",
+                  borderBottom:
+                    location.pathname === "/contact-us"
+                      ? "2px solid white"
+                      : "none",
+                }}
+              >
+                Contact Us
+              </Button>
+              <Button
+                color='inherit'
+                onClick={handleOurservices}
+                sx={{
+                  mx: 1,
+                  fontFamily: "'Dancing Script', cursive",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                  },
+                  textTransform: "none",
+                  borderBottom:
+                    location.pathname === "/contact-us"
+                      ? "2px solid white"
+                      : "none",
+                }}
+              >
+                Our services
+              </Button>
+            </>
+          )}
+
           {localStorage.getItem("accessToken") ? (
-            <Button color="inherit" onClick={logout}>
+            <Button color='inherit' onClick={logout}>
               Logout
             </Button>
           ) : null}
@@ -179,8 +250,8 @@ export default function NavBar() {
             boxSizing: "border-box",
           },
         }}
-        variant="temporary"
-        anchor="left"
+        variant='temporary'
+        anchor='left'
         open={open}
         onClose={handleDrawerClose}
       >

@@ -36,7 +36,7 @@ function MainLogin() {
       }}
     >
       <CssBaseline />
-      <AppBar position="fixed" sx={{ backgroundColor: "#5dade2" }}>
+      <AppBar position="fixed" sx={{ backgroundColor: "#1a237e" }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Charity Bridge
@@ -56,7 +56,7 @@ function MainLogin() {
       >
         <Typography
           variant="h4"
-          sx={{ color: "#5dade2", fontFamily: "cursive", mb: 3 }}
+          sx={{ color: "#1a237e", fontFamily: "cursive", mb: 3 }}
         >
           Welcome to Charity Bridge
         </Typography>

@@ -17,6 +17,7 @@ import Userreciepts from "./Pages/userreciepts";
 import Userrecognition from "./Pages/Userrecognition";
 import Userregister from "./Pages/Userregister";
 import Userprofile from "./Pages/Userprofile";
+import userhistory from "./Pages/userhistory";
 
 import Adminlogin from "./Pages/Adminlogin";
 import Verifyngo from "./Pages/Verifyngo";
@@ -26,6 +27,8 @@ import MainLogin from "./Pages/mainlogin";
 import HomePage from "./Pages/HomePage";
 import Aboutus from "./Pages/aboutus";
 import Contactus from "./Pages/contactus";
+import OurServices from "./Pages/ourservices";
+
 function App() {
   return (
     <div>
@@ -39,6 +42,7 @@ function App() {
           <Route path="/mainlogin" Component={MainLogin}></Route>
           <Route path="/aboutus" Component={Aboutus}></Route>
           <Route path="/contactus" Component={Contactus}></Route>
+          <Route path="/ourservices" Component={OurServices}></Route>
           <Route element={<PrivateRoute />}>
             <Route path="/ngo/activities" Component={Ngoactivities}></Route>
             <Route
@@ -54,8 +58,7 @@ function App() {
               path="/user/activitydetail"
               Component={Useractivitydetail}
             ></Route>
-            <Route path="/user/reciepts" Component={Userreciepts}></Route>
-            <Route path="/user/recognition" Component={Userrecognition}></Route>
+            <Route path="/user/history" Component={userhistory}></Route>
             {/* <Route path="/user/dashboard" Component={Userdashboard}></Route> */}
           </Route>
 

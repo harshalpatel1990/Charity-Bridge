@@ -9,14 +9,23 @@ import {
   Grid,
   Snackbar,
   Alert,
+  IconButton,
 } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
+import { useNavigate } from "react-router-dom";
+import KeyboardBackspaceOutlinedIcon from "@mui/icons-material/KeyboardBackspaceOutlined";
 
 function ContactUs() {
+  const navigate = useNavigate();
+
+  const handleBackToHome = () => {
+    navigate("/");
+  };
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -108,17 +117,17 @@ function ContactUs() {
 
   const contactInfo = [
     {
-      icon: <EmailIcon sx={{ fontSize: 40, color: "#5DADE2" }} />,
+      icon: <EmailIcon sx={{ fontSize: 40, color: "#1a237e" }} />,
       title: "Email",
       detail: "support@charitybridge.com",
     },
     {
-      icon: <PhoneIcon sx={{ fontSize: 40, color: "#5DADE2" }} />,
+      icon: <PhoneIcon sx={{ fontSize: 40, color: "#1a237e" }} />,
       title: "Phone",
       detail: "+1 234 567 890",
     },
     {
-      icon: <LocationOnIcon sx={{ fontSize: 40, color: "#5DADE2" }} />,
+      icon: <LocationOnIcon sx={{ fontSize: 40, color: "#1a237e" }} />,
       title: "Address",
       detail: "Charity Bridge, Mumbai, India",
     },
@@ -127,6 +136,21 @@ function ContactUs() {
   return (
     <Box sx={{ py: 8, bgcolor: "#f5f5f5", minHeight: "100%", marginTop: "3%" }}>
       <Container>
+        <IconButton
+          onClick={handleBackToHome}
+          sx={{
+            position: "absolute",
+            top: "100px",
+            left: "20px",
+            color: "#1a237e",
+            "&:hover": {
+              backgroundColor: "rgba(93, 173, 226, 0.1)",
+            },
+          }}
+        >
+          <KeyboardBackspaceOutlinedIcon />
+        </IconButton>
+
         <Typography
           variant='h3'
           component='h1'
@@ -146,7 +170,10 @@ function ContactUs() {
           {/* Contact Information */}
           <Grid item xs={12} md={4}>
             <Box sx={{ mb: 4 }}>
-              <Typography variant='h5' sx={{ mb: 3, color: "#2c3e50", fontFamily: "cursive" }}>
+              <Typography
+                variant='h5'
+                sx={{ mb: 3, color: "#2c3e50", fontFamily: "cursive" }}
+              >
                 Get in Touch
               </Typography>
               {contactInfo.map((info, index) => (
@@ -164,7 +191,10 @@ function ContactUs() {
                 >
                   {info.icon}
                   <Box sx={{ ml: 2 }}>
-                    <Typography variant='subtitle1' sx={{ fontWeight: "bold", fontFamily: "cursive" }}>
+                    <Typography
+                      variant='subtitle1'
+                      sx={{ fontWeight: "bold", fontFamily: "cursive" }}
+                    >
                       {info.title}
                     </Typography>
                     <Typography variant='body2' color='text.secondary'>
@@ -245,7 +275,7 @@ function ContactUs() {
                     size='large'
                     disabled={isSubmitting}
                     sx={{
-                      bgcolor: "#5DADE2",
+                      bgcolor: "#1a237e",
                       "&:hover": {
                         bgcolor: "#2E86C1",
                       },

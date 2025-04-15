@@ -263,7 +263,7 @@ function Ngoactivities() {
             onClick={handleClickOpen}
             sx={{
               marginLeft: "30px",
-              backgroundColor: "#5dade2",
+              backgroundColor: "#1a237e",
               color: "white",
             }}
           >
@@ -285,8 +285,8 @@ function Ngoactivities() {
           onClose={handleClose}
           TransitionComponent={Transition}
         >
-          <AppBar sx={{ color: "5dade2", position: "relative" }}>
-            <Toolbar sx={{ backgroundColor: "#5dade2" }}>
+          <AppBar sx={{ color: "1a237e", position: "relative" }}>
+            <Toolbar sx={{ backgroundColor: "#1a237e" }}>
               <IconButton
                 edge='start'
                 color='inherit'
@@ -339,7 +339,7 @@ function Ngoactivities() {
                         }}
                       >
                         <Tooltip title='Activity Progress'>
-                          <DonutLargeIcon sx={{ color: "5dade2" }} />
+                          <DonutLargeIcon sx={{ color: "1a237e" }} />
                         </Tooltip>
                       </Button>
                       <Dialog
@@ -349,7 +349,7 @@ function Ngoactivities() {
                         TransitionComponent={Transition}
                       >
                         <AppBar sx={{ position: "relative" }}>
-                          <Toolbar sx={{ backgroundColor: "#5dade2" }}>
+                          <Toolbar sx={{ backgroundColor: "#1a237e" }}>
                             <IconButton
                               edge='start'
                               color='inherit'
@@ -527,7 +527,7 @@ function Ngoactivities() {
                       }}
                     >
                       <Tooltip title='Edit'>
-                        <ModeEditIcon sx={{ color: "5dade2" }} />
+                        <ModeEditIcon sx={{ color: "1a237e" }} />
                       </Tooltip>
                     </Button>
                     <React.Fragment>
@@ -538,7 +538,7 @@ function Ngoactivities() {
                         TransitionComponent={Transition}
                       >
                         <AppBar sx={{ position: "relative" }}>
-                          <Toolbar sx={{ backgroundColor: "#5dade2" }}>
+                          <Toolbar sx={{ backgroundColor: "#1a237e" }}>
                             <IconButton
                               edge='start'
                               color='inherit'
@@ -569,7 +569,7 @@ function Ngoactivities() {
                       }}
                     >
                       <Tooltip title='Delete'>
-                        <DeleteIcon sx={{ color: "5dade2" }} />
+                        <DeleteIcon sx={{ color: "1a237e" }} />
                       </Tooltip>
                     </Button>
 

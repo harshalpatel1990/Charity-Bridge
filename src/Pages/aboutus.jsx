@@ -1,5 +1,14 @@
 import React from "react";
-import { Box, Container, Typography, Grid, Paper, Icon } from "@mui/material";
+import {
+  Box,
+  Container,
+  Typography,
+  Grid,
+  Paper,
+  Icon,
+  Button,
+  IconButton,
+} from "@mui/material";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import PeopleIcon from "@mui/icons-material/People";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
@@ -9,8 +18,17 @@ import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import PublicIcon from "@mui/icons-material/Public";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import HomeIcon from "@mui/icons-material/Home";
+import { useNavigate } from "react-router-dom";
+import KeyboardBackspaceOutlinedIcon from "@mui/icons-material/KeyboardBackspaceOutlined";
 
 function AboutUs() {
+  const navigate = useNavigate();
+
+  const handleBackToHome = () => {
+    navigate("/");
+  };
+
   const ngoHelp = [
     {
       icon: <PeopleIcon fontSize='large' />,
@@ -77,6 +95,21 @@ function AboutUs() {
   return (
     <Box sx={{ py: 8, bgcolor: "#f5f5f5", marginTop: "4%" }}>
       <Container>
+        <IconButton
+          onClick={handleBackToHome}
+          sx={{
+            position: "absolute",
+            top: "100px",
+            left: "20px",
+            color: "#1a237e",
+            "&:hover": {
+              backgroundColor: "rgba(93, 173, 226, 0.1)",
+            },
+          }}
+        >
+          <KeyboardBackspaceOutlinedIcon />
+        </IconButton>
+
         <Typography
           variant='h3'
           component='h1'
@@ -130,7 +163,7 @@ function AboutUs() {
                   },
                 }}
               >
-                <Box sx={{ color: "#5DADE2", mb: 2 }}>{item.icon}</Box>
+                <Box sx={{ color: "#1a237e", mb: 2 }}>{item.icon}</Box>
                 <Typography variant='h6' sx={{ mb: 2, color: "#2c3e50" }}>
                   {item.title}
                 </Typography>
@@ -172,7 +205,7 @@ function AboutUs() {
                   },
                 }}
               >
-                <Box sx={{ color: "#5DADE2", mb: 2 }}>{item.icon}</Box>
+                <Box sx={{ color: "#1a237e", mb: 2 }}>{item.icon}</Box>
                 <Typography variant='h6' sx={{ mb: 2, color: "#2c3e50" }}>
                   {item.title}
                 </Typography>
@@ -217,7 +250,7 @@ function AboutUs() {
                   },
                 }}
               >
-                <Box sx={{ color: "#5DADE2", mb: 2 }}>{item.icon}</Box>
+                <Box sx={{ color: "#1a237e", mb: 2 }}>{item.icon}</Box>
                 <Typography variant='h6' sx={{ mb: 2, color: "#2c3e50" }}>
                   {item.title}
                 </Typography>

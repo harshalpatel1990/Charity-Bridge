@@ -185,7 +185,7 @@ function Ngoactivitydetail({ onClose }) {
         </Grid>
 
         <Button
-          style={{ marginTop: "2%", backgroundColor: "#5DADE2" }}
+          style={{ marginTop: "2%", backgroundColor: "#1a237e" }}
           variant="contained"
           onClick={onsubmit}
         >

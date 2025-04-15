@@ -320,7 +320,7 @@ function Useractivities() {
                       TransitionComponent={Transition}
                     >
                       <AppBar sx={{ position: "relative" }}>
-                        <Toolbar sx={{ backgroundColor: "#5dade2" }}>
+                        <Toolbar sx={{ backgroundColor: "#1a237e" }}>
                           <IconButton
                             edge="start"
                             color="inherit"
@@ -469,7 +469,7 @@ function Useractivities() {
                                     <strong>NGO Name:</strong>{" "}
                                     {ngoDetails.ngoname || "N/A"}{" "}
                                     {ngoDetails.verifyngo ? (
-                                      <strong style={{ color: "#5dade2" }}>
+                                      <strong style={{ color: "#1a237e" }}>
                                         <DoneAllIcon /> Verified
                                       </strong>
                                     ) : null}
