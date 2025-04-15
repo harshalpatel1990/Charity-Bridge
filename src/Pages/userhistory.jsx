@@ -33,7 +33,7 @@ function UserHistory() {
     const fetchHistory = async () => {
       try {
         const currentUser = auth.currentUser;
-        
+
         if (!currentUser) {
           console.error("No user logged in");
           setLoading(false);
@@ -46,7 +46,7 @@ function UserHistory() {
           where("email", "==", currentUser.email)
         );
         const userInfoSnapshot = await getDocs(userInfoQuery);
-        
+
         if (userInfoSnapshot.empty) {
           console.error("User info not found");
           setLoading(false);
