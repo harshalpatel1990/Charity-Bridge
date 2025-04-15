@@ -20,6 +20,7 @@ import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useNavigate } from "react-router-dom";
 import { MenuItem, Select, FormControl, InputLabel } from "@mui/material";
+import Footer from "../Components/Footer";
 
 function HomePage() {
   const [count, setCount] = useState({ donors: 0, projects: 0, volunteers: 0 });
@@ -475,6 +476,7 @@ function HomePage() {
           </Grid>
         </Container>
       </Box>
+      <Footer/>
     </Box>
   );
 }
