@@ -264,6 +264,7 @@ function Useractivities() {
         flexDirection: "column",
         justifyContent: "center",
         padding: "3%",
+        marginTop: "5%",
       }}
     >
       <center>

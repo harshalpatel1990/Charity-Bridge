@@ -111,7 +111,7 @@ function Useregister() {
             width: "50%",
             height: "100%",
             boxShadow: "10px 10px 20px",
-            marginTop: "2%",
+            marginTop: "10%",
           }}
         >
           <h4>Register</h4>

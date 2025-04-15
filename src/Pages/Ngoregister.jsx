@@ -101,6 +101,7 @@ function Ngoregister() {
             width: "50%",
             height: "100%",
             boxShadow: "10px 10px 20px",
+            marginTop: "8%",
           }}
         >
           <h1 style={{ fontFamily: "cursive" }}>NGO Register</h1>
