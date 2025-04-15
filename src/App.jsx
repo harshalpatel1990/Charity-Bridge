@@ -24,6 +24,8 @@ import Verifyuser from "./Pages/Verifyuser";
 import PrivateRoute from "./Privateroutes";
 import MainLogin from "./Pages/mainlogin";
 import HomePage from "./Pages/HomePage";
+import Aboutus from "./Pages/aboutus";
+import Contactus from "./Pages/contactus";
 function App() {
   return (
     <div>
@@ -35,6 +37,8 @@ function App() {
         <Routes>
           <Route path="/" Component={HomePage}></Route>
           <Route path="/mainlogin" Component={MainLogin}></Route>
+          <Route path="/aboutus" Component={Aboutus}></Route>
+          <Route path="/contactus" Component={Contactus}></Route>
           <Route element={<PrivateRoute />}>
             <Route path="/ngo/activities" Component={Ngoactivities}></Route>
             <Route

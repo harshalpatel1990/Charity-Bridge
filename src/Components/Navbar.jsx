@@ -120,11 +120,12 @@ export default function NavBar() {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
-        position="fixed"
-        open={open}
-        sx={{
-          backgroundColor: "#5DADE2", // Change this to your desired color
-        }}
+         position="fixed"
+      elevation={0}
+      sx={{
+        backgroundColor: '#1a237e',
+        
+      }}
       >
         <Toolbar>
           {localStorage.getItem("accessToken") ? (
@@ -145,7 +146,7 @@ export default function NavBar() {
               <MenuIcon />
             </IconButton>
           ) : null}
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" gutterBottom sx={{ flexGrow: 1, fontFamily: "cursive" }}>
             Charity Bridge
           </Typography>{" "}
           {localStorage.getItem("accessToken") ? (
