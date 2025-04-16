@@ -14,7 +14,7 @@ import {
   TableRow,
   Chip,
 } from "@mui/material";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../config/firebase";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
@@ -40,6 +40,77 @@ function UserHistory() {
           return;
         }
 
+        const userEmail = currentUser.email;
+
+        // Fetch contribution history using email directly
+        const contributionQuery = query(
+          collection(db, "contributions"),
+          where("userEmail", "==", userEmail)
+        );
+        const contributionSnapshot = await getDocs(contributionQuery);
+
+        // Fetch activity and NGO details for each contribution
+        const contributionData = await Promise.all(
+          contributionSnapshot.docs.map(async (contributionDoc) => {
+            const contribution = contributionDoc.data();
+
+            // Fetch activity details using activityId
+            const activityDocRef = doc(db, "activities", contribution.activityId);
+            const activityDoc = await getDoc(activityDocRef);
+            const activityData = activityDoc.exists() ? activityDoc.data() : {};
+
+            // Fetch NGO details using ngoid from activityData
+            let ngoName = "N/A";
+            if (activityData.ngoid) {
+              const ngoDocRef = doc(db, "ngoinfo", activityData.ngoid);
+              const ngoDoc = await getDoc(ngoDocRef);
+              ngoName = ngoDoc.exists() ? ngoDoc.data().ngoname || "N/A" : "N/A";
+            }
+
+            return {
+              id: contributionDoc.id,
+              ...contribution,
+              activityName: activityData.activityname || "N/A",
+              ngoName: ngoName,
+              date: contribution.timestamp?.toDate()?.toLocaleDateString() || "N/A",
+              amount: contribution.amount || 0,
+            };
+          })
+        );
+
+        setContributionHistory(contributionData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching history:", error);
+        setLoading(false);
+      }
+    };
+
+    // Add auth state listener to handle user state changes
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        fetchHistory();
+      } else {
+        setLoading(false);
+        setContributionHistory([]);
+      }
+    });
+
+    // Cleanup subscription
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+          console.error("No user logged in");
+          setLoading(false);
+          return;
+        }
+
         // Use currentUser.email directly since that's what we store in collections
         const userEmail = currentUser.email;
 
@@ -49,26 +120,40 @@ function UserHistory() {
           where("userEmail", "==", userEmail)
         );
         const volunteerSnapshot = await getDocs(volunteerQuery);
-        const volunteerData = volunteerSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          date: doc.data().date?.toDate()?.toLocaleDateString() || "N/A",
-        }));
-
-        // Fetch contribution history using email directly
-        const contributionQuery = query(
-          collection(db, "contributions"),
-          where("userEmail", "==", userEmail)
-        );
-        const contributionSnapshot = await getDocs(contributionQuery);
-        const contributionData = contributionSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          date: doc.data().date?.toDate()?.toLocaleDateString() || "N/A",
-        }));
+        const volunteerData = await Promise.all(
+            volunteerSnapshot.docs.map(async (volunteerDoc) => {
+              const volunteer = volunteerDoc.data();
+          
+              let activityData = {};
+              if (volunteer.activityId) {
+                const activityDocRef = doc(db, "activities", volunteer.activityId);
+                const activityDoc = await getDoc(activityDocRef);
+                if (activityDoc.exists()) {
+                  activityData = activityDoc.data();
+                } else {
+                  console.warn("No activity found for ID:", volunteer.activityId);
+                }
+              }
+              let ngoName = "N/A";
+              if (activityData.ngoid) {
+                const ngoDocRef = doc(db, "ngoinfo", activityData.ngoid);
+                const ngoDoc = await getDoc(ngoDocRef);
+                ngoName = ngoDoc.exists() ? ngoDoc.data().ngoname || "N/A" : "N/A";
+              }
+          
+              return {
+                id: volunteerDoc.id,
+                ...volunteer,
+                activityName: activityData.activityname || "N/A",
+                ngoName: ngoName || "N/A",
+                date: volunteer.timestamp?.toDate()?.toLocaleDateString() || "N/A",
+                status: volunteer.status || "Pending",
+              };
+            })
+          );
+          
 
         setVolunteerHistory(volunteerData);
-        setContributionHistory(contributionData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching history:", error);
@@ -90,6 +175,7 @@ function UserHistory() {
     // Cleanup subscription
     return () => unsubscribe();
   }, []);
+  
 
   return (
     <Box
