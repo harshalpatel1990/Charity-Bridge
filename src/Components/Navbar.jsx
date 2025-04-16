@@ -26,11 +26,10 @@ import { auth } from "../config/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
-import PersonIcon from '@mui/icons-material/Person'; // Add this import
+import PersonIcon from "@mui/icons-material/Person"; // Add this import
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import BusinessIcon from "@mui/icons-material/Business";
-// import JWT from "jsonwebtoken";
 import { useState } from "react";
 import { useEffect } from "react";
 
@@ -61,8 +60,8 @@ let ContributorItems = [
     icon: <PersonIcon />, // Changed from AccountCircleIcon
   },
   {
-    name: "Dashboard",
-    path: "/user/dasboard",
+    name: "history",
+    path: "/user/history",
     icon: <DashboardIcon />,
   },
 ];
@@ -168,6 +167,30 @@ export default function NavBar() {
               Logout
             </Button>
           ) : null}
+          <Button
+            onClick={() => {
+              navigate("/contactus");
+            }}
+            style={{ color: "white", fontFamily: "cursive" }}
+          >
+            Contact Us
+          </Button>
+          <Button
+            onClick={() => {
+              navigate("/aboutus");
+            }}
+            style={{ color: "white", fontFamily: "cursive" }}
+          >
+            About Us
+          </Button>
+          <Button
+            onClick={() => {
+              navigate("/ourservices");
+            }}
+            style={{ color: "white", fontFamily: "cursive" }}
+          >
+            Our Services
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
