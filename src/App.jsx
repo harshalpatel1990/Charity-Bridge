@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import NavBar from "./Components/Navbar";
 
 import Ngoregister from "./Pages/Ngoregister";
-import Ngologin from "./Pages/ngologin";
+import Ngologin from "./Pages/Ngologin";
 import Ngoactivities from "./Pages/Ngoactivities";
 import Ngoactivitydetail from "./Pages/Ngoactivitydetail";
 import Ngoprofile from "./Pages/ngoprofile";

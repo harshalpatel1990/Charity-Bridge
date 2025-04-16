@@ -2,7 +2,7 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Grid, Paper, InputAdornment, IconButton } from "@mui/material";
+import { Grid, Paper, InputAdornment, IconButton, Grid2 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LockIcon from "@mui/icons-material/Lock";
 import { auth } from "../config/firebase";
@@ -28,7 +28,7 @@ function Ngologin() {
     setdata({ ...data, [e.target.name]: e.target.value });
   };
   let loginstyle = {
-    padding: "7px",
+     padding:'5px',
     width: "100%",
   };
   console.log(auth?.currentUser?.email);
@@ -106,11 +106,11 @@ function Ngologin() {
               </IconButton>
       <Paper
         sx={{
-          padding: 10,
+          padding: 7,
           background: "re",
           borderRadius: 10,
-          width: "30%",
-          height: "50%",
+          width: "26%",
+          height: "30%",
           marginTop: "6%",
         }}
         elevation={5}
@@ -118,7 +118,7 @@ function Ngologin() {
         <h1 style={{ fontFamily: "cursive" }}>NGO Login</h1>
         <br />
 
-        <Grid container justifyContent='center'>
+        <Grid container justifyContent='center' >
           <div>
             <Grid item xs={12} sm={12} md={12} key={0}>
               <DotLottieReact
@@ -126,14 +126,42 @@ function Ngologin() {
                 loop
                 autoplay
               />
+           </Grid>
+
+              <Grid item xs={12} sm={12} lg={12} md={12} key={1} style={loginstyle}>
               <TextField
+
                 id='outlined-basic'
                 label='Email'
                 variant='outlined'
                 type='text'
                 name='email'
                 onChange={handlechange}
-                style={loginstyle}
+                sx={{
+                  width: "200px",
+                  ...loginstyle,
+                  "& .MuiOutlinedInput-root": {
+                    color: "#1a237e",
+                    "& fieldset": {
+                      borderColor: "rgba(26, 35, 126, 0.3)",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#1a237e",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#1a237e",
+                    },
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "#1a237e",
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "#1a237e",
+                  },
+                  "& .MuiInputAdornment-root .MuiSvgIcon-root": {
+                    color: "#1a237e",
+                  }
+                }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -144,7 +172,7 @@ function Ngologin() {
               />
             </Grid>
 
-            <Grid item xs={12} sm={12} md={12} key={1} style={loginstyle}>
+            <Grid item xs={12} sm={12} lg={12} md={12} key={1} style={loginstyle}>
               <TextField
                 id='outlined-basic'
                 label='Password'
@@ -152,6 +180,31 @@ function Ngologin() {
                 type='password'
                 name='password'
                 onChange={handlechange}
+                sx={{
+                  
+                  ...loginstyle,
+                  "& .MuiOutlinedInput-root": {
+                    color: "#1a237e",
+                    "& fieldset": {
+                      borderColor: "rgba(26, 35, 126, 0.3)",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#1a237e",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#1a237e",
+                    },
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "#1a237e",
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "#1a237e",
+                  },
+                  "& .MuiInputAdornment-root .MuiSvgIcon-root": {
+                    color: "#1a237e",
+                  }
+                }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -161,7 +214,27 @@ function Ngologin() {
                 }}
               />
             </Grid>
-            <Button variant='outlined' onClick={login}>
+            <Button 
+              variant="contained"
+              onClick={login}
+              sx={{
+                bgcolor: "#1a237e",
+                color: "white",
+                px: 4,
+                py: 1,
+                my: 2,
+                borderRadius: "25px",
+                fontSize: "1.1rem",
+                fontFamily: "'Playfair Display', serif",
+                textTransform: "none",
+                boxShadow: "0 4px 12px rgba(26, 35, 126, 0.2)",
+                "&:hover": {
+                  bgcolor: "#283593",
+                  transform: "translateY(-2px)",
+                  boxShadow: "0 6px 15px rgba(26, 35, 126, 0.3)",
+                }
+              }}
+            >
               Login
             </Button>
             {Error && <p style={{ color: "red" }}>{Error}</p>}
@@ -171,7 +244,7 @@ function Ngologin() {
                 onClick={() => navigate("/ngo/register")}
                 style={{
                   cursor: "pointer",
-                  color: "blue",
+                  color: "#1a237e",
                   textDecoration: "underline",
                 }}
               >

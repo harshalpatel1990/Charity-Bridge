@@ -107,19 +107,25 @@ function Adminlogin() {
             name="email"
             onChange={handlechange}
             sx={{
-              width: "300px",
+              width: "250px",
               backgroundColor: "rgba(255, 255, 255, 0.8)",
               borderRadius: "5px",
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
-                  borderColor: "gray",
+                  borderColor: "rgba(26, 35, 126, 0.3)",
                 },
                 "&:hover fieldset": {
-                  borderColor: "black",
+                  borderColor: "#1a237e",
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#3f51b5",
+                  borderColor: "#1a237e",
                 },
+              },
+              "& .MuiInputLabel-root": {
+                color: "#1a237e",
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "#1a237e",
               },
             }}
           />
@@ -133,25 +139,47 @@ function Adminlogin() {
             name="password"
             onChange={handlechange}
             sx={{
-              width: "300px",
+              width: "250px",
               backgroundColor: "rgba(255, 255, 255, 0.8)",
               borderRadius: "5px",
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
-                  borderColor: "gray",
+                  borderColor: "rgba(26, 35, 126, 0.3)",
                 },
                 "&:hover fieldset": {
-                  borderColor: "black",
+                  borderColor: "#1a237e",
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#3f51b5",
+                  borderColor: "#1a237e",
                 },
+              },
+              "& .MuiInputLabel-root": {
+                color: "#1a237e",
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "#1a237e",
               },
             }}
           />
           <br />
           <br />
-          <Button variant="outlined" onClick={login}>
+          <Button sx={{
+                bgcolor: "#1a237e",
+                color: "white",
+                px: 4,
+                py: 1,
+                my: 2,
+                borderRadius: "25px",
+                fontSize: "1.1rem",
+                fontFamily: "'Playfair Display', serif",
+                textTransform: "none",
+                boxShadow: "0 4px 12px rgba(26, 35, 126, 0.2)",
+                "&:hover": {
+                  bgcolor: "#283593",
+                  transform: "translateY(-2px)",
+                  boxShadow: "0 6px 15px rgba(26, 35, 126, 0.3)",
+                }
+              }} variant="outlined" onClick={login}>
             Login
           </Button>
           {Error && <p style={{ color: "red" }}>{Error}</p>}
