@@ -9,6 +9,93 @@ import { useState } from "react";
 import { Grid, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
+const styles = {
+  paper: {
+    padding: { xs: 4, md: 10 },
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
+    borderRadius: 4,
+    marginTop: "3%",
+    width: { xs: "70%", sm: "70%", md: "50%" },
+    backgroundColor: "rgba(255, 255, 255, 0.95)",
+    boxShadow: "0 8px 32px rgba(26, 35, 126, 0.1)",
+    backdropFilter: "blur(10px)",
+    transition: "transform 0.3s ease-in-out",
+    "&:hover": {
+      transform: "translateY(-5px)",
+    },
+  },
+  title: {
+    color: "#1a237e",
+    fontFamily: "'Playfair Display', serif",
+    fontSize: "2.5rem",
+    marginBottom: "2rem",
+    position: "relative",
+    "&::after": {
+      content: '""',
+      position: "absolute",
+      bottom: -10,
+      left: "50%",
+      transform: "translateX(-50%)",
+      width: "60px",
+      height: "3px",
+      backgroundColor: "#1a237e",
+      borderRadius: "2px",
+    },
+  },
+  textField: {
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "12px",
+      transition: "all 0.3s",
+      backgroundColor: "rgba(255, 255, 255, 0.9)",
+      "&:hover": {
+        backgroundColor: "rgba(255, 255, 255, 1)",
+      },
+      "& fieldset": {
+        borderColor: "rgba(26, 35, 126, 0.2)",
+      },
+      "&:hover fieldset": {
+        borderColor: "#1a237e",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#1a237e",
+      },
+    },
+    "& .MuiInputLabel-root": {
+      color: "#1a237e",
+      fontFamily: "'Playfair Display', serif",
+    },
+    width: { xs: "100%", sm: "80%", md: "100%" },
+  },
+  button: {
+    backgroundColor: "#1a237e",
+    color: "white",
+    padding: "12px 40px",
+    borderRadius: "30px",
+    fontSize: "1.1rem",
+    fontFamily: "'Playfair Display', serif",
+    textTransform: "none",
+    boxShadow: "0 4px 12px rgba(26, 35, 126, 0.2)",
+    transition: "all 0.3s ease",
+    "&:hover": {
+      backgroundColor: "#283593",
+      transform: "translateY(-2px)",
+      boxShadow: "0 6px 15px rgba(26, 35, 126, 0.3)",
+    },
+  },
+  errorText: {
+    color: "#f44336",
+    marginTop: "1rem",
+    fontFamily: "'Playfair Display', serif",
+    fontSize: "0.9rem",
+  },
+  grid: {
+    gap: 3,
+  },
+};
+
 function Ngoregister() {
   const navigate = useNavigate();
   const [data, setData] = useState({
@@ -93,20 +180,10 @@ function Ngoregister() {
   return (
     <>
       <center>
-        <Paper
-          sx={{
-            padding: 10,
-            background: "",
-            borderRadius: 10,
-            width: "50%",
-            height: "100%",
-            boxShadow: "10px 10px 20px",
-            marginTop: "8%",
-          }}
-        >
-          <h1 style={{ fontFamily: "cursive" }}>NGO Register</h1>
+        <Paper sx={styles.paper}>
+          <h1 style={styles.title}>NGO Register</h1>
           <br />
-          <Grid container>
+          <Grid container sx={styles.grid}>
             <Grid item xs={12} sm={12} md={4} key={0}>
               <TextField
                 id="outlined-basic"
@@ -115,7 +192,7 @@ function Ngoregister() {
                 type="text"
                 name="username"
                 onChange={handleChange}
-                sx={gridstyle}
+                sx={styles.textField}
               />
             </Grid>
             <br />
@@ -128,7 +205,7 @@ function Ngoregister() {
                 type="email"
                 name="email"
                 onChange={handleChange}
-                sx={gridstyle}
+                sx={styles.textField}
               />
             </Grid>
             <br />
@@ -141,7 +218,7 @@ function Ngoregister() {
                 type="password"
                 name="password"
                 onChange={handleChange}
-                sx={gridstyle}
+                sx={styles.textField}
               />
             </Grid>
             <br />
@@ -154,7 +231,7 @@ function Ngoregister() {
                 type="text"
                 name="ngoname"
                 onChange={handleChange}
-                sx={gridstyle}
+                sx={styles.textField}
               />
             </Grid>
             <br />
@@ -167,7 +244,7 @@ function Ngoregister() {
                 type="number"
                 name="yearofestablishment"
                 onChange={handleChange}
-                sx={gridstyle}
+                sx={styles.textField}
               />
             </Grid>
             <br />
@@ -180,7 +257,7 @@ function Ngoregister() {
                 type="text"
                 name="city"
                 onChange={handleChange}
-                sx={gridstyle}
+                sx={styles.textField}
               />
             </Grid>
             <br />
@@ -193,17 +270,21 @@ function Ngoregister() {
                 type="number"
                 name="contact"
                 onChange={handleChange}
-                sx={gridstyle}
+                sx={styles.textField}
               />
             </Grid>
           </Grid>
           <br />
           <br />
-          <Button variant="outlined" onClick={handleRegister}>
+          <Button
+            variant="outlined"
+            onClick={handleRegister}
+            sx={styles.button}
+          >
             Register
           </Button>
           {/* Display error message */}
-          {error && <p style={{ color: "red" }}>{error}</p>}
+          {error && <p style={styles.errorText}>{error}</p>}
         </Paper>
       </center>
       <br />
