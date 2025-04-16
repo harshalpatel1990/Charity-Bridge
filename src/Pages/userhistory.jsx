@@ -13,20 +13,141 @@ import {
   TableHead,
   TableRow,
   Chip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
 } from "@mui/material";
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../config/firebase";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 function UserHistory() {
   const [value, setValue] = useState(0);
   const [volunteerHistory, setVolunteerHistory] = useState([]);
   const [contributionHistory, setContributionHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedActivity, setSelectedActivity] = useState(null);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleDialogOpen = (activity) => {
+    setSelectedActivity(activity);
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+    setSelectedActivity(null);
+  };
+
+  const generatePDF = async () => {
+    if (!selectedActivity) return;
+
+    try {
+      // Fetch contributor details from userinfo collection
+      const currentUser = auth.currentUser;
+      if (!currentUser) {
+        console.error("No user logged in");
+        return;
+      }
+
+      // Query userinfo collection using email
+      const userQuery = query(
+        collection(db, "userinfo"),
+        where("email", "==", currentUser.email) // Assuming 'email' is stored in userinfo
+      );
+      const userSnapshot = await getDocs(userQuery);
+
+      let contributorDetails = {
+        name: "N/A",
+        age: "N/A",
+        gender: "N/A",
+      };
+
+      if (!userSnapshot.empty) {
+        const userData = userSnapshot.docs[0].data(); // Get the first matching document
+        contributorDetails = {
+          name: userData.name || "N/A",
+          age: userData.age || "N/A",
+          gender: userData.gender || "N/A",
+        };
+      } else {
+        console.warn("No user document found for email:", currentUser.email);
+      }
+
+      const pdf = new jsPDF();
+
+      // Set the page width
+      const pageWidth = pdf.internal.pageSize.getWidth();
+
+      // Add a header with background color
+      pdf.setFillColor("#1a237e");
+      pdf.rect(0, 0, pageWidth, 20, "F"); // Draw a filled rectangle
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(18);
+      pdf.setTextColor("#ffffff");
+      pdf.text("Donation Receipt", pageWidth / 2, 13, { align: "center" });
+
+      // Add Contributor's Name Section
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(14);
+      pdf.setTextColor("#000000");
+      pdf.text("Contributor's Details", 10, 30);
+
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(12);
+      pdf.text(`Name: ${contributorDetails.name}`, 10, 40);
+      pdf.text(`Age: ${contributorDetails.age}`, 10, 50);
+      pdf.text(`Gender: ${contributorDetails.gender}`, 10, 60);
+
+      // Add a section divider with background color
+      pdf.setFillColor("#1a237e");
+      pdf.rect(0, 70, pageWidth, 10, "F"); // Draw a filled rectangle
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(14);
+      pdf.setTextColor("#ffffff");
+      pdf.text("Activity Details", pageWidth / 2, 77, { align: "center" });
+
+      // Add Activity Details
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(12);
+      pdf.setTextColor("#000000");
+      pdf.text(`Activity Name: ${selectedActivity.activityName || "N/A"}`, 10, 90);
+      pdf.text(`NGO Name: ${selectedActivity.ngoName || "N/A"}`, 10, 100);
+      pdf.text(`Amount Donated: ${selectedActivity.amount || 0}`, 10, 110);
+      pdf.text(`Date: ${selectedActivity.date || "N/A"}`, 10, 120);
+      pdf.text(`Description:`, 10, 130);
+
+      // Add a multi-line description
+      const description = pdf.splitTextToSize(
+        selectedActivity.description || "No description available",
+        pageWidth - 20
+      );
+      pdf.text(description, 10, 140);
+
+      // Add a footer
+      pdf.setFontSize(10);
+      pdf.setTextColor(150);
+      pdf.text(
+        "Thank you for your contribution!",
+        pageWidth / 2,
+        pdf.internal.pageSize.getHeight() - 10,
+        { align: "center" }
+      );
+
+      // Save the PDF
+      pdf.save(`${selectedActivity.activityName}_Receipt.pdf`);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    }
   };
 
   useEffect(() => {
@@ -74,6 +195,7 @@ function UserHistory() {
               ngoName: ngoName,
               date: contribution.timestamp?.toDate()?.toLocaleDateString() || "N/A",
               amount: contribution.amount || 0,
+              description: activityData.description || "No description available",
             };
           })
         );
@@ -232,6 +354,7 @@ function UserHistory() {
                       <TableCell>NGO Name</TableCell>
                       <TableCell>Date</TableCell>
                       <TableCell>Status</TableCell>
+                      
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -265,6 +388,7 @@ function UserHistory() {
                       <TableCell>NGO Name</TableCell>
                       <TableCell>Amount</TableCell>
                       <TableCell>Date</TableCell>
+                      <TableCell>Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -274,6 +398,14 @@ function UserHistory() {
                         <TableCell>{row.ngoName}</TableCell>
                         <TableCell>₹{row.amount}</TableCell>
                         <TableCell>{row.date}</TableCell>
+                        <TableCell>
+                          <Chip
+                            label='View Receipt'
+                            color='primary'
+                            size='small'
+                            onClick={() => handleDialogOpen(row)}
+                          />
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -301,6 +433,48 @@ function UserHistory() {
           </Box>
         </Paper>
       </Container>
+
+      {/* Dialog for Activity Details */}
+      <Dialog
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        fullWidth
+        maxWidth="sm"
+        TransitionProps={{
+          onEntering: () => console.log("Dialog opened"),
+        }}
+      >
+        <DialogTitle>Activity Details</DialogTitle>
+        <DialogContent>
+          {selectedActivity && (
+            <div id="activity-details">
+              <Typography variant="h6" gutterBottom>
+                Activity Name: {selectedActivity.activityName}
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                NGO Name: {selectedActivity.ngoName}
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                Amount Donated: ₹{selectedActivity.amount}
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                Date: {selectedActivity.date}
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                Description: {selectedActivity.description}
+              </Typography>
+            </div>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={generatePDF} color="primary">
+            Download PDF
+          </Button>
+          <Button onClick={handleDialogClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

@@ -280,6 +280,10 @@ function Ngoregister() {
           </Button>
           {/* Display error message */}
           {error && <p style={styles.errorText}>{error}</p>}
+          <br />
+          <p>Already have Account <a href="/ngo/login" style={{ color: "#1A237e", textDecoration: "underline", cursor: "pointer" }}>
+          Click here!</a></p>
+          
         </Paper>
       </center>
       <br />
