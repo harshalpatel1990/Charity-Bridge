@@ -274,13 +274,13 @@ function Useractivities() {
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
+          <TableHead sx = {{ backgroundColor: "#1a237e",position: "sticky",top: 0 ,zIndex: 1 }}>
             <TableRow>
-              <TableCell align="center">Name</TableCell>
-              <TableCell align="center">Contributors</TableCell>
-              <TableCell align="center">Funds</TableCell>
-              <TableCell align="center">Location</TableCell>
-              <TableCell align="center">Description&nbsp;(g)</TableCell>
+              <TableCell sx={{color:"white"}} align="center">Name</TableCell>
+              <TableCell sx={{color:"white"}}align="center">Contributors</TableCell>
+              <TableCell sx={{color:"white"}}align="center">Funds</TableCell>
+              <TableCell sx={{color:"white"}}align="center">Location</TableCell>
+              <TableCell sx={{color:"white"}}align="center">Description</TableCell>
               <TableCell align="center"></TableCell>
             </TableRow>
           </TableHead>
@@ -301,6 +301,8 @@ function Useractivities() {
                 <TableCell align="center">
                   <React.Fragment>
                     <Button
+                    sx={{backgroundColor:"#1a237e",color:"white"}}
+
                       variant="outlined"
                       onClick={() =>
                         handleClickOpen(

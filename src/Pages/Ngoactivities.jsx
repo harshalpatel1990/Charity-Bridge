@@ -308,14 +308,14 @@ function Ngoactivities() {
       >
         <TableContainer component={Paper} sx={{ width: "80%" }}>
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-            <TableHead>
+            <TableHead sx = {{ backgroundColor: "#1a237e",position: "sticky",top: 0 ,zIndex: 1 }}>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell align='right'>Contributors</TableCell>
-                <TableCell align='right'>Funds</TableCell>
-                <TableCell align='right'>Location</TableCell>
-                <TableCell align='right'>Description</TableCell>
-                <TableCell align='right'></TableCell>
+                <TableCell sx={{color:"white"}}>Name</TableCell>
+                <TableCell sx={{color:"white"}} align='right'>Contributors</TableCell>
+                <TableCell sx={{color:"white"}} align='right'>Funds</TableCell>
+                <TableCell sx={{color:"white"}} align='right'>Location</TableCell>
+                <TableCell sx={{color:"white"}} align='right'>Description</TableCell>
+                <TableCell sx={{color:"white"}} align='right'></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -339,7 +339,7 @@ function Ngoactivities() {
                         }}
                       >
                         <Tooltip title='Activity Progress'>
-                          <DonutLargeIcon sx={{ color: "1a237e" }} />
+                          <DonutLargeIcon sx={{ color: "#1a237e" }} />
                         </Tooltip>
                       </Button>
                       <Dialog
@@ -527,7 +527,7 @@ function Ngoactivities() {
                       }}
                     >
                       <Tooltip title='Edit'>
-                        <ModeEditIcon sx={{ color: "1a237e" }} />
+                        <ModeEditIcon sx={{ color: "#1a237e" }} />
                       </Tooltip>
                     </Button>
                     <React.Fragment>
@@ -569,7 +569,7 @@ function Ngoactivities() {
                       }}
                     >
                       <Tooltip title='Delete'>
-                        <DeleteIcon sx={{ color: "1a237e" }} />
+                        <DeleteIcon sx={{ color: "#1a237e" }} />
                       </Tooltip>
                     </Button>
 
