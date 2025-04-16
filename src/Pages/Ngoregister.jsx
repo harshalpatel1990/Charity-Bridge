@@ -11,14 +11,14 @@ import { useNavigate } from "react-router-dom";
 
 const styles = {
   paper: {
-    padding: { xs: 4, md: 10 },
+    padding: { xs: 4, md: 7 },
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
     alignItems: "center",
     borderRadius: 4,
-    marginTop: "3%",
-    width: { xs: "70%", sm: "70%", md: "50%" },
+    marginTop: "6%",
+    width: { xs: "70%", sm: "70%", md: "40%" },
     backgroundColor: "rgba(255, 255, 255, 0.95)",
     boxShadow: "0 8px 32px rgba(26, 35, 126, 0.1)",
     backdropFilter: "blur(10px)",
@@ -183,8 +183,15 @@ function Ngoregister() {
         <Paper sx={styles.paper}>
           <h1 style={styles.title}>NGO Register</h1>
           <br />
-          <Grid container sx={styles.grid}>
-            <Grid item xs={12} sm={12} md={4} key={0}>
+          <Grid
+            container
+            sx={{
+              ...styles.grid,
+              justifyContent: "center", // Center items horizontally
+              alignItems: "center", // Center items vertically
+            }}
+          >
+            <Grid item xs={12} sm={12} md={4}>
               <TextField
                 id="outlined-basic"
                 label="Username"
@@ -195,9 +202,7 @@ function Ngoregister() {
                 sx={styles.textField}
               />
             </Grid>
-            <br />
-            <br />
-            <Grid item xs={12} sm={12} md={4} key={0}>
+            <Grid item xs={12} sm={12} md={4}>
               <TextField
                 id="outlined-basic"
                 label="Email"
@@ -208,9 +213,7 @@ function Ngoregister() {
                 sx={styles.textField}
               />
             </Grid>
-            <br />
-            <br />
-            <Grid item xs={12} sm={12} md={4} key={0}>
+            <Grid item xs={12} sm={12} md={4}>
               <TextField
                 id="outlined-basic"
                 label="Password"
@@ -221,9 +224,7 @@ function Ngoregister() {
                 sx={styles.textField}
               />
             </Grid>
-            <br />
-            <br />
-            <Grid item xs={12} sm={12} md={4} key={0}>
+            <Grid item xs={12} sm={12} md={4}>
               <TextField
                 id="outlined-basic"
                 label="Ngo Name"
@@ -234,9 +235,7 @@ function Ngoregister() {
                 sx={styles.textField}
               />
             </Grid>
-            <br />
-            <br />
-            <Grid item xs={12} sm={12} md={4} key={0}>
+            <Grid item xs={12} sm={12} md={4}>
               <TextField
                 id="outlined-basic"
                 label="Year Of Establishment"
@@ -247,9 +246,7 @@ function Ngoregister() {
                 sx={styles.textField}
               />
             </Grid>
-            <br />
-            <br />
-            <Grid item xs={12} sm={12} md={4} key={0}>
+            <Grid item xs={12} sm={12} md={4}>
               <TextField
                 id="outlined-basic"
                 label="City"
@@ -260,9 +257,7 @@ function Ngoregister() {
                 sx={styles.textField}
               />
             </Grid>
-            <br />
-            <br />
-            <Grid item xs={12} sm={12} md={4} key={0}>
+            <Grid item xs={12} sm={12} md={4}>
               <TextField
                 id="outlined-basic"
                 label="Contact"
