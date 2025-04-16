@@ -166,31 +166,34 @@ export default function NavBar() {
             <Button color="inherit" onClick={logout}>
               Logout
             </Button>
-          ) : null}
-          <Button
-            onClick={() => {
-              navigate("/contactus");
-            }}
-            style={{ color: "white", fontFamily: "cursive" }}
-          >
-            Contact Us
-          </Button>
-          <Button
-            onClick={() => {
-              navigate("/aboutus");
-            }}
-            style={{ color: "white", fontFamily: "cursive" }}
-          >
-            About Us
-          </Button>
-          <Button
-            onClick={() => {
-              navigate("/ourservices");
-            }}
-            style={{ color: "white", fontFamily: "cursive" }}
-          >
-            Our Services
-          </Button>
+          ) : (
+            <div>
+              <Button
+                onClick={() => {
+                  navigate("/contactus");
+                }}
+                style={{ color: "white", fontFamily: "cursive" }}
+              >
+                Contact Us
+              </Button>
+              <Button
+                onClick={() => {
+                  navigate("/aboutus");
+                }}
+                style={{ color: "white", fontFamily: "cursive" }}
+              >
+                About Us
+              </Button>
+              <Button
+                onClick={() => {
+                  navigate("/ourservices");
+                }}
+                style={{ color: "white", fontFamily: "cursive" }}
+              >
+                Our Services
+              </Button>
+            </div>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer
