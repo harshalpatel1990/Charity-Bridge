@@ -48,6 +48,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { useEffect } from "react";
+import Swal from "sweetalert2";
 
 //for funds
 function createfunds(name, funds) {
@@ -152,7 +153,12 @@ function Ngoactivities() {
     try {
       const activityDocRef = doc(db, "activities", selectedActivityId); // Reference the activity document
       await deleteDoc(activityDocRef); // Delete the activity document
-      alert("Activity deleted successfully!");
+      Swal.fire({
+              title: "Deleted!",
+              text: "Your activity has been deleted successfully.",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
       setOpendailogdel(false); // Close the dialog
       getactivity(); // Refresh the activities list
     } catch (err) {

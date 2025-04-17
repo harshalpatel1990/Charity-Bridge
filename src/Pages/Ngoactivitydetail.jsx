@@ -14,6 +14,8 @@ import { db, auth } from "../config/firebase";
 import { getDocs, collection, addDoc, query, where } from "firebase/firestore";
 import { useState } from "react";
 import { useEffect } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Ngoactivitydetail({ onClose }) {
   const [data, setData] = React.useState({
     name: "",
@@ -61,7 +63,10 @@ function Ngoactivitydetail({ onClose }) {
         ngoid: ngoId,
       });
 
-      alert("Activity submitted successfully!");
+       toast.success("Form submitted successfully!", {
+      position: "top-right",
+      autoClose: 3000,
+    });
       onClose(); // Close the dialog box after submission
 
       getactivity();
