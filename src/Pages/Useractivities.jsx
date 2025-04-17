@@ -48,7 +48,7 @@ function CustomTabPanel(props) {
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
@@ -73,7 +73,7 @@ function a11yProps(index) {
 }
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 
 function Useractivities() {
@@ -146,10 +146,8 @@ function Useractivities() {
       const userQuery = query(
         collection(db, "userinfo"),
         where("email", "==", userEmail)
-        
       );
       const userSnapshot = await getDocs(userQuery);
-      
 
       if (userSnapshot.empty) {
         alert("User information not found.");
@@ -173,12 +171,12 @@ function Useractivities() {
       const volunteersCollectionRef = collection(db, "volunteers");
       await addDoc(volunteersCollectionRef, volunteerDetails);
 
-     Swal.fire({
-                   title: "You have participated successfully!",
-                   text: "your details have been submitted.",
-                   icon: "success",
-                   confirmButtonText: "OK",
-                 });
+      Swal.fire({
+        title: "You have participated successfully!",
+        text: "your details have been submitted.",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
       setOpen(false); // Close the dialog box
     } catch (error) {
       console.error("Error adding volunteer details: ", error);
@@ -242,11 +240,11 @@ function Useractivities() {
       });
 
       Swal.fire({
-                    title: "Contributed!",
-                    text: "Your have contributed sucessfully.",
-                    icon: "success",
-                    confirmButtonText: "OK",
-                  });
+        title: "Contributed!",
+        text: "Your have contributed sucessfully.",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
       setOpen(false); // Close the dialog box
     } catch (error) {
       console.error("Error processing contribution: ", error);
@@ -286,15 +284,32 @@ function Useractivities() {
       <br />
 
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead sx = {{ backgroundColor: "#1a237e",position: "sticky",top: 0 ,zIndex: 1 }}>
+        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+          <TableHead
+            sx={{
+              backgroundColor: "#1a237e",
+              position: "sticky",
+              top: 0,
+              zIndex: 1,
+            }}
+          >
             <TableRow>
-              <TableCell sx={{color:"white"}} align="center">Name</TableCell>
-              <TableCell sx={{color:"white"}}align="center">Contributors</TableCell>
-              <TableCell sx={{color:"white"}}align="center">Funds</TableCell>
-              <TableCell sx={{color:"white"}}align="center">Location</TableCell>
-              <TableCell sx={{color:"white"}}align="center">Description</TableCell>
-              <TableCell align="center"></TableCell>
+              <TableCell sx={{ color: "white" }} align='center'>
+                Name
+              </TableCell>
+              <TableCell sx={{ color: "white" }} align='center'>
+                Contributors
+              </TableCell>
+              <TableCell sx={{ color: "white" }} align='center'>
+                Funds
+              </TableCell>
+              <TableCell sx={{ color: "white" }} align='center'>
+                Location
+              </TableCell>
+              <TableCell sx={{ color: "white" }} align='center'>
+                Description
+              </TableCell>
+              <TableCell align='center'></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -303,20 +318,19 @@ function Useractivities() {
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="center">{row.activityname}</TableCell>
-                <TableCell align="center" component="th" scope="row">
+                <TableCell align='center'>{row.activityname}</TableCell>
+                <TableCell align='center' component='th' scope='row'>
                   {row.contributors}
                 </TableCell>
-                <TableCell align="center">{row.funds}</TableCell>
-                <TableCell align="center">{row.location}</TableCell>
+                <TableCell align='center'>{row.funds}</TableCell>
+                <TableCell align='center'>{row.location}</TableCell>
 
-                <TableCell align="center">{row.description}</TableCell>
-                <TableCell align="center">
+                <TableCell align='center'>{row.description}</TableCell>
+                <TableCell align='center'>
                   <React.Fragment>
                     <Button
-                    sx={{backgroundColor:"#1a237e",color:"white"}}
-
-                      variant="outlined"
+                      sx={{ backgroundColor: "#1a237e", color: "white" }}
+                      variant='outlined'
                       onClick={() =>
                         handleClickOpen(
                           row.id,
@@ -337,17 +351,17 @@ function Useractivities() {
                       <AppBar sx={{ position: "relative" }}>
                         <Toolbar sx={{ backgroundColor: "#1a237e" }}>
                           <IconButton
-                            edge="start"
-                            color="inherit"
+                            edge='start'
+                            color='inherit'
                             onClick={handleClose}
-                            aria-label="close"
+                            aria-label='close'
                           >
                             <CloseIcon />
                           </IconButton>
 
                           <Button
                             autoFocus
-                            color="inherit"
+                            color='inherit'
                             onClick={handleClose}
                             sx={{ marginLeft: "auto" }} // Align the button to the right
                           >
@@ -360,11 +374,20 @@ function Useractivities() {
                           <Tabs
                             value={value}
                             onChange={handleChange}
-                            aria-label="basic tabs example"
+                            aria-label='basic tabs example'
+                            sx={{
+                              "& .MuiTab-root": {
+                                color: "", // Default text color for tabs
+                              },
+                              "& .Mui-selected": {
+                                color: "#1A237E", // Text color for the selected tab
+                                fontWeight: "bold", // Optional: Make the selected tab bold
+                              },
+                            }}
                           >
-                            <Tab label="Volunteer" {...a11yProps(0)} />
-                            <Tab label="Contribute" {...a11yProps(1)} />
-                            <Tab label="Ngo Details" {...a11yProps(2)} />
+                            <Tab label='Volunteer' {...a11yProps(0)} />
+                            <Tab label='Contribute' {...a11yProps(1)} />
+                            <Tab label='Ngo Details' {...a11yProps(2)} />
                           </Tabs>
                         </Box>
                         <CustomTabPanel value={value} index={0}>
@@ -380,8 +403,8 @@ function Useractivities() {
                               >
                                 <TextField
                                   disabled
-                                  id="outlined-disabled"
-                                  label="Activity Name"
+                                  id='outlined-disabled'
+                                  label='Activity Name'
                                   defaultValue={selectedActivityName} // Use selected activity name
                                 />
                               </Grid>
@@ -397,9 +420,9 @@ function Useractivities() {
                                 }}
                               >
                                 <TextField
-                                  id="outlined-basic"
-                                  label="message"
-                                  variant="outlined"
+                                  id='outlined-basic'
+                                  label='message'
+                                  variant='outlined'
                                 />
                               </Grid>
                               <br />
@@ -413,8 +436,12 @@ function Useractivities() {
                                 }}
                               >
                                 <Button
-                                  variant="outlined"
+                                  variant='outlined'
                                   onClick={handleVolunteerParticipation}
+                                  sx={{
+                                    backgroundColor: "#1a237e",
+                                    color: "white",
+                                  }}
                                 >
                                   Participate as volunteer
                                 </Button>
@@ -428,9 +455,9 @@ function Useractivities() {
                             <Grid Container sx={{ width: "50%" }}>
                               <Grid>
                                 <TextField
-                                  id="outlined-basic"
-                                  label="Amount"
-                                  variant="outlined"
+                                  id='outlined-basic'
+                                  label='Amount'
+                                  variant='outlined'
                                   sx={{ width: "100%" }}
                                   onChange={(e) =>
                                     setDonationAmount(e.target.value)
@@ -441,16 +468,16 @@ function Useractivities() {
                                 <br />
                                 <TextField
                                   disabled
-                                  id="outlined-disabled"
-                                  label="Activity Detail"
+                                  id='outlined-disabled'
+                                  label='Activity Detail'
                                   defaultValue={selectedActivityName}
                                 />
                                 <br />
                                 <br />
                                 <TextField
                                   disabled
-                                  id="outlined-disabled"
-                                  label="Funds Required"
+                                  id='outlined-disabled'
+                                  label='Funds Required'
                                   defaultValue={selectedFunds} // Use selected funds value
                                 />
                                 <br />
@@ -458,7 +485,11 @@ function Useractivities() {
 
                                 <center>
                                   <Button
-                                    variant="outlined"
+                                    variant='outlined'
+                                    sx={{
+                                      backgroundColor: "#1a237e",
+                                      color: "white",
+                                    }}
                                     onClick={() =>
                                       handleContribute(Number(donationAmount))
                                     } // Pass the donation amount
@@ -472,48 +503,83 @@ function Useractivities() {
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={2}>
                           <center>
-                            {ngoDetails ? (
-                              <Grid container spacing={2} sx={{ width: "50%" }}>
-                                <Grid item xs={12}>
-                                  <Typography variant="h6" gutterBottom>
-                                    NGO Details
-                                  </Typography>
+                            <Paper
+                              sx={{
+                                padding: 2,
+                                width: "25%",
+                                boxShadow: 3,
+                                borderRadius: 2,
+                              }}
+                            >
+                              {ngoDetails ? (
+                                <Grid
+                                  container
+                                  spacing={2}
+                                  sx={{ width: "50%" }}
+                                >
+                                  <Grid item xs={12}>
+                                    <Typography
+                                      variant='h6'
+                                      gutterBottom
+                                      sx={{
+                                        fontFamily: "cursive",
+                                        fontSize: 25,
+                                      }}
+                                    >
+                                      NGO Details
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xs={12}>
+                                    <Typography
+                                      variant='body1'
+                                      sx={{ fontSize: 20 }}
+                                    >
+                                      <strong>NGO Name:</strong>{" "}
+                                      {ngoDetails.ngoname || "N/A"}{" "}
+                                      {ngoDetails.verifyngo ? (
+                                        <strong style={{ color: "#1a237e" }}>
+                                          <DoneAllIcon /> Verified
+                                        </strong>
+                                      ) : null}
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xs={12}>
+                                    <Typography
+                                      variant='body1'
+                                      sx={{ fontSize: 20 }}
+                                    >
+                                      <strong>Email:</strong>{" "}
+                                      {ngoDetails.email || "N/A"}
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xs={12}>
+                                    <Typography
+                                      variant='body1'
+                                      sx={{ fontSize: 20 }}
+                                    >
+                                      <strong>Contact:</strong>{" "}
+                                      {ngoDetails.contact || "N/A"}
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xs={12}>
+                                    <Typography
+                                      variant='body1'
+                                      sx={{ fontSize: 20 }}
+                                    >
+                                      <strong>Address:</strong>{" "}
+                                      {ngoDetails.city || "N/A"}
+                                    </Typography>
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={12}>
-                                  <Typography variant="body1">
-                                    <strong>NGO Name:</strong>{" "}
-                                    {ngoDetails.ngoname || "N/A"}{" "}
-                                    {ngoDetails.verifyngo ? (
-                                      <strong style={{ color: "#1a237e" }}>
-                                        <DoneAllIcon /> Verified
-                                      </strong>
-                                    ) : null}
-                                  </Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                  <Typography variant="body1">
-                                    <strong>Email:</strong>{" "}
-                                    {ngoDetails.email || "N/A"}
-                                  </Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                  <Typography variant="body1">
-                                    <strong>Contact:</strong>{" "}
-                                    {ngoDetails.contact || "N/A"}
-                                  </Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                  <Typography variant="body1">
-                                    <strong>Address:</strong>{" "}
-                                    {ngoDetails.city || "N/A"}
-                                  </Typography>
-                                </Grid>
-                              </Grid>
-                            ) : (
-                              <Typography variant="body1">
-                                No NGO details available.
-                              </Typography>
-                            )}
+                              ) : (
+                                <Typography
+                                  variant='body1'
+                                  sx={{ fontSize: 20 }}
+                                >
+                                  No NGO details available.
+                                </Typography>
+                              )}
+                            </Paper>
                           </center>
                         </CustomTabPanel>
                       </Box>
@@ -525,51 +591,6 @@ function Useractivities() {
           </TableBody>
         </Table>
       </TableContainer>
-      <CustomTabPanel value={value} index={2}>
-        <center>
-          {ngoDetails ? (
-            <Grid container spacing={2} sx={{ width: "50%" }}>
-              <Grid item xs={12}>
-                <Typography variant="h6">NGO Details</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  disabled
-                  label="NGO Name"
-                  value={ngoDetails.name || "N/A"} // Replace "name" with the actual field name in your NGO collection
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  disabled
-                  label="Email"
-                  value={ngoDetails.email || "N/A"} // Replace "email" with the actual field name
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  disabled
-                  label="Contact"
-                  value={ngoDetails.contact || "N/A"} // Replace "contact" with the actual field name
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  disabled
-                  label="Address"
-                  value={ngoDetails.address || "N/A"} // Replace "address" with the actual field name
-                  fullWidth
-                />
-              </Grid>
-            </Grid>
-          ) : (
-            <Typography variant="body1">No NGO details available.</Typography>
-          )}
-        </center>
-      </CustomTabPanel>
     </div>
   );
 }
