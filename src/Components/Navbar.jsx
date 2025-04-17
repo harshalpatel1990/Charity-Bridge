@@ -32,6 +32,7 @@ import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import BusinessIcon from "@mui/icons-material/Business";
 import { useState } from "react";
 import { useEffect } from "react";
+import logo from "../assets/logo.png";
 
 const drawerWidth = 240;
 
@@ -132,6 +133,9 @@ export default function NavBar() {
         position="fixed"
         open={open}
         sx={{
+          height: "10vh",
+          display: "flex",
+          flexWrap: "wrap",
           backgroundColor: "#1a237e", // Change this to your desired color
         }}
       >
@@ -154,12 +158,15 @@ export default function NavBar() {
               <MenuIcon />
             </IconButton>
           ) : null}
+          <img  src={logo} alt="logo"  style={{height:"55px",marginTop:"3px"}}/>
+          
           <Typography
             variant="h6"
             component="div"
             gutterBottom
-            sx={{ flexGrow: 1, fontFamily: "cursive" }}
+            sx={{ flexGrow: 1, fontFamily: "cursive" ,marginLeft:"15px",marginTop:"5px"}}
           >
+            
             Charity Bridge
           </Typography>{" "}
           {localStorage.getItem("accessToken") ? (
