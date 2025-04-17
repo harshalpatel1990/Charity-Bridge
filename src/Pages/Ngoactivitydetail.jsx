@@ -14,7 +14,10 @@ import { db, auth } from "../config/firebase";
 import { getDocs, collection, addDoc, query, where } from "firebase/firestore";
 import { useState } from "react";
 import { useEffect } from "react";
-function Ngoactivitydetail({ onClose }) {
+import { SnackbarProvider, useSnackbar } from 'notistack';
+
+function Ngoactivitydetail({ onClose, getactivity }) {
+  const { enqueueSnackbar } = useSnackbar();
   const [data, setData] = React.useState({
     name: "",
     number: "",
@@ -44,7 +47,13 @@ function Ngoactivitydetail({ onClose }) {
       const ngoSnapshot = await getDocs(ngoQuery);
 
       if (ngoSnapshot.empty) {
-        alert("NGO information not found.");
+        enqueueSnackbar("NGO information not found.", { 
+          variant: 'error',
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+        });
         return;
       }
 
@@ -61,12 +70,25 @@ function Ngoactivitydetail({ onClose }) {
         ngoid: ngoId,
       });
 
-      alert("Activity submitted successfully!");
+      enqueueSnackbar('Activity added successfully!', { 
+        variant: 'success',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right',
+        },
+      });
       onClose(); // Close the dialog box after submission
 
       getactivity();
     } catch (err) {
       console.error(err);
+      enqueueSnackbar('Failed to add activity. Please try again.', { 
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right',
+        },
+      });
     }
   };
 
@@ -75,6 +97,7 @@ function Ngoactivitydetail({ onClose }) {
       className="box"
       style={{ display: "flex", justifyContent: "center", padding: "3%" }}
     >
+      <SnackbarProvider maxSnack={3}>
       <center style={{ fontFamily: "cursive" }}>
         <h1 style={{ fontFamily: "cursive", marginBottom: "2%" }}>
           NGO Activity
@@ -193,6 +216,7 @@ function Ngoactivitydetail({ onClose }) {
         </Button>
         {/* </div> */}
       </center>
+      </SnackbarProvider>
     </div>
   );
 }

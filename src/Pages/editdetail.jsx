@@ -15,6 +15,7 @@ import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 function Editdetail({ selectedActivity, onUpdate, onClose }) {
   let [data, setdata] = React.useState({

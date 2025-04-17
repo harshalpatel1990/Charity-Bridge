@@ -300,7 +300,7 @@ function Ngoactivities() {
               </Typography>
             </Toolbar>
           </AppBar>
-          <Ngoactivitydetail onClose={handleClose} />
+          <Ngoactivitydetail onClose={handleClose}  getactivity={getactivity}/>
         </Dialog>
       </React.Fragment>
       <div

@@ -27,10 +27,11 @@ import Aboutus from "./Pages/aboutus";
 import Contactus from "./Pages/contactus";
 import OurServices from "./Pages/ourservices";
 import Footer from "./Components/Footer";
+import { SnackbarProvider } from 'notistack';
 
 function App() {
   return (
-    <div>
+    <SnackbarProvider maxSnack={3}>
       <BrowserRouter>
         <NavBar />
 
@@ -70,7 +71,7 @@ function App() {
           <Route path="/admin/verifyngo" Component={Verifyngo}></Route>
         </Routes>
       </BrowserRouter>
-    </div>
+    </SnackbarProvider>
   );
 }
 
