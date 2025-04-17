@@ -92,7 +92,8 @@ const styles = {
       left: 0,
       width: "100%",
       height: "100%",
-      background: "linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent)",
+      background:
+        "linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent)",
       transform: "translateX(-100%)",
     },
     "&:hover": {
@@ -102,7 +103,7 @@ const styles = {
       "&::before": {
         transform: "translateX(100%)",
         transition: "transform 0.75s ease-in-out",
-      }
+      },
     },
     "&:active": {
       transform: "translateY(-1px)",
@@ -115,7 +116,7 @@ const styles = {
       "&:hover": {
         transform: "none",
         boxShadow: "0 4px 12px rgba(76, 175, 80, 0.3)",
-      }
+      },
     },
     "@keyframes pulse": {
       "0%": {
@@ -129,9 +130,9 @@ const styles = {
       "100%": {
         transform: "scale(1)",
         boxShadow: "0 0 0 0 rgba(76, 175, 80, 0)",
-      }
-    }
-  }
+      },
+    },
+  },
 };
 
 function VerifyUser() {
