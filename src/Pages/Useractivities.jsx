@@ -41,6 +41,7 @@ import {
   getDoc,
 } from "firebase/firestore"; // Import Firebase functions
 import { useEffect } from "react";
+import Swal from "sweetalert2";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -145,8 +146,10 @@ function Useractivities() {
       const userQuery = query(
         collection(db, "userinfo"),
         where("email", "==", userEmail)
+        
       );
       const userSnapshot = await getDocs(userQuery);
+      
 
       if (userSnapshot.empty) {
         alert("User information not found.");
@@ -170,7 +173,12 @@ function Useractivities() {
       const volunteersCollectionRef = collection(db, "volunteers");
       await addDoc(volunteersCollectionRef, volunteerDetails);
 
-      alert("Thank you for volunteering!");
+     Swal.fire({
+                   title: "You have participated successfully!",
+                   text: "your details have been submitted.",
+                   icon: "success",
+                   confirmButtonText: "OK",
+                 });
       setOpen(false); // Close the dialog box
     } catch (error) {
       console.error("Error adding volunteer details: ", error);
@@ -233,7 +241,12 @@ function Useractivities() {
         timestamp: new Date(), // The current timestamp
       });
 
-      alert("Thank you for your contribution!");
+      Swal.fire({
+                    title: "Contributed!",
+                    text: "Your have contributed sucessfully.",
+                    icon: "success",
+                    confirmButtonText: "OK",
+                  });
       setOpen(false); // Close the dialog box
     } catch (error) {
       console.error("Error processing contribution: ", error);

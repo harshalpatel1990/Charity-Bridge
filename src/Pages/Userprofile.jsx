@@ -10,9 +10,11 @@ import {
 import { auth, db } from "../config/firebase";
 import { getDocs, collection, updateDoc, doc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { SnackbarProvider, useSnackbar } from "notistack";
 
 const Userprofile = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -80,7 +82,14 @@ const Userprofile = () => {
     try {
       const userDocRef = doc(db, "userinfo", userDocId); // Reference to the user's document
       await updateDoc(userDocRef, formData); // Update the document with the new data
-      console.log("Profile updated successfully!");
+      // console.log("Profile updated successfully!");
+      enqueueSnackbar("Activity added successfully!", {
+        variant: "success",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "right",
+        },
+      });
       setIsEditing(false); // Exit editing mode
     } catch (err) {
       console.log("Error updating profile:", err);
@@ -91,11 +100,22 @@ const Userprofile = () => {
     <Container maxWidth="md">
       <Paper
         elevation={3}
-        sx={{ padding: 10, background: "white", borderRadius: 10, marginTop : "12%" }}
+        sx={{
+          padding: 10,
+          background: "white",
+          borderRadius: 10,
+          marginTop: "12%",
+        }}
       >
-        <h1 style={{ fontFamily: "cursive",display:"flex",justifyContent:"center" }}>
+        <h1
+          style={{
+            fontFamily: "cursive",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           Profile
-          </h1>
+        </h1>
         <Stack spacing={3} alignItems="center">
           <Grid container spacing={2}>
             {[

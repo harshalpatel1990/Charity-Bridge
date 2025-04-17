@@ -10,9 +10,11 @@ import {
 import { auth, db } from "../config/firebase";
 import { getDocs, collection, updateDoc, doc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-
+import { SnackbarProvider, useSnackbar } from "notistack";
 const NgoProfile = () => {
+   const { enqueueSnackbar } = useSnackbar();
   const [isEditing, setIsEditing] = useState(false);
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -80,6 +82,13 @@ const NgoProfile = () => {
       const ngoDocRef = doc(db, "ngoinfo", ngoDocId); // Reference to the NGO's document
       await updateDoc(ngoDocRef, formData); // Update the document with the new data
       console.log("Profile updated successfully!");
+      enqueueSnackbar("Activity added successfully!", {
+        variant: "success",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "right",
+        },
+      });
       setIsEditing(false); // Exit editing mode
     } catch (err) {
       console.log("Error updating profile:", err);
@@ -90,11 +99,22 @@ const NgoProfile = () => {
     <Container maxWidth="md">
       <Paper
         elevation={3}
-        sx={{ padding: 10, background: "white", borderRadius: 10, marginTop : "15%" }}
+        sx={{
+          padding: 10,
+          background: "white",
+          borderRadius: 10,
+          marginTop: "15%",
+        }}
       >
-        <h1 style={{ fontFamily: "cursive",display:"flex",justifyContent:"center" }}>
+        <h1
+          style={{
+            fontFamily: "cursive",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           NGO Profile
-          </h1>
+        </h1>
         <Stack spacing={3} alignItems="center">
           <Grid container spacing={2}>
             {[
@@ -134,3 +154,4 @@ const NgoProfile = () => {
 };
 
 export default NgoProfile;
+
