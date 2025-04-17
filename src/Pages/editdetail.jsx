@@ -128,10 +128,10 @@ function Editdetail({ selectedActivity, onUpdate, onClose }) {
           />
         </Grid>
         <Grid item xs={12}>
-          <Button variant='contained' color='primary' onClick={handleSave}>
+          <Button sx={{backgroundColor:"#1a237e"}} variant='contained' color='primary' onClick={handleSave}>
             Save Changes
           </Button>
-          <Button
+          <Button sx={{backgroundColor:"#1a237e"}}
             variant='contained'
             color='primary'
             onClick={handleCancel}
