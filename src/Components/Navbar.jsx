@@ -33,6 +33,7 @@ import BusinessIcon from "@mui/icons-material/Business";
 import { useState } from "react";
 import { useEffect } from "react";
 import logo from "../assets/logo.png";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const drawerWidth = 240;
 
@@ -87,6 +88,35 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
 }));
+
+const styles = {
+  logoutButton: {
+    color: "white",
+
+    padding: "6px 16px",
+    minWidth: "120px",
+    marginTop: "10px",
+
+    transition: "all 0.3s ease",
+    textTransform: "none",
+    fontFamily: "'Playfair Display', serif",
+    fontSize: "0.95rem",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    "&:hover": {
+      transform: "translateY(-1px)",
+    },
+    "& .MuiSvgIcon-root": {
+      fontSize: "20px",
+      transition: "transform 0.3s ease",
+    },
+    "&:hover .MuiSvgIcon-root": {
+      transform: "translateX(3px)",
+    },
+  },
+};
+
 export default function NavBar() {
   const theme = useTheme();
 
@@ -158,19 +188,27 @@ export default function NavBar() {
               <MenuIcon />
             </IconButton>
           ) : null}
-          <img  src={logo} alt="logo"  style={{height:"55px",marginTop:"3px"}}/>
-          
+          <img
+            src={logo}
+            alt="logo"
+            style={{ height: "55px", marginTop: "3px" }}
+          />
           <Typography
             variant="h6"
             component="div"
             gutterBottom
-            sx={{ flexGrow: 1, fontFamily: "cursive" ,marginLeft:"15px",marginTop:"5px"}}
+            sx={{
+              flexGrow: 1,
+              fontFamily: "cursive",
+              marginLeft: "15px",
+              marginTop: "5px",
+            }}
           >
-            
             Charity Bridge
           </Typography>{" "}
           {localStorage.getItem("accessToken") ? (
-            <Button color="inherit" onClick={logout}>
+            <Button color="inherit" onClick={logout} sx={styles.logoutButton}>
+              <LogoutIcon />
               Logout
             </Button>
           ) : (
