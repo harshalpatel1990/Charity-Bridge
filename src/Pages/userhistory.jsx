@@ -19,88 +19,44 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import { db, auth } from "../config/firebase";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
-// Update the styling components
+// Add these styles at the top of your component
 const styles = {
-  pageContainer: {
-    py: 4,
-    bgcolor: "rgba(26, 35, 126, 0.02)",
-    minHeight: "100vh",
-    marginTop: "64px",
-  },
-  header: {
-    textAlign: "center",
-    color: "#1a237e",
-    fontWeight: "bold",
-    mb: 4,
-    fontFamily: "'Playfair Display', serif",
-    position: "relative",
-    "&::after": {
-      content: '""',
-      position: "absolute",
-      bottom: -10,
-      left: "50%",
-      transform: "translateX(-50%)",
-      width: "60px",
-      height: "3px",
-      background: "linear-gradient(90deg, #1a237e, #3949ab)",
-      borderRadius: "2px",
+  customButton: {
+    backgroundColor: "#1a237e",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#283593",
     },
   },
-  tabs: {
-    "& .MuiTab-root": {
-      color: "#1a237e",
-      opacity: 0.7,
-      "&.Mui-selected": {
-        color: "#1a237e",
-        opacity: 1,
-      },
-    },
-    "& .MuiTabs-indicator": {
-      backgroundColor: "#1a237e",
+  customChip: {
+    backgroundColor: "#1a237e",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#283593",
     },
   },
-  table: {
-    "& .MuiTableHead-root": {
-      "& .MuiTableCell-root": {
-        backgroundColor: "#1a237e",
-        color: "white",
-        fontWeight: "bold",
-      },
-    },
-    "& .MuiTableBody-root": {
-      "& .MuiTableRow-root": {
-        "&:nth-of-type(odd)": {
-          backgroundColor: "rgba(26, 35, 126, 0.02)",
-        },
-        "&:hover": {
-          backgroundColor: "rgba(26, 35, 126, 0.05)",
-        },
-      },
-    },
+  successChip: {
+    backgroundColor: "#4caf50",
+    color: "white",
   },
-  chip: {
-    "&.MuiChip-root": {
+  tableHead: {
+    "& .MuiTableCell-root": {
       backgroundColor: "#1a237e",
       color: "white",
-      "&:hover": {
-        backgroundColor: "#283593",
-      },
-    },
-  },
-  dialog: {
-    "& .MuiDialogTitle-root": {
-      backgroundColor: "#1a237e",
-      color: "white",
-    },
-    "& .MuiDialogActions-root": {
-      borderTop: "1px solid rgba(26, 35, 126, 0.1)",
     },
   },
 };
@@ -163,35 +119,17 @@ function UserHistory() {
       }
 
       const pdf = new jsPDF();
+
+      // Set the page width
       const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
 
-      // Add custom header with logo
-      pdf.setFillColor(26, 35, 126); // #1a237e
-      pdf.rect(0, 0, pageWidth, 40, "F");
-      
-      // Add charity bridge logo
-      pdf.addImage("/logo.png", "PNG", 10, 5, 30, 30);
-      
-      // Header text
+      // Add a header with background color
+      pdf.setFillColor("#1a237e");
+      pdf.rect(0, 0, pageWidth, 20, "F"); // Draw a filled rectangle
       pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(24);
-      pdf.setTextColor(255, 255, 255);
-      pdf.text("Contribution Receipt", pageWidth / 2, 25, { align: "center" });
-
-      // Add decorative line
-      pdf.setDrawColor(255, 255, 255);
-      pdf.setLineWidth(0.5);
-      pdf.line(40, 35, pageWidth - 40, 35);
-
-      // Contributor details section
-      pdf.setFillColor(242, 243, 248); // Light background
-      pdf.rect(0, 50, pageWidth, 50, "F");
-      
-      pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(14);
-      pdf.setTextColor(26, 35, 126);
-      pdf.text("Contributor's Details", 20, 65);
+      pdf.setFontSize(18);
+      pdf.setTextColor("#ffffff");
+      pdf.text("Donation Receipt", pageWidth / 2, 13, { align: "center" });
 
       // Add Contributor's Name Section
       pdf.setFont("helvetica", "bold");
@@ -217,7 +155,11 @@ function UserHistory() {
       pdf.setFont("helvetica", "normal");
       pdf.setFontSize(12);
       pdf.setTextColor("#000000");
-      pdf.text(`Activity Name: ${selectedActivity.activityName || "N/A"}`, 10, 90);
+      pdf.text(
+        `Activity Name: ${selectedActivity.activityName || "N/A"}`,
+        10,
+        90
+      );
       pdf.text(`NGO Name: ${selectedActivity.ngoName || "N/A"}`, 10, 100);
       pdf.text(`Amount Donated: ${selectedActivity.amount || 0}`, 10, 110);
       pdf.text(`Date: ${selectedActivity.date || "N/A"}`, 10, 120);
@@ -231,19 +173,16 @@ function UserHistory() {
       pdf.text(description, 10, 140);
 
       // Add a footer
-      pdf.setFillColor(26, 35, 126);
-      pdf.rect(0, pageHeight - 20, pageWidth, 20, "F");
-      
-      pdf.setFont("helvetica", "italic");
       pdf.setFontSize(10);
-      pdf.setTextColor(255, 255, 255);
+      pdf.setTextColor(150);
       pdf.text(
-        "Thank you for your contribution to making a difference!",
+        "Thank you for your contribution!",
         pageWidth / 2,
-        pageHeight - 10,
+        pdf.internal.pageSize.getHeight() - 10,
         { align: "center" }
       );
 
+      // Save the PDF
       pdf.save(`${selectedActivity.activityName}_Receipt.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
@@ -276,7 +215,11 @@ function UserHistory() {
             const contribution = contributionDoc.data();
 
             // Fetch activity details using activityId
-            const activityDocRef = doc(db, "activities", contribution.activityId);
+            const activityDocRef = doc(
+              db,
+              "activities",
+              contribution.activityId
+            );
             const activityDoc = await getDoc(activityDocRef);
             const activityData = activityDoc.exists() ? activityDoc.data() : {};
 
@@ -285,7 +228,9 @@ function UserHistory() {
             if (activityData.ngoid) {
               const ngoDocRef = doc(db, "ngoinfo", activityData.ngoid);
               const ngoDoc = await getDoc(ngoDocRef);
-              ngoName = ngoDoc.exists() ? ngoDoc.data().ngoname || "N/A" : "N/A";
+              ngoName = ngoDoc.exists()
+                ? ngoDoc.data().ngoname || "N/A"
+                : "N/A";
             }
 
             return {
@@ -293,9 +238,11 @@ function UserHistory() {
               ...contribution,
               activityName: activityData.activityname || "N/A",
               ngoName: ngoName,
-              date: contribution.timestamp?.toDate()?.toLocaleDateString() || "N/A",
+              date:
+                contribution.timestamp?.toDate()?.toLocaleDateString() || "N/A",
               amount: contribution.amount || 0,
-              description: activityData.description || "No description available",
+              description:
+                activityData.description || "No description available",
             };
           })
         );
@@ -343,37 +290,43 @@ function UserHistory() {
         );
         const volunteerSnapshot = await getDocs(volunteerQuery);
         const volunteerData = await Promise.all(
-            volunteerSnapshot.docs.map(async (volunteerDoc) => {
-              const volunteer = volunteerDoc.data();
-          
-              let activityData = {};
-              if (volunteer.activityId) {
-                const activityDocRef = doc(db, "activities", volunteer.activityId);
-                const activityDoc = await getDoc(activityDocRef);
-                if (activityDoc.exists()) {
-                  activityData = activityDoc.data();
-                } else {
-                  console.warn("No activity found for ID:", volunteer.activityId);
-                }
+          volunteerSnapshot.docs.map(async (volunteerDoc) => {
+            const volunteer = volunteerDoc.data();
+
+            let activityData = {};
+            if (volunteer.activityId) {
+              const activityDocRef = doc(
+                db,
+                "activities",
+                volunteer.activityId
+              );
+              const activityDoc = await getDoc(activityDocRef);
+              if (activityDoc.exists()) {
+                activityData = activityDoc.data();
+              } else {
+                console.warn("No activity found for ID:", volunteer.activityId);
               }
-              let ngoName = "N/A";
-              if (activityData.ngoid) {
-                const ngoDocRef = doc(db, "ngoinfo", activityData.ngoid);
-                const ngoDoc = await getDoc(ngoDocRef);
-                ngoName = ngoDoc.exists() ? ngoDoc.data().ngoname || "N/A" : "N/A";
-              }
-          
-              return {
-                id: volunteerDoc.id,
-                ...volunteer,
-                activityName: activityData.activityname || "N/A",
-                ngoName: ngoName || "N/A",
-                date: volunteer.timestamp?.toDate()?.toLocaleDateString() || "N/A",
-                status: volunteer.status || "Pending",
-              };
-            })
-          );
-          
+            }
+            let ngoName = "N/A";
+            if (activityData.ngoid) {
+              const ngoDocRef = doc(db, "ngoinfo", activityData.ngoid);
+              const ngoDoc = await getDoc(ngoDocRef);
+              ngoName = ngoDoc.exists()
+                ? ngoDoc.data().ngoname || "N/A"
+                : "N/A";
+            }
+
+            return {
+              id: volunteerDoc.id,
+              ...volunteer,
+              activityName: activityData.activityname || "N/A",
+              ngoName: ngoName || "N/A",
+              date:
+                volunteer.timestamp?.toDate()?.toLocaleDateString() || "N/A",
+              status: volunteer.status || "Pending",
+            };
+          })
+        );
 
         setVolunteerHistory(volunteerData);
         setLoading(false);
@@ -397,35 +350,55 @@ function UserHistory() {
     // Cleanup subscription
     return () => unsubscribe();
   }, []);
-  
 
   return (
-    <Box sx={styles.pageContainer}>
+    <Box
+      sx={{ py: 4, bgcolor: "#f5f5f5", minHeight: "100vh", marginTop: "64px" }}
+    >
       <Container>
         <Typography
-          variant='h4'
-          component='h1'
+          variant="h4"
+          component="h1"
           gutterBottom
-          sx={styles.header}
+          sx={{
+            textAlign: "center",
+            color: "#1a237e",
+            fontWeight: "bold",
+            mb: 4,
+            fontFamily: "'Playfair Display', cursive",
+          }}
         >
           Your Activity History
         </Typography>
 
-        <Paper elevation={3} sx={{ borderRadius: 2, overflow: 'hidden' }}>
+        <Paper sx={{ mb: 4 }}>
           <Tabs
             value={value}
             onChange={handleChange}
             centered
-            sx={styles.tabs}
+            sx={{
+              borderBottom: 1,
+              borderColor: "divider",
+              "& .MuiTab-root": {
+                fontFamily: "'Dancing Script', cursive",
+                color: "#1a237e",
+                "&.Mui-selected": {
+                  color: "#1a237e",
+                },
+              },
+              "& .MuiTabs-indicator": {
+                backgroundColor: "#1a237e",
+              },
+            }}
           >
             <Tab
               icon={<VolunteerActivismIcon />}
-              label='Volunteering History'
+              label="Volunteering History"
               sx={{ textTransform: "none" }}
             />
             <Tab
               icon={<MonetizationOnIcon />}
-              label='Contribution History'
+              label="Contribution History"
               sx={{ textTransform: "none" }}
             />
           </Tabs>
@@ -433,14 +406,13 @@ function UserHistory() {
           <Box sx={{ p: 3 }}>
             {value === 0 && (
               <TableContainer>
-                <Table sx={styles.table}>
-                  <TableHead>
+                <Table>
+                  <TableHead sx={styles.tableHead}>
                     <TableRow>
                       <TableCell>Activity Name</TableCell>
                       <TableCell>NGO Name</TableCell>
                       <TableCell>Date</TableCell>
                       <TableCell>Status</TableCell>
-                      
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -452,11 +424,12 @@ function UserHistory() {
                         <TableCell>
                           <Chip
                             label={row.status}
-                            color={
-                              row.status === "Completed" ? "success" : "primary"
+                            sx={
+                              row.status === "Completed"
+                                ? styles.successChip
+                                : styles.customChip
                             }
-                            size='small'
-                            sx={styles.chip}
+                            size="small"
                           />
                         </TableCell>
                       </TableRow>
@@ -468,8 +441,8 @@ function UserHistory() {
 
             {value === 1 && (
               <TableContainer>
-                <Table sx={styles.table}>
-                  <TableHead>
+                <Table>
+                  <TableHead sx={styles.tableHead}>
                     <TableRow>
                       <TableCell>Activity Name</TableCell>
                       <TableCell>NGO Name</TableCell>
@@ -487,11 +460,10 @@ function UserHistory() {
                         <TableCell>{row.date}</TableCell>
                         <TableCell>
                           <Chip
-                            label='View Receipt'
-                            color='primary'
-                            size='small'
+                            label="View Receipt"
+                            sx={styles.customChip}
+                            size="small"
                             onClick={() => handleDialogOpen(row)}
-                            sx={styles.chip}
                           />
                         </TableCell>
                       </TableRow>
@@ -528,9 +500,13 @@ function UserHistory() {
         onClose={handleDialogClose}
         fullWidth
         maxWidth="sm"
-        sx={styles.dialog}
-        TransitionProps={{
-          onEntering: () => console.log("Dialog opened"),
+        PaperProps={{
+          sx: {
+            "& .MuiDialogTitle-root": {
+              backgroundColor: "#1a237e",
+              color: "white",
+            },
+          },
         }}
       >
         <DialogTitle>Activity Details</DialogTitle>
@@ -556,10 +532,10 @@ function UserHistory() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={generatePDF} color="primary">
+          <Button onClick={generatePDF} sx={styles.customButton}>
             Download PDF
           </Button>
-          <Button onClick={handleDialogClose} color="primary">
+          <Button onClick={handleDialogClose} sx={styles.customButton}>
             Close
           </Button>
         </DialogActions>
