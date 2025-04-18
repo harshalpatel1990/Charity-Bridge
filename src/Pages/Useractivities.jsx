@@ -377,7 +377,7 @@ function Useractivities() {
                             aria-label='basic tabs example'
                             sx={{
                               "& .MuiTab-root": {
-                                color: "", // Default text color for tabs
+                                color: "#1a337e", // Default text color for tabs
                               },
                               "& .Mui-selected": {
                                 color: "#1A237E", // Text color for the selected tab
@@ -504,80 +504,155 @@ function Useractivities() {
                         <CustomTabPanel value={value} index={2}>
                           <center>
                             <Paper
+                              elevation={5}
                               sx={{
-                                padding: 2,
-                                width: "25%",
-                                boxShadow: 3,
-                                borderRadius: 2,
+                                padding: 4,
+                                width: "35%",
+                                borderRadius: 3,
+                                background: "linear-gradient(to bottom, #ffffff, #f8f9fa)",
+                                border: "1px solid rgba(26, 35, 126, 0.1)",
+                                transition: "all 0.3s ease-in-out",
+                                "&:hover": {
+                                  transform: "translateY(-5px)",
+                                  boxShadow: "0 12px 30px rgba(26, 35, 126, 0.15)",
+                                },
                               }}
                             >
                               {ngoDetails ? (
-                                <Grid
-                                  container
-                                  spacing={2}
-                                  sx={{ width: "50%" }}
-                                >
-                                  <Grid item xs={12}>
-                                    <Typography
-                                      variant='h6'
-                                      gutterBottom
+                                <Box>
+                                  <Typography
+                                    variant="h4"
+                                    sx={{
+                                      fontFamily: "'Playfair Display', serif",
+                                      color: "#1a237e",
+                                      fontWeight: 600,
+                                      marginBottom: 3,
+                                      textAlign: "center",
+                                      position: "relative",
+                                      "&::after": {
+                                        content: '""',
+                                        position: "absolute",
+                                        bottom: -8,
+                                        left: "50%",
+                                        transform: "translateX(-50%)",
+                                        width: "60px",
+                                        height: "3px",
+                                        background: "linear-gradient(90deg, #1a237e, #3949ab)",
+                                        borderRadius: "2px",
+                                      },
+                                    }}
+                                  >
+                                    NGO Details
+                                  </Typography>
+
+                                  <Box sx={{ mt: 4 }}>
+                                    <Box
                                       sx={{
-                                        fontFamily: "cursive",
-                                        fontSize: 25,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 1,
+                                        mb: 3,
+                                        justifyContent: "center",
                                       }}
                                     >
-                                      NGO Details
-                                    </Typography>
-                                  </Grid>
-                                  <Grid item xs={12}>
-                                    <Typography
-                                      variant='body1'
-                                      sx={{ fontSize: 20 }}
-                                    >
-                                      <strong>NGO Name:</strong>{" "}
-                                      {ngoDetails.ngoname || "N/A"}{" "}
-                                      {ngoDetails.verifyngo ? (
-                                        <strong style={{ color: "#1a237e" }}>
-                                          <DoneAllIcon /> Verified
-                                        </strong>
-                                      ) : null}
-                                    </Typography>
-                                  </Grid>
-                                  <Grid item xs={12}>
-                                    <Typography
-                                      variant='body1'
-                                      sx={{ fontSize: 20 }}
-                                    >
-                                      <strong>Email:</strong>{" "}
-                                      {ngoDetails.email || "N/A"}
-                                    </Typography>
-                                  </Grid>
-                                  <Grid item xs={12}>
-                                    <Typography
-                                      variant='body1'
-                                      sx={{ fontSize: 20 }}
-                                    >
-                                      <strong>Contact:</strong>{" "}
-                                      {ngoDetails.contact || "N/A"}
-                                    </Typography>
-                                  </Grid>
-                                  <Grid item xs={12}>
-                                    <Typography
-                                      variant='body1'
-                                      sx={{ fontSize: 20 }}
-                                    >
-                                      <strong>Address:</strong>{" "}
-                                      {ngoDetails.city || "N/A"}
-                                    </Typography>
-                                  </Grid>
-                                </Grid>
+                                      <Typography
+                                        variant="h5"
+                                        sx={{
+                                          fontFamily: "'Playfair Display', serif",
+                                          color: "#1a237e",
+                                        }}
+                                      >
+                                        {ngoDetails.ngoname || "N/A"}
+                                      </Typography>
+                                      {ngoDetails.verifyngo && (
+                                        <Box
+                                          sx={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            bgcolor: "rgba(26, 35, 126, 0.1)",
+                                            px: 2,
+                                            py: 0.5,
+                                            borderRadius: 2,
+                                            gap: 0.5,
+                                          }}
+                                        >
+                                          <DoneAllIcon sx={{ color: "#1a237e", fontSize: "1rem" }} />
+                                          <Typography
+                                            sx={{
+                                              color: "#1a237e",
+                                              fontSize: "0.875rem",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            Verified
+                                          </Typography>
+                                        </Box>
+                                      )}
+                                    </Box>
+
+                                    {[
+                                      { label: "Email", value: ngoDetails.email },
+                                      { label: "Contact", value: ngoDetails.contact },
+                                      { label: "Address", value: ngoDetails.city },
+                                    ].map((item, index) => (
+                                      <Box
+                                        key={index}
+                                        sx={{
+                                          mb: 2.5,
+                                          p: 2,
+                                          borderRadius: 2,
+                                          backgroundColor: "rgba(26, 35, 126, 0.02)",
+                                          transition: "all 0.2s ease",
+                                          "&:hover": {
+                                            backgroundColor: "rgba(26, 35, 126, 0.05)",
+                                            transform: "translateX(5px)",
+                                          },
+                                        }}
+                                      >
+                                        <Typography
+                                          variant="subtitle1"
+                                          sx={{
+                                            color: "#1a237e",
+                                            fontWeight: 600,
+                                            mb: 0.5,
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 1,
+                                          }}
+                                        >
+                                          <span className="material-icons">{item.icon}</span>
+                                          {item.label}
+                                        </Typography>
+                                        <Typography
+                                          variant="body1"
+                                          sx={{
+                                            color: "#424242",
+                                            pl: 4,
+                                          }}
+                                        >
+                                          {item.value || "N/A"}
+                                        </Typography>
+                                      </Box>
+                                    ))}
+                                  </Box>
+                                </Box>
                               ) : (
-                                <Typography
-                                  variant='body1'
-                                  sx={{ fontSize: 20 }}
+                                <Box
+                                  sx={{
+                                    py: 4,
+                                    textAlign: "center",
+                                  }}
                                 >
-                                  No NGO details available.
-                                </Typography>
+                                  <Typography
+                                    variant="h6"
+                                    sx={{
+                                      color: "#9e9e9e",
+                                      fontStyle: "italic",
+                                    }}
+                                  >
+                                    No NGO details available
+                                  </Typography>
+                                </Box>
                               )}
                             </Paper>
                           </center>

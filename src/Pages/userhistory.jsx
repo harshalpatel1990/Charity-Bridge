@@ -26,6 +26,85 @@ import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
+// Update the styling components
+const styles = {
+  pageContainer: {
+    py: 4,
+    bgcolor: "rgba(26, 35, 126, 0.02)",
+    minHeight: "100vh",
+    marginTop: "64px",
+  },
+  header: {
+    textAlign: "center",
+    color: "#1a237e",
+    fontWeight: "bold",
+    mb: 4,
+    fontFamily: "'Playfair Display', serif",
+    position: "relative",
+    "&::after": {
+      content: '""',
+      position: "absolute",
+      bottom: -10,
+      left: "50%",
+      transform: "translateX(-50%)",
+      width: "60px",
+      height: "3px",
+      background: "linear-gradient(90deg, #1a237e, #3949ab)",
+      borderRadius: "2px",
+    },
+  },
+  tabs: {
+    "& .MuiTab-root": {
+      color: "#1a237e",
+      opacity: 0.7,
+      "&.Mui-selected": {
+        color: "#1a237e",
+        opacity: 1,
+      },
+    },
+    "& .MuiTabs-indicator": {
+      backgroundColor: "#1a237e",
+    },
+  },
+  table: {
+    "& .MuiTableHead-root": {
+      "& .MuiTableCell-root": {
+        backgroundColor: "#1a237e",
+        color: "white",
+        fontWeight: "bold",
+      },
+    },
+    "& .MuiTableBody-root": {
+      "& .MuiTableRow-root": {
+        "&:nth-of-type(odd)": {
+          backgroundColor: "rgba(26, 35, 126, 0.02)",
+        },
+        "&:hover": {
+          backgroundColor: "rgba(26, 35, 126, 0.05)",
+        },
+      },
+    },
+  },
+  chip: {
+    "&.MuiChip-root": {
+      backgroundColor: "#1a237e",
+      color: "white",
+      "&:hover": {
+        backgroundColor: "#283593",
+      },
+    },
+  },
+  dialog: {
+    "& .MuiDialogTitle-root": {
+      backgroundColor: "#1a237e",
+      color: "white",
+    },
+    "& .MuiDialogActions-root": {
+      borderTop: "1px solid rgba(26, 35, 126, 0.1)",
+    },
+  },
+};
+
 function UserHistory() {
   const [value, setValue] = useState(0);
   const [volunteerHistory, setVolunteerHistory] = useState([]);
@@ -84,17 +163,35 @@ function UserHistory() {
       }
 
       const pdf = new jsPDF();
-
-      // Set the page width
       const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
 
-      // Add a header with background color
-      pdf.setFillColor("#1a237e");
-      pdf.rect(0, 0, pageWidth, 20, "F"); // Draw a filled rectangle
+      // Add custom header with logo
+      pdf.setFillColor(26, 35, 126); // #1a237e
+      pdf.rect(0, 0, pageWidth, 40, "F");
+      
+      // Add charity bridge logo
+      pdf.addImage("/logo.png", "PNG", 10, 5, 30, 30);
+      
+      // Header text
       pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(18);
-      pdf.setTextColor("#ffffff");
-      pdf.text("Donation Receipt", pageWidth / 2, 13, { align: "center" });
+      pdf.setFontSize(24);
+      pdf.setTextColor(255, 255, 255);
+      pdf.text("Contribution Receipt", pageWidth / 2, 25, { align: "center" });
+
+      // Add decorative line
+      pdf.setDrawColor(255, 255, 255);
+      pdf.setLineWidth(0.5);
+      pdf.line(40, 35, pageWidth - 40, 35);
+
+      // Contributor details section
+      pdf.setFillColor(242, 243, 248); // Light background
+      pdf.rect(0, 50, pageWidth, 50, "F");
+      
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(14);
+      pdf.setTextColor(26, 35, 126);
+      pdf.text("Contributor's Details", 20, 65);
 
       // Add Contributor's Name Section
       pdf.setFont("helvetica", "bold");
@@ -134,16 +231,19 @@ function UserHistory() {
       pdf.text(description, 10, 140);
 
       // Add a footer
+      pdf.setFillColor(26, 35, 126);
+      pdf.rect(0, pageHeight - 20, pageWidth, 20, "F");
+      
+      pdf.setFont("helvetica", "italic");
       pdf.setFontSize(10);
-      pdf.setTextColor(150);
+      pdf.setTextColor(255, 255, 255);
       pdf.text(
-        "Thank you for your contribution!",
+        "Thank you for your contribution to making a difference!",
         pageWidth / 2,
-        pdf.internal.pageSize.getHeight() - 10,
+        pageHeight - 10,
         { align: "center" }
       );
 
-      // Save the PDF
       pdf.save(`${selectedActivity.activityName}_Receipt.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
@@ -300,37 +400,23 @@ function UserHistory() {
   
 
   return (
-    <Box
-      sx={{ py: 4, bgcolor: "#f5f5f5", minHeight: "100vh", marginTop: "64px" }}
-    >
+    <Box sx={styles.pageContainer}>
       <Container>
         <Typography
           variant='h4'
           component='h1'
           gutterBottom
-          sx={{
-            textAlign: "center",
-            color: "#1a237e",
-            fontWeight: "bold",
-            mb: 4,
-            fontFamily: "'Playfair Display', cursive",
-          }}
+          sx={styles.header}
         >
           Your Activity History
         </Typography>
 
-        <Paper sx={{ mb: 4 }}>
+        <Paper elevation={3} sx={{ borderRadius: 2, overflow: 'hidden' }}>
           <Tabs
             value={value}
             onChange={handleChange}
             centered
-            sx={{
-              borderBottom: 1,
-              borderColor: "divider",
-              "& .MuiTab-root": {
-                fontFamily: "'Dancing Script', cursive",
-              },
-            }}
+            sx={styles.tabs}
           >
             <Tab
               icon={<VolunteerActivismIcon />}
@@ -347,7 +433,7 @@ function UserHistory() {
           <Box sx={{ p: 3 }}>
             {value === 0 && (
               <TableContainer>
-                <Table>
+                <Table sx={styles.table}>
                   <TableHead>
                     <TableRow>
                       <TableCell>Activity Name</TableCell>
@@ -370,6 +456,7 @@ function UserHistory() {
                               row.status === "Completed" ? "success" : "primary"
                             }
                             size='small'
+                            sx={styles.chip}
                           />
                         </TableCell>
                       </TableRow>
@@ -381,7 +468,7 @@ function UserHistory() {
 
             {value === 1 && (
               <TableContainer>
-                <Table>
+                <Table sx={styles.table}>
                   <TableHead>
                     <TableRow>
                       <TableCell>Activity Name</TableCell>
@@ -404,6 +491,7 @@ function UserHistory() {
                             color='primary'
                             size='small'
                             onClick={() => handleDialogOpen(row)}
+                            sx={styles.chip}
                           />
                         </TableCell>
                       </TableRow>
@@ -440,6 +528,7 @@ function UserHistory() {
         onClose={handleDialogClose}
         fullWidth
         maxWidth="sm"
+        sx={styles.dialog}
         TransitionProps={{
           onEntering: () => console.log("Dialog opened"),
         }}

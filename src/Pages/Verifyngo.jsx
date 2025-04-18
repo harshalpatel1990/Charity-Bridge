@@ -9,7 +9,7 @@ import { db } from "../config/firebase";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore"; // Import Firestore functions
 import TaskAltIcon from "@mui/icons-material/TaskAlt"; // Import TaskAltIcon
 import { Grid, Container, Box } from "@mui/material"; // Add this import
-
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 // Add this styles object at the top of your file
 const styles = {
   verifiedIcon: {
@@ -147,9 +147,12 @@ function Verifyngo() {
   return (
     <Container maxWidth="xl" sx={{ mt: 12, mb: 4 }}>
       {registerdata.length === 0 ? (
-        <Typography variant="h6" align="center">
-          Loading data...
-        </Typography>
+          <DotLottieReact
+                    width="300px"
+                    src="https://lottie.host/5fd3d77d-77c8-4e11-886c-739f40754ec5/0ywkyQQviZ.lottie"
+                    loop
+                    autoplay
+                  />
       ) : (
         <Grid container spacing={3}>
           {registerdata.map((item) => (
